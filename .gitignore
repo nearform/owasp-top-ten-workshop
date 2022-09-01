@@ -3,8 +3,6 @@ node_modules
 
 # JetBrains IDEs
 .idea
-# Visual Studio Code
-.vscode
 
 # OS X
 .DS_Store
