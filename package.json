@@ -22,7 +22,7 @@
     "step:1": "ts-node-dev src/a01-access-control/server.ts"
   },
   "dependencies": {
-    "@fastify/autoload": "^5.2.0",
+    "@fastify/autoload": "^5.3.1",
     "@fastify/jwt": "^6.3.2",
     "@fastify/postgres": "^5.1.0",
     "@fastify/type-provider-typebox": "^2.3.0",
