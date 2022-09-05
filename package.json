@@ -18,7 +18,6 @@
     "db:migrate": "postgrator",
     "db:down": "docker-compose down",
     "lint": "eslint --ext .ts,.js ./src",
-    "test": "cross-env TS_NODE_FILES=1 c8 tap --no-cov --ts",
     "prepare": "husky install",
     "step:1": "ts-node-dev src/a01-access-control/server.ts"
   },
