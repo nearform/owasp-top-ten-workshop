@@ -251,6 +251,10 @@ TODO: Add md5 password hashing exercise
 
 <div class="dense">
 
+- Lack of validation or sanitization of user input
+- Dynamic queries or non-parameterized calls without context-aware escaping are used directly in the interpreter.
+- Hostile data is used within object-relational mapping (ORM) search parameters to extract additional, sensitive records.
+
 </div>
 
 ---
@@ -258,6 +262,11 @@ TODO: Add md5 password hashing exercise
 # A03 Injection (3): How to Prevent
 
 <div class="dense">
+
+- Prefer using a safe API that sanitizes input
+- Escape special characters using the specific escape syntax for that interpreter.
+- Avoid user-supplied table names or column names as they cannot be escaped
+- Use LIMIT and other statements in queries to lower the impact of injections
 
 </div>
 
@@ -273,6 +282,33 @@ TODO: Server route passing unsanitised input to an eval or something which can b
 
 <div class="dense">
 
+- Fundamental design flaws of the software can cause security issues
+- Those issues cannot be fixed by a better more secure code implementation
+- Failure to determine the clevel of security design required during design
+
+</div>
+
+---
+
+# A04 Insecure Design: Examples
+
+<div class="dense">
+
+- A forgotten password flow with "security questions" is insecure by design because more than one person can know the answer
+- An ecommerce website sells high-end video cards that scalpers buy with bots to resell, causing bad PR with customers. Most websites wouldn't need to design against bots, but due to the nature of the product being sold this one does.
+- A cinema chain allows booking up to fifteen attendees before requiring a deposit. An attacker could make hundreds of small booking requests at once to block all seats, causing massive revenue loss.
+
+</div>
+
+# A04 Insecure Design: How to prevent
+
+<div class="dense">
+
+- Model threats for the application, all its flows and business logic
+- Continuously evaluate security requirement and design during the development lifecycle
+- Consider security rules and access controls for every user story
+- Use unit and integration tests to verify the application is resistant to the threat model
+
 </div>
 
 ---
@@ -280,6 +316,37 @@ TODO: Server route passing unsanitised input to an eval or something which can b
 # A05: Security Misconfiguration
 
 <div class="dense">
+
+- Badly configured servers or services can lead to vulnerabilities
+- With increased usage of highly configurable software and cloud APIs, there are many opportunities for misconfiguration
+
+</div>
+
+---
+
+# A05 Security Misconfiguration: Common Vulnerabilities
+
+<div class="dense">
+
+- Improperly configured permissions on cloud services
+- Unnecessary features enabled: open ports, services, accounts with elevated accesss...
+- Default credentials unchanged
+- Out of date or vulnerable server
+- Stack trace from error handling revealing information to users
+
+</div>
+
+---
+
+# A05 Security Misconfiguration: How to prevent
+
+<div class="dense">
+
+- Repeatable, automated and fast to deploy environments lower risk of creating insecure environments or deployments
+- Different credentials should be used in each environment
+- Frequently review security updates, patches and permissions
+- A segmented architecture increases security by separating components, tenants, containers or cloud security groups
+- Automated testing against the configuration of all environments
 
 </div>
 
@@ -289,6 +356,23 @@ TODO: Server route passing unsanitised input to an eval or something which can b
 
 <div class="dense">
 
+- Applications use a variety of components and libraries which can have security issues
+- Vulnerable components can be an attack vector until they are patched
+- Particularly relevant in the node.js world with an ever-growing NPM dependency tree
+
+</div>
+
+---
+
+# A06 Vulnerable and Outdated Components: Common Vulnerabilities
+
+<div class="dense">
+
+- Not tracking versions of used components, including nested dependencies
+- Using unsupported or vulnerable software, including OS, web server, database, APIs, libraries, components, runtimes...
+- Not scanning for vulnerabilities regularly and subscribing to security news for used components
+- Not fixing vulnerable dependencies in a timely fashion
+
 </div>
 
 ---
@@ -296,6 +380,33 @@ TODO: Server route passing unsanitised input to an eval or something which can b
 # A07: Identification and Authentication Failures
 
 <div class="dense">
+
+- Verification of the user's identity is crucial to security
+- Weak or vulnerable authentication systems can be attacked to gain access
+
+</div>
+
+---
+
+# A07 Identification and Authentication Failures: Common Vulnerabilities
+
+<div class="dense">
+
+- Application allows brute forcing of credentials
+- Allows default, weak or known passwords
+- Exploitable credential recovery processes
+- Lack of effective multi-factor authentication
+- Unencrypted or weakly encrypted password storage
+
+</div>
+
+---
+
+# A07 Identification and Authentication Failures: How to prevent
+
+<div class="dense">
+
+-
 
 </div>
 
@@ -305,6 +416,34 @@ TODO: Server route passing unsanitised input to an eval or something which can b
 
 <div class="dense">
 
+- Code and infrastructure not protected against integrity violations
+- Attackers gaining access to a plugin and deploy an unverified update which would get distributed to all its users
+
+</div>
+
+---
+
+# A08 Software and Data Integrity Failures: Common Vulnerabilities
+
+<div class="dense">
+
+- Libraries coming from untrusted sources, repos or CDNs
+- An insecure CI/CD pipeline
+- Updates downloaded without sufficient integrity verification
+
+</div>
+
+---
+
+# A08 Software and Data Integrity Failures: How to prevent
+
+<div class="dense">
+
+- Using digital signatures for integrity checks on data and downloaded software
+- Ensure npm dependencies are trusted. For higher risks, host a custom repository of packages with internally vetted dependencies
+- Use automated tools to verify that components don't contain known vulnerabilities
+- Ensure there are code reviews for changes to minimise the risk of malicious code being introduced
+
 </div>
 
 ---
@@ -312,6 +451,9 @@ TODO: Server route passing unsanitised input to an eval or something which can b
 # A09: Security Logging and Monitoring Failures
 
 <div class="dense">
+
+- Proper logging and monitoring is critical to detecting and responding to breaches
+- It is important for alerting, accountability, visibility and forensics of security incidents
 
 </div>
 
