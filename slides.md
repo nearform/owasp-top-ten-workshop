@@ -85,6 +85,8 @@ lineNumbers: false
 ```bash
 git clone https://github.com/nearform/owasp-top-ten-workshop
 npm ci
+npm run db:up
+npm run db:migrate
 ```
 
 </div>
