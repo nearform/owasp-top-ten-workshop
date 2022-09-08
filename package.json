@@ -1,15 +1,18 @@
 {
   "name": "owasp-top-ten-workshop",
   "private": true,
+  "type": "module",
   "workspaces": [
     "src/*"
   ],
-  "type": "module",
   "version": "1.0.0",
   "license": "CC-BY-SA-4.0",
   "author": "Liana Pigeot <liana.pigeot@nearform.com>",
   "description": "OWASP Top 10 Security Vulnerabilities Workshop",
   "main": "index.js",
+  "imports": {
+    "#/*": "src/*"
+  },
   "scripts": {
     "build": "slidev build",
     "start": "slidev --open",
@@ -19,9 +22,14 @@
     "db:down": "docker-compose down",
     "lint": "eslint --ext .ts,.js ./src",
     "prepare": "husky install",
-    "step:1": "ts-node-dev src/a01-access-control/server.ts"
+    "test:repo": "c8 tap --no-cov src/shared",
+    "step:1": "nodemon src/a01-access-control/index.js",
+    "test:1": "c8 tap --no-cov src/a01-access-control/**/*.test.js",
+    "step:2": "nodemon src/a02-cryptographic-failure/index.js",
+    "test:2": "c8 tap --no-cov src/a02-cryptographic-failure/**/*.test.js"
   },
   "dependencies": {
+    "@faker-js/faker": "^7.5.0",
     "@fastify/autoload": "^5.3.1",
     "@fastify/jwt": "^6.3.2",
     "@fastify/postgres": "^5.1.0",
@@ -30,24 +38,23 @@
     "@sinclair/typebox": "^0.24.38",
     "@slidev/cli": "^0.35.6",
     "@vueuse/shared": "^9.2.0",
+    "bcrypt": "^5.0.1",
     "desm": "^1.3.0",
     "env-schema": "^5.0.0",
     "fastify": "^4.5.3",
     "fastify-plugin": "^4.2.1",
+    "fastify-print-routes": "^2.0.4",
     "http-errors": "^2.0.0",
+    "md5": "^2.3.0",
     "pg": "^8.8.0",
+    "pino-pretty": "^9.1.0",
+    "reverse-md5": "^0.0.5",
     "slidev-theme-nearform": "^1.4.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "@tsconfig/node16": "^1.0.3",
-    "@types/http-errors": "^1.8.2",
-    "@types/node": "^18.7.16",
-    "@types/sinon": "^10.0.13",
-    "@types/tap": "^15.0.7",
-    "@typescript-eslint/eslint-plugin": "^5.36.2",
-    "@typescript-eslint/parser": "^5.36.2",
     "c8": "^7.12.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.23.0",
@@ -56,12 +63,11 @@
     "eslint-plugin-sql": "^2.2.1",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
+    "nodemon": "^2.0.19",
     "postgrator-cli": "^6.0.0",
     "prettier": "^2.7.1",
     "sinon": "^14.0.0",
-    "tap": "^16.3.0",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^4.8.2"
+    "tap": "^16.3.0"
   },
   "lint-staged": {
     "*.{js,jsx}": "eslint --cache --fix"

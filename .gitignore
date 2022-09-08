@@ -1,3 +1,7 @@
+# tests
+coverage/
+
+# node
 node_modules
 .eslintcache
 

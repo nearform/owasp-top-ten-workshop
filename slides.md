@@ -61,8 +61,7 @@ lineNumbers: false
 - This workshop will explain each of the 10 vulnerabilities
 - There is a Fastify node.js server demonstrating the security issues
 - At each step you are asked to fix the vulnerability in the server
-- You will find the solution to each step in the `src/step-{n}-{name}` folder
-- The 🏆 icon indicates bonus features
+- You will find the solution to each step in the `src/a{n}-{name}` folder
 - The 💡 icon indicates hints
 
 </div>
@@ -79,15 +78,13 @@ lineNumbers: false
 - npm >= 7
 - docker
 - docker-compose
+- Postman (if you want to be able to test vulnerabilities)
 
 #### Setup
 
 ```bash
-git clone https://github.com/nearform/the-fastify-workshop
+git clone https://github.com/nearform/owasp-top-ten-workshop
 npm ci
-
-# make sure you're all set
-npm test --workspaces
 ```
 
 </div>
@@ -96,25 +93,47 @@ npm test --workspaces
 
 # Running the modules
 
-- `cd src/step-{n}-{name}`
+<div class="dense">
 
-- Check out README.md
+- There is an npm script to run the server for each module
+- `npm run step:x`
 
+- Check out README.md and package.json for scripts
+
+</div>
 #### Example
 
 ```bash
-cd src/step-01-hello-world
-
-npm run start
+npm run step:1
 ```
+
+The server for that step will run on localhost:3000
 
 ---
 
 # Testing the vulnerabilities
 
-Some vulnerabilities will require sending customised requests to the server for testing
+<div class="dense">
 
-TODO: Add postman instructions
+- Some vulnerabilities involve sending specific requests to the server. We will be using the tool Postman to send those requests.
+- The `postman` folder contains a collection that can be imported into postman to easily send those requests
+- The collection has an authorization token by default to send logged in requests to the server
+- The logged in user is `alice`
+
+</div>
+
+---
+
+# Automated testing
+
+<div class="dense">
+
+- Some vulnerabilities have automated tests which verify the presence of the vulnerability
+- Those tests will fail until you fix the vulnerability.
+- Making the tests pass is the objective to complete a step
+- Command: `npm run test:x` where x is the step number
+
+</div>
 
 ---
 
@@ -181,9 +200,90 @@ TODO: Add postman instructions
 
 ---
 
-# A01 Attack 1: Editing query parameters
+# A01 Exercise: Editing query params to get sensitive info
 
-TODO: Add exercise description for a "get to someone else's account page by editing GET parameters" issue
+<div class="dense">
+
+- The `/profile` route returns the user's data, including sensitive info like the birth date.
+- It takes a `username` query parameter to return the user's info
+
+```json
+{
+  "id": 1,
+  "username": "alice",
+  "birth_date": "1990-01-01T00:00:00.000Z"
+}
+```
+
+</div>
+
+---
+
+# A01 Exercise (2): The problem
+
+<div class="dense">
+
+- Run the server for step 1 with `npm run step:1`
+- In Postman, run the query for A01: Access Control. Observe the data for Alice being returned (endpoint: `localhost:3000/profile?username=alice`)
+- Now change the `username` query parameter to `bob`. Result:
+
+```json
+{
+  "id": 2,
+  "username": "bob",
+  "birth_date": "1990-01-02T00:00:00.000Z"
+}
+```
+
+- Bob's data is being exposed! Remember we're logged in as Alice and shouldn't see Bob's data
+
+</div>
+
+---
+
+# A01 Exercise (3): Fixing it
+
+<div class="dense">
+
+- Run the automated tests for step 1 - `npm run test:1`
+- The tests fail because the server shouldn't return Bob's data
+- Edit the `/profile` route in the exercise folder (`src/a01-access-control`) to return the user's profile without exposing other people's profiles
+- 💡 The server uses [fastify-jwt](https://github.com/fastify/fastify-jwt) to handle authentication
+
+</div>
+
+---
+
+# A01 Exercise (4): Solution
+
+<div class="dense">
+
+- The issue comes from the usage of a user-supplied `query` parameter to choose which profile's info to check
+- The server should instead fetch the logged-in user's info
+
+```js
+// routes/profile/index.js
+export default async function user(fastify) {
+  fastify.get(
+    '/',
+    {
+      onRequest: [fastify.authenticate]
+    },
+    async req => {
+      if (!req.user) {
+        throw new errors.Unauthorized()
+      }
+      // We get the username from the logged in user, not from the query
+      const username = req.user.username // 💡 <-- The fix is here!
+      // (Skipping the rest of the function...)
+      return user
+    }
+  )
+}
+//...
+```
+
+</div>
 
 ---
 
@@ -226,13 +326,112 @@ TODO: Add exercise description for a "get to someone else's account page by edit
 
 ---
 
-# A02 Attack
+---
 
-TODO: Add md5 password hashing exercise
+# A02 Exercise: Fixing a weak hashing algorithm
 
-- Server has a vulnerable user route showing the encrypted password for a user (for testing purposes)
-- Password is hashed in md5, so we can find the real password and login
-- Objective is to fix the encryption
+<div class="dense">
+
+- The `/all-data` endpoint returns all users and their passwords (encrypted in md5). Imagine this as a data breach
+- Result of the `all-data` endpoint
+
+```json
+[
+  {
+    "username": "bob",
+    "password": "884a22eb30e5cfd71894d43ac553faa5"
+  },
+  {
+    "username": "newUser",
+    "password": "bdc87b9c894da5168059e00ebffb9077"
+  },
+  {
+    "username": "alice",
+    "password": "5e9d11a14ad1c8dd77e98ef9b53fd1ba"
+  }
+]
+```
+
+</div>
+
+---
+
+# A02 Exercise (2): The problem
+
+<div class="dense">
+
+- Using the `/all-data` route, find Alice's encrypted password
+- With this encrypted password hash, try to find the original unencrypted password Alice created
+- Once again, the Postman collection contains requests for doing the queries
+- 💡 There are websites to decrypt md5
+
+</div>
+
+---
+
+# A02 Exercise (3): Fixing it
+
+<div class="dense">
+
+- md5 encryption is vulnerable and shouldn't be used
+- Using strong encryption that matches the type of data to encrypt is important
+- In `src/a02-cryptographic-failure`, fix the encryption used to be a different strong algorithm
+- Make sure the tests pass: `npm run test:2`
+- 💡 For passwords, using bcrypt is a good idea
+
+</div>
+
+---
+
+# A02 Exercise (4): Solution
+
+<div class="dense">
+
+- Using bcrypt instead of md5:
+
+```js
+// utils/encryption.js
+const saltRounds = 10
+export async function encryptPassword(password) {
+  return new Promise((resolve, reject) => {
+    bcrypt.genSalt(saltRounds, (err, salt) => {
+      bcrypt.hash(password, salt, (err, hash) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(hash)
+        }
+      })
+    })
+  })
+}
+
+export async function comparePassword(password, hash) {
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(password, hash, (err, result) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(result)
+      }
+    })
+  })
+}
+```
+
+</div>
+
+---
+
+# A02 Exercise Notes
+
+<div class="dense">
+
+- The setup for this exercise is simplistic and isn't a recommendation of what to do in a real scenario
+- There are other concerns than the algorithm used, for example enforcing password length and complexity
+- Even a strong algorithm can be vulnerable if setup with a default or known salt
+
+</div>
 
 ---
 
