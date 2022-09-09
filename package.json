@@ -20,7 +20,7 @@
     "db:up": "docker-compose up -d",
     "db:migrate": "postgrator",
     "db:down": "docker-compose down",
-    "lint": "eslint --ext .ts,.js ./src",
+    "lint": "eslint --ext .ts,.js .",
     "prepare": "husky install",
     "test:repo": "c8 tap --no-cov src/shared",
     "step:1": "nodemon src/a01-access-control/index.js",

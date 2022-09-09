@@ -7,7 +7,7 @@ lineNumbers: false
 
 <img class=logo src="/images/nearform.svg">
 
-# TOWASP Top Ten Security Vulnerabilities Workshop
+# OWASP Top Ten Security Vulnerabilities Workshop
 
 <img src="/assets/owasp.png" style="width: 30%;">
 
@@ -59,7 +59,7 @@ lineNumbers: false
 <div class="dense">
 
 - This workshop will explain each of the 10 vulnerabilities
-- There is a Fastify node.js server demonstrating the security issues
+- There is a Fastify Node.js server demonstrating the security issues
 - At each step you are asked to fix the vulnerability in the server
 - You will find the solution to each step in the `src/a{n}-{name}` folder
 - The 💡 icon indicates hints
@@ -72,18 +72,22 @@ lineNumbers: false
 
 <div class="dense">
 
-#### Requirements
+### Requirements
+
+<br />
 
 - Node LTS
-- npm >= 7
 - docker
 - docker-compose
-- Postman (if you want to be able to test vulnerabilities)
+- [Postman](https://www.postman.com/downloads/) if you want to be able to test vulnerabilities
 
-#### Setup
+### Setup
+
+<br />
 
 ```bash
 git clone https://github.com/nearform/owasp-top-ten-workshop
+cd owasp-top-ten-workshop
 npm ci
 npm run db:up
 npm run db:migrate
@@ -99,17 +103,19 @@ npm run db:migrate
 
 - There is an npm script to run the server for each module
 - `npm run step:x`
-
 - Check out README.md and package.json for scripts
 
 </div>
+
 #### Example
+
+<br />
 
 ```bash
 npm run step:1
 ```
 
-The server for that step will run on localhost:3000
+The server for that step will run on http://localhost:3000
 
 ---
 
@@ -118,7 +124,7 @@ The server for that step will run on localhost:3000
 <div class="dense">
 
 - Some vulnerabilities involve sending specific requests to the server. We will be using the tool Postman to send those requests.
-- The `postman` folder contains a collection that can be imported into postman to easily send those requests
+- The `postman` folder contains a collection that can be imported into Postman to easily send those requests
 - The collection has an authorization token by default to send logged in requests to the server
 - The logged in user is `alice`
 
@@ -144,7 +150,7 @@ The server for that step will run on localhost:3000
 <div class="dense">
 
 - This workshop is a condensed explanation of each category of vulnerability in the top 10 for training
-- Those vulnerabilities are broad and complex and can apply in a variety of scenarios that can't all be covered in those slides
+- Those vulnerabilities are broad and complex and can apply in a variety of scenarios that can't all be covered in these slides
 - More research for project-specific concerns is encouraged, and more advanced tools are provided at the end of this workshop
 
 </div>
@@ -175,7 +181,7 @@ The server for that step will run on localhost:3000
 
 ---
 
-# A01 Broken Access Control (2): Common vulnerabilities
+# A01 (2): Common vulnerabilities
 
 <div class="dense">
 
@@ -189,7 +195,7 @@ The server for that step will run on localhost:3000
 
 ---
 
-# A01 Broken Access Control (3): How to Prevent
+# A01 (3): How to Prevent
 
 <div class="dense">
 
@@ -202,12 +208,17 @@ The server for that step will run on localhost:3000
 
 ---
 
-# A01 Exercise: Editing query params to get sensitive info
+# A01 Exercise
 
 <div class="dense">
 
+- Editing query params to get sensitive info
 - The `/profile` route returns the user's data, including sensitive info like the birth date.
 - It takes a `username` query parameter to return the user's info
+
+#### Example response
+
+<br />
 
 ```json
 {
@@ -226,7 +237,7 @@ The server for that step will run on localhost:3000
 <div class="dense">
 
 - Run the server for step 1 with `npm run step:1`
-- In Postman, run the query for A01: Access Control. Observe the data for Alice being returned (endpoint: `localhost:3000/profile?username=alice`)
+- In Postman, run the query for A01: Access Control. Observe the data for Alice being returned (endpoint: `http://localhost:3000/profile?username=alice`)
 - Now change the `username` query parameter to `bob`. Result:
 
 ```json
