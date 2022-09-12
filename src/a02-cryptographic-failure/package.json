@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "verify": "tap --no-cov",
+    "test": "cross-env USE_SOLUTION=true tap --no-cov",
     "start": "nodemon index.js"
   },
   "dependencies": {
