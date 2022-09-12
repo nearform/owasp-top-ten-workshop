@@ -20,13 +20,10 @@
     "db:up": "docker-compose up -d",
     "db:migrate": "postgrator",
     "db:down": "docker-compose down",
-    "lint": "eslint --ext .ts,.js ./src",
-    "prepare": "husky install",
-    "test:repo": "c8 tap --no-cov src/shared",
-    "step:1": "nodemon src/a01-access-control/index.js",
-    "test:1": "c8 tap --no-cov src/a01-access-control/**/*.test.js",
-    "step:2": "nodemon src/a02-cryptographic-failure/index.js",
-    "test:2": "c8 tap --no-cov src/a02-cryptographic-failure/**/*.test.js"
+    "verify-exercises": "npm run verify --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@faker-js/faker": "^7.5.0",

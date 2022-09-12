@@ -1,5 +1,5 @@
 import t from 'tap'
-import { authHeaders } from '../shared/test-utils.js'
+import { authHeaders } from 'owasp-shared'
 import { step1Server } from './server.js'
 
 const { test } = t

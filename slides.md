@@ -97,16 +97,17 @@ npm run db:migrate
 
 <div class="dense">
 
-- There is an npm script to run the server for each module
-- `npm run step:x`
-
-- Check out README.md and package.json for scripts
+- `cd src/a{x}-ste-name`
+- `npm start` will run the server ready to respond to requests
+- `npm run verify` will run automated tests that fail by default until this step's issue is solved
+- Check out README.md in the projects for potential additional info
 
 </div>
 #### Example
 
 ```bash
-npm run step:1
+cd src/a-01-access-control
+npm start
 ```
 
 The server for that step will run on localhost:3000
@@ -119,7 +120,6 @@ The server for that step will run on localhost:3000
 
 - Some vulnerabilities involve sending specific requests to the server. We will be using the tool Postman to send those requests.
 - The `postman` folder contains a collection that can be imported into postman to easily send those requests
-- The collection has an authorization token by default to send logged in requests to the server
 - The logged in user is `alice`
 
 </div>
@@ -132,8 +132,7 @@ The server for that step will run on localhost:3000
 
 - Some vulnerabilities have automated tests which verify the presence of the vulnerability
 - Those tests will fail until you fix the vulnerability.
-- Making the tests pass is the objective to complete a step
-- Command: `npm run test:x` where x is the step number
+- `npm run verify` in a step's folder
 
 </div>
 
@@ -143,34 +142,19 @@ The server for that step will run on localhost:3000
 
 <div class="dense">
 
-- This workshop is a condensed explanation of each category of vulnerability in the top 10 for training
-- Those vulnerabilities are broad and complex and can apply in a variety of scenarios that can't all be covered in those slides
-- More research for project-specific concerns is encouraged, and more advanced tools are provided at the end of this workshop
+- This is a condensed summary of the Top 10
+- The provided links contain more comprehensive info that can't be covered in this workshop
 
 </div>
-
----
-
-# The Top 10
-
-<div class="dense">
-
-- Let's now look at the 10 vulnerabilities in the list
-- Each section will explain one of them.
-- This includes common vulnerabilities, consequences, and ways to prevent them
-
-</div>
-
----
 
 # A01: Broken Access Control
 
 <div class="dense">
 
 - [AO1:2021 - Broken Access Control](https://owasp.org/Top10/A01_2021-Broken_Access_Control/)
-- Access control enforces that a user can only act based on specific permissions
-- Incorrect permissions can lead to unauthorised access of data, or users performing actions they shouldn't be allowed to
-
+- User should only act based on specific permissions
+- Incorrect permissions -> unauthorised access of data
+- ... And more on the OWASP website (this will apply to all steps)
 </div>
 
 ---
@@ -179,11 +163,10 @@ The server for that step will run on localhost:3000
 
 <div class="dense">
 
-- Not applying principle of least privilege: Access to a function of resource is available to anyone
-- Access control checks bypassed by modifying a request or tampering with page content
-- Permitting viewing or editing someone else's account, by providing its unique identifier
-- CORS misconfiguration allows API access from unauthorized/untrusted origins.
-- ... And more on the OWASP website
+- Not applying principle of least privilege
+- Checks can be bypassed by tampering with page or request
+- Allowing access to someone else's info by knowing the UUID
+- CORS allows untrusted origins
 
 </div>
 
@@ -194,9 +177,8 @@ The server for that step will run on localhost:3000
 <div class="dense">
 
 - Deny access by default
-- Implement access control once and re-use (avoid duplication of related code)
+- Avoid duplication of access control logic
 - Enforce user ownership when manipulating data
-- ... And more on the OWASP website
 
 </div>
 
@@ -206,7 +188,7 @@ The server for that step will run on localhost:3000
 
 <div class="dense">
 
-- The `/profile` route returns the user's data, including sensitive info like the birth date.
+- The `/profile` route returns sensitive user data
 - It takes a `username` query parameter to return the user's info
 
 ```json
@@ -225,7 +207,7 @@ The server for that step will run on localhost:3000
 
 <div class="dense">
 
-- Run the server for step 1 with `npm run step:1`
+- Run the server for step 1 (`cd src/a01-access-control`, `npm start`)
 - In Postman, run the query for A01: Access Control. Observe the data for Alice being returned (endpoint: `localhost:3000/profile?username=alice`)
 - Now change the `username` query parameter to `bob`. Result:
 
@@ -247,7 +229,7 @@ The server for that step will run on localhost:3000
 
 <div class="dense">
 
-- Run the automated tests for step 1 - `npm run test:1`
+- Run the automated tests for step 1 - `npm run verify`
 - The tests fail because the server shouldn't return Bob's data
 - Edit the `/profile` route in the exercise folder (`src/a01-access-control`) to return the user's profile without exposing other people's profiles
 - 💡 The server uses [fastify-jwt](https://github.com/fastify/fastify-jwt) to handle authentication
@@ -294,8 +276,8 @@ export default async function user(fastify) {
 <div class="dense">
 
 - [A02: Cryptographic Failures](https://owasp.org/Top10/A02_2021-Cryptographic_Failures/)
-- Failures related to insufficient or lack of cryptography of sensitive data
-- Passwords, credit card numbers, health records, personal information, business secrets
+- Weak or inexistent of cryptography of sensitive data
+- Passwords, credit card numbers, health records, personal information, business secrets...
 - Anything protected by privacy laws or other regulations
 
 </div>
@@ -306,8 +288,8 @@ export default async function user(fastify) {
 
 <div class="dense">
 
-- Usage of weak or outdated cryptographic algorithms like md5
-- Cryptographic key safety: Weak keys, default keys, keys from online tutorials, keys checked in source control...
+- Weak or outdated cryptographic algorithms like md5
+- Weak secret keys, default ones, keys from online tutorials, keys checked in source control...
 - Lack of traffic encryption (HTTPS)
 - Insufficient entropy in seed generation
 
@@ -319,10 +301,10 @@ export default async function user(fastify) {
 
 <div class="dense">
 
-- Identify sensitive data and make sure it is encrypted. Avoid storing sensitive data unnecessarily
+- Check sensitive data is well encrypted. Avoid storing sensitive data unnecessarily
 - Use up to date and strong standard algorithms
-- Proper key/secrets management (no checking private keys in git!)
-- Disable caching for responses that contain sensitive data. Do not transport sensitive data over legacy protocols like FTP and SMTP
+- Proper key/secrets management (no checking private keys in git)
+- Disable caching for responses that contain sensitive data.
 
 </div>
 
@@ -364,7 +346,7 @@ export default async function user(fastify) {
 
 - Using the `/all-data` route, find Alice's encrypted password
 - With this encrypted password hash, try to find the original unencrypted password Alice created
-- Once again, the Postman collection contains requests for doing the queries
+- the Postman collection contains requests for doing the queries
 - 💡 There are websites to decrypt md5
 
 </div>
@@ -376,9 +358,8 @@ export default async function user(fastify) {
 <div class="dense">
 
 - md5 encryption is vulnerable and shouldn't be used
-- Using strong encryption that matches the type of data to encrypt is important
-- In `src/a02-cryptographic-failure`, fix the encryption used to be a different strong algorithm
-- Make sure the tests pass: `npm run test:2`
+- In `src/a02-cryptographic-failure`, fix the encryption used to be a strong algorithm
+- Make sure the tests pass: `npm run verify`
 - 💡 For passwords, using bcrypt is a good idea
 
 </div>

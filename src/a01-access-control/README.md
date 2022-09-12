@@ -1,11 +1,13 @@
 # Exercise 1: Access Control
 
-Commands to run from the repo root
+See slides for info about the exercise.
 
-Run tests:
+Run the automated tests for verifying the exercise:
 
-`npm run test:1`
+`npm run verify`
 
-Run the server (to test requests with Postman):
+Start the server for manual tests:
 
-`npm run step:1`
+`npm start`
+
+Use the postman collection at the root of the repo for ready to use queries matching this problem

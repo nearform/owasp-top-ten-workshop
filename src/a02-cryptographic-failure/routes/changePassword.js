@@ -17,17 +17,14 @@ export default async function changePassword(fastify) {
       onRequest: [fastify.authenticate]
     },
     async req => {
-      console.log(req.user)
       const { username } = req.user
       const { password } = req.body
       const hashedPassword = await encryptPassword(password)
-      console.log(hashedPassword)
       const {
         rows: [user]
       } = await fastify.pg.query(
         SQL`UPDATE users SET password = ${hashedPassword} WHERE username = ${username} RETURNING id, username`
       )
-      console.log(user)
       if (!user) {
         throw errors.InternalServerError()
       }

@@ -24,16 +24,24 @@ Slides contain instructions for the workshop. You can read them in `slides.md`, 
 
 `npm start` will open the slides in the browser
 
-#### Run automated tests on a single project
+### Running an exercise
 
-- `npm test -w src/step-05-testing`
+```bash
+cd src/a01-access-control
+npm start
+```
 
-## Running the modules
+### Verifying an exercise solution
 
-### Running the server
+This will run automated tests that fail until the issue in the exercise has been solved
 
-- `npm run step:x` (x: number of the step)
+(Some steps of the workshop might not have automated tests)
 
-### Running validation tests for exercises
+```bash
+cd src/a01-access-control
+npm run verify
+```
 
-- `npm run test:x` (x: number of the step)
+#### Run exercise verification tests on a single project
+
+- `npm test -w src/a01-access-control`
