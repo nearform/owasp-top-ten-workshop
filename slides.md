@@ -23,7 +23,7 @@ lineNumbers: false
 
 <div class="dense">
 
-- The Open Web Application Security Project (OWASP) is a nonprofit foundation that works to improve the security of software.
+- The Open Web Application Security Project (OWASP) is a nonprofit foundation that works to improve the security of software
 
 - OWASP has community-led open-source software projects, hundreds of local chapters worldwide, tens of thousands of members, and leading educational and training conferences
 
@@ -35,8 +35,8 @@ lineNumbers: false
 
 <div class="dense">
 
-- The [OWASP Top Ten](https://owasp.org/Top10/) is a standard awareness document for developers and web application security.
-- It represents a broad consensus about the most critical security risks to web applications.
+- The [OWASP Top Ten](https://owasp.org/Top10/) is a standard awareness document for developers and web application security
+- It represents a broad consensus about the most critical security risks to web applications
 
 </div>
 
@@ -47,7 +47,7 @@ lineNumbers: false
 <div class="dense">
 
 - On a new project, keeping the OWASP Top Ten in mind will help write resilient software from the start
-- On an existing project, identify weaknesses and areas for improvement.
+- On an existing project, identify weaknesses and areas for improvement
 - Find the issues that need to be resolved immediately and those that can wait
 
 </div>
@@ -118,7 +118,7 @@ The server for that step will run on localhost:3000
 
 <div class="dense">
 
-- Some vulnerabilities involve sending specific requests to the server. We will be using the tool Postman to send those requests.
+- Some vulnerabilities involve sending specific requests to the server. We will be using the tool Postman to send those requests
 - The `postman` folder contains a collection that can be imported into postman to easily send those requests
 - The logged in user is `alice`
 
@@ -131,7 +131,7 @@ The server for that step will run on localhost:3000
 <div class="dense">
 
 - Some vulnerabilities have automated tests which verify the presence of the vulnerability
-- Those tests will fail until you fix the vulnerability.
+- Those tests will fail until you fix the vulnerability
 - `npm run verify` in a step's folder
 
 </div>
@@ -304,7 +304,7 @@ export default async function user(fastify) {
 - Check sensitive data is well encrypted. Avoid storing sensitive data unnecessarily
 - Use up to date and strong standard algorithms
 - Proper key/secrets management (no checking private keys in git)
-- Disable caching for responses that contain sensitive data.
+- Disable caching for responses that contain sensitive data
 
 </div>
 
@@ -434,8 +434,8 @@ export async function comparePassword(password, hash) {
 <div class="dense">
 
 - Lack of validation or sanitization of user input
-- Dynamic queries or non-parameterized calls without context-aware escaping are used directly in the interpreter.
-- Hostile data is used within object-relational mapping (ORM) search parameters to extract additional, sensitive records.
+- Dynamic queries or non-parameterized calls without context-aware escaping are used directly in the interpreter
+- Hostile data is used within object-relational mapping (ORM) search parameters to extract additional, sensitive records
 
 </div>
 
@@ -446,7 +446,7 @@ export async function comparePassword(password, hash) {
 <div class="dense">
 
 - Prefer using a safe API that sanitizes input
-- Escape special characters using the specific escape syntax for that interpreter.
+- Escape special characters using the specific escape syntax for that interpreter
 - Avoid user-supplied table names or column names as they cannot be escaped
 - Use LIMIT and other statements in queries to lower the impact of injections
 
@@ -477,8 +477,8 @@ TODO: Server route passing unsanitised input to an eval or something which can b
 <div class="dense">
 
 - A forgotten password flow with "security questions" is insecure by design because more than one person can know the answer
-- An ecommerce website sells high-end video cards that scalpers buy with bots to resell, causing bad PR with customers. Most websites wouldn't need to design against bots, but due to the nature of the product being sold this one does.
-- A cinema chain allows booking up to fifteen attendees before requiring a deposit. An attacker could make hundreds of small booking requests at once to block all seats, causing massive revenue loss.
+- An ecommerce website sells high-end video cards that scalpers buy with bots to resell, causing bad PR with customers. Most websites wouldn't need to design against bots, but due to the nature of the product being sold this one does
+- A cinema chain allows booking up to fifteen attendees before requiring a deposit. An attacker could make hundreds of small booking requests at once to block all seats, causing massive revenue loss
 
 </div>
 
