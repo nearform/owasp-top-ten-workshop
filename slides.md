@@ -97,7 +97,7 @@ npm run db:migrate
 
 <div class="dense">
 
-- `cd src/a{x}-ste-name`
+- `cd src/a{x}-step-name`
 - `npm start` will run the server ready to respond to requests
 - `npm run verify` will run automated tests that fail by default until this step's issue is solved
 - Check out README.md in the projects for potential additional info
