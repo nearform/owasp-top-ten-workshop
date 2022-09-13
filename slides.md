@@ -7,7 +7,7 @@ lineNumbers: false
 
 <img class=logo src="/images/nearform.svg">
 
-# TOWASP Top Ten Security Vulnerabilities Workshop
+# OWASP Top Ten Security Vulnerabilities Workshop
 
 <img src="/assets/owasp.png" style="width: 30%;">
 
@@ -23,7 +23,7 @@ lineNumbers: false
 
 <div class="dense">
 
-- The Open Web Application Security Project (OWASP) is a nonprofit foundation that works to improve the security of software.
+- The Open Web Application Security Project (OWASP) is a nonprofit foundation that works to improve the security of software
 
 - OWASP has community-led open-source software projects, hundreds of local chapters worldwide, tens of thousands of members, and leading educational and training conferences
 
@@ -35,20 +35,8 @@ lineNumbers: false
 
 <div class="dense">
 
-- The [OWASP Top Ten](https://owasp.org/Top10/) is a standard awareness document for developers and web application security.
-- It represents a broad consensus about the most critical security risks to web applications.
-
-</div>
-
----
-
-# Using the OWASP Top Ten
-
-<div class="dense">
-
-- On a new project, keeping the OWASP Top Ten in mind will help write resilient software from the start
-- On an existing project, identify weaknesses and areas for improvement.
-- Find the issues that need to be resolved immediately and those that can wait
+- The [OWASP Top Ten](https://owasp.org/Top10/) is a standard awareness document for developers and web application security
+- It represents a broad consensus about the most critical security risks to web applications
 
 </div>
 
@@ -74,13 +62,16 @@ lineNumbers: false
 
 #### Requirements
 
+<br />
+
 - Node LTS
-- npm >= 7
 - docker
 - docker-compose
 - Postman (if you want to be able to test vulnerabilities)
 
 #### Setup
+
+<br />
 
 ```bash
 git clone https://github.com/nearform/owasp-top-ten-workshop
@@ -97,19 +88,21 @@ npm run db:migrate
 
 <div class="dense">
 
-- There is an npm script to run the server for each module
-- `npm run step:x`
-
-- Check out README.md and package.json for scripts
+- `cd src/a{x}-step-name`
+- `npm start` will run the server ready to respond to requests
+- `npm run verify` will run automated tests that fail by default until this step's issue is solved
+- Check out README.md in the projects for potential additional info
 
 </div>
-#### Example
+
+### Example
 
 ```bash
-npm run step:1
+cd src/a-01-access-control
+npm start
 ```
 
-The server for that step will run on localhost:3000
+The server for that step will run on http://localhost:3000
 
 ---
 
@@ -117,10 +110,9 @@ The server for that step will run on localhost:3000
 
 <div class="dense">
 
-- Some vulnerabilities involve sending specific requests to the server. We will be using the tool Postman to send those requests.
-- The `postman` folder contains a collection that can be imported into postman to easily send those requests
-- The collection has an authorization token by default to send logged in requests to the server
-- The logged in user is `alice`
+- Some vulnerabilities involve sending specific requests to the server. We will be using the tool Postman to send those requests
+- The `postman` folder contains a collection that can be imported into Postman to easily send those requests
+- The Postman collection is pre-logged in with user `alice`
 
 </div>
 
@@ -131,33 +123,8 @@ The server for that step will run on localhost:3000
 <div class="dense">
 
 - Some vulnerabilities have automated tests which verify the presence of the vulnerability
-- Those tests will fail until you fix the vulnerability.
-- Making the tests pass is the objective to complete a step
-- Command: `npm run test:x` where x is the step number
-
-</div>
-
----
-
-# A note before starting
-
-<div class="dense">
-
-- This workshop is a condensed explanation of each category of vulnerability in the top 10 for training
-- Those vulnerabilities are broad and complex and can apply in a variety of scenarios that can't all be covered in those slides
-- More research for project-specific concerns is encouraged, and more advanced tools are provided at the end of this workshop
-
-</div>
-
----
-
-# The Top 10
-
-<div class="dense">
-
-- Let's now look at the 10 vulnerabilities in the list
-- Each section will explain one of them.
-- This includes common vulnerabilities, consequences, and ways to prevent them
+- Those tests will fail until you fix the vulnerability
+- `npm run verify` in a step's folder
 
 </div>
 
@@ -168,9 +135,8 @@ The server for that step will run on localhost:3000
 <div class="dense">
 
 - [AO1:2021 - Broken Access Control](https://owasp.org/Top10/A01_2021-Broken_Access_Control/)
-- Access control enforces that a user can only act based on specific permissions
-- Incorrect permissions can lead to unauthorised access of data, or users performing actions they shouldn't be allowed to
-
+- User should only act based on specific permissions
+- Incorrect permissions -> unauthorised access of data
 </div>
 
 ---
@@ -179,11 +145,10 @@ The server for that step will run on localhost:3000
 
 <div class="dense">
 
-- Not applying principle of least privilege: Access to a function of resource is available to anyone
-- Access control checks bypassed by modifying a request or tampering with page content
-- Permitting viewing or editing someone else's account, by providing its unique identifier
-- CORS misconfiguration allows API access from unauthorized/untrusted origins.
-- ... And more on the OWASP website
+- Not applying principle of least privilege
+- Checks can be bypassed by tampering with page or request
+- Allowing access to someone else's info by knowing the UUID
+- CORS allows untrusted origins
 
 </div>
 
@@ -194,20 +159,23 @@ The server for that step will run on localhost:3000
 <div class="dense">
 
 - Deny access by default
-- Implement access control once and re-use (avoid duplication of related code)
+- Avoid duplication of access control logic
 - Enforce user ownership when manipulating data
-- ... And more on the OWASP website
 
 </div>
 
 ---
 
-# A01 Exercise: Editing query params to get sensitive info
+# A01 Exercise
 
 <div class="dense">
 
-- The `/profile` route returns the user's data, including sensitive info like the birth date.
+- The `/profile` route returns sensitive user data
 - It takes a `username` query parameter to return the user's info
+
+```
+GET http://localhost:3000/profile?user=alice
+```
 
 ```json
 {
@@ -225,8 +193,8 @@ The server for that step will run on localhost:3000
 
 <div class="dense">
 
-- Run the server for step 1 with `npm run step:1`
-- In Postman, run the query for A01: Access Control. Observe the data for Alice being returned (endpoint: `localhost:3000/profile?username=alice`)
+- Run the server for step 1 (`cd src/a01-access-control`, `npm start`)
+- In Postman, run the query for A01: Access Control. Observe the data for Alice being returned
 - Now change the `username` query parameter to `bob`. Result:
 
 ```json
@@ -247,9 +215,9 @@ The server for that step will run on localhost:3000
 
 <div class="dense">
 
-- Run the automated tests for step 1 - `npm run test:1`
+- Run the automated tests for step 1 - `npm run verify`
 - The tests fail because the server shouldn't return Bob's data
-- Edit the `/profile` route in the exercise folder (`src/a01-access-control`) to return the user's profile without exposing other people's profiles
+- Edit the `/profile` route in the exercise folder to return the user's profile without exposing other people's profiles
 - 💡 The server uses [fastify-jwt](https://github.com/fastify/fastify-jwt) to handle authentication
 
 </div>
@@ -294,8 +262,8 @@ export default async function user(fastify) {
 <div class="dense">
 
 - [A02: Cryptographic Failures](https://owasp.org/Top10/A02_2021-Cryptographic_Failures/)
-- Failures related to insufficient or lack of cryptography of sensitive data
-- Passwords, credit card numbers, health records, personal information, business secrets
+- Weak or inexistent of cryptography of sensitive data
+- Passwords, credit card numbers, health records, personal information, business secrets...
 - Anything protected by privacy laws or other regulations
 
 </div>
@@ -306,8 +274,8 @@ export default async function user(fastify) {
 
 <div class="dense">
 
-- Usage of weak or outdated cryptographic algorithms like md5
-- Cryptographic key safety: Weak keys, default keys, keys from online tutorials, keys checked in source control...
+- Weak or outdated cryptographic algorithms like md5
+- Weak secret keys, default ones, keys from online tutorials, keys checked in source control...
 - Lack of traffic encryption (HTTPS)
 - Insufficient entropy in seed generation
 
@@ -319,18 +287,16 @@ export default async function user(fastify) {
 
 <div class="dense">
 
-- Identify sensitive data and make sure it is encrypted. Avoid storing sensitive data unnecessarily
+- Check sensitive data is well encrypted. Avoid storing sensitive data unnecessarily
 - Use up to date and strong standard algorithms
-- Proper key/secrets management (no checking private keys in git!)
-- Disable caching for responses that contain sensitive data. Do not transport sensitive data over legacy protocols like FTP and SMTP
+- Proper key/secrets management (no checking private keys in git)
+- Disable caching for responses that contain sensitive data
 
 </div>
 
 ---
 
----
-
-# A02 Exercise: Fixing a weak hashing algorithm
+# A02 Exercise: a weak hashing algorithm
 
 <div class="dense">
 
@@ -342,10 +308,6 @@ export default async function user(fastify) {
   {
     "username": "bob",
     "password": "884a22eb30e5cfd71894d43ac553faa5"
-  },
-  {
-    "username": "newUser",
-    "password": "bdc87b9c894da5168059e00ebffb9077"
   },
   {
     "username": "alice",
@@ -364,7 +326,7 @@ export default async function user(fastify) {
 
 - Using the `/all-data` route, find Alice's encrypted password
 - With this encrypted password hash, try to find the original unencrypted password Alice created
-- Once again, the Postman collection contains requests for doing the queries
+- the Postman collection contains requests for doing the queries
 - 💡 There are websites to decrypt md5
 
 </div>
@@ -376,10 +338,10 @@ export default async function user(fastify) {
 <div class="dense">
 
 - md5 encryption is vulnerable and shouldn't be used
-- Using strong encryption that matches the type of data to encrypt is important
-- In `src/a02-cryptographic-failure`, fix the encryption used to be a different strong algorithm
-- Make sure the tests pass: `npm run test:2`
-- 💡 For passwords, using bcrypt is a good idea
+- In `src/a02-cryptographic-failure`, fix the encryption used to be a strong algorithm instead of md5
+- Using [bcrypt](https://www.npmjs.com/package/bcrypt) is a good idea for passwords
+- The application exposes a `/change-password` route used to change a user's password
+- Make sure the tests pass: `npm run verify`
 
 </div>
 
@@ -388,8 +350,6 @@ export default async function user(fastify) {
 # A02 Exercise (4): Solution
 
 <div class="dense">
-
-- Using bcrypt instead of md5:
 
 ```js
 // utils/encryption.js
@@ -425,18 +385,6 @@ export async function comparePassword(password, hash) {
 
 ---
 
-# A02 Exercise Notes
-
-<div class="dense">
-
-- The setup for this exercise is simplistic and isn't a recommendation of what to do in a real scenario
-- There are other concerns than the algorithm used, for example enforcing password length and complexity
-- Even a strong algorithm can be vulnerable if setup with a default or known salt
-
-</div>
-
----
-
 # A03: Injection
 
 <div class="dense">
@@ -453,8 +401,8 @@ export async function comparePassword(password, hash) {
 <div class="dense">
 
 - Lack of validation or sanitization of user input
-- Dynamic queries or non-parameterized calls without context-aware escaping are used directly in the interpreter.
-- Hostile data is used within object-relational mapping (ORM) search parameters to extract additional, sensitive records.
+- Dynamic queries or non-parameterized calls without context-aware escaping are used directly in the interpreter
+- Hostile data is used within object-relational mapping (ORM) search parameters to extract additional, sensitive records
 
 </div>
 
@@ -465,7 +413,7 @@ export async function comparePassword(password, hash) {
 <div class="dense">
 
 - Prefer using a safe API that sanitizes input
-- Escape special characters using the specific escape syntax for that interpreter.
+- Escape special characters using the specific escape syntax for that interpreter
 - Avoid user-supplied table names or column names as they cannot be escaped
 - Use LIMIT and other statements in queries to lower the impact of injections
 
@@ -496,8 +444,8 @@ TODO: Server route passing unsanitised input to an eval or something which can b
 <div class="dense">
 
 - A forgotten password flow with "security questions" is insecure by design because more than one person can know the answer
-- An ecommerce website sells high-end video cards that scalpers buy with bots to resell, causing bad PR with customers. Most websites wouldn't need to design against bots, but due to the nature of the product being sold this one does.
-- A cinema chain allows booking up to fifteen attendees before requiring a deposit. An attacker could make hundreds of small booking requests at once to block all seats, causing massive revenue loss.
+- An ecommerce website sells high-end video cards that scalpers buy with bots to resell, causing bad PR with customers. Most websites wouldn't need to design against bots, but due to the nature of the product being sold this one does
+- A cinema chain allows booking up to fifteen attendees before requiring a deposit. An attacker could make hundreds of small booking requests at once to block all seats, causing massive revenue loss
 
 </div>
 

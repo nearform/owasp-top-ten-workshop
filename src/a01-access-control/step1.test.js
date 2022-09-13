@@ -1,5 +1,5 @@
 import t from 'tap'
-import { authHeaders } from '../shared/test-utils.js'
+import { authHeaders } from 'owasp-shared'
 import { step1Server } from './server.js'
 
 const { test } = t
@@ -24,6 +24,7 @@ test('A01: Access Control', async t => {
 
     t.equal(res.statusCode, 401)
   })
+
   t.test(
     `doesn't return another user's info when changing get parameters`,
     async t => {

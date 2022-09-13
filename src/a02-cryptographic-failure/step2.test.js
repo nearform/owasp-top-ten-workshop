@@ -1,8 +1,6 @@
 import t from 'tap'
-import { authHeaders } from '../shared/test-utils.js'
+import { authHeaders } from 'owasp-shared'
 import { step2Server } from './server.js'
-// eslint-disable-next-line no-unused-vars
-import ReverseMd5 from 'reverse-md5'
 
 const { test } = t
 
@@ -27,6 +25,7 @@ test('A02: Cryptographic Failure', async t => {
 
     t.equal(res.statusCode, 200)
   })
+
   t.test(`Password isn't encrypted with weak md5`, async t => {
     const res = await fastify.inject({
       url: '/all-data',
@@ -37,17 +36,6 @@ test('A02: Cryptographic Failure', async t => {
     const accounts = res.json()
     const alice = accounts.find(account => account.username === 'alice')
     const hashedPassword = alice.password
-    console.log('Password to crack: ', hashedPassword)
     t.notMatch(hashedPassword, '5e9d11a14ad1c8dd77e98ef9b53fd1ba')
-    // This doesn't seem to work fast enough... commenting for now
-    // const reverser = ReverseMd5({
-    //   lettersUpper: false,
-    //   lettersLower: true,
-    //   numbers: false,
-    //   special: false,
-    //   whitespace: true,
-    //   maxLen: 12
-    // })
-    // const crackedPassword = reverser(hashedPassword)
   })
 })

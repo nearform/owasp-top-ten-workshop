@@ -1,5 +1,4 @@
-import { buildServer } from '../shared/build-server.js'
-import { env } from '../shared/env.js'
+import { buildServer, env } from 'owasp-shared'
 
 export async function step1Server() {
   const fastify = await buildServer({

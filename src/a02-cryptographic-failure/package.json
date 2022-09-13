@@ -1,0 +1,14 @@
+{
+  "name": "owasp-step-2",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "verify": "tap --no-cov",
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "owasp-shared": "1.0.0"
+  }
+}

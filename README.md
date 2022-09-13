@@ -7,7 +7,6 @@ Workshop based on the [OWASP Top Ten](https://owasp.org/www-project-top-ten/) se
 ## Requirements
 
 - Node LTS
-- npm >=7 - you can install it with [`npm install -g npm@latest`](https://docs.npmjs.com/try-the-latest-stable-version-of-npm)
 - docker
 - docker-compose
 - Postman for testing requests
@@ -18,22 +17,30 @@ Workshop based on the [OWASP Top Ten](https://owasp.org/www-project-top-ten/) se
 - `npm run db:up`
 - `npm run db:migrate`
 
-# Slides
+## Slides
 
-Slides contain instructions for the workshop. You can read them in `slides.md`, or:
+Slides contain instructions for the workshop. You can read them at https://nearform.github.io/owasp-top-ten-workshop, or:
 
 `npm start` will open the slides in the browser
 
-#### Run automated tests on a single project
+## Running an exercise
 
-- `npm test -w src/step-05-testing`
+```bash
+cd src/a01-access-control
+npm start
+```
 
-## Running the modules
+## Verifying an exercise solution
 
-### Running the server
+This will run automated tests that fail until the issue in the exercise has been solved
 
-- `npm run step:x` (x: number of the step)
+(Some steps of the workshop might not have automated tests)
 
-### Running validation tests for exercises
+```bash
+cd src/a01-access-control
+npm run verify
+```
 
-- `npm run test:x` (x: number of the step)
+## Run exercise verification tests on a single project
+
+- `npm test -w src/a01-access-control`
