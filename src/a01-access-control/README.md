@@ -10,4 +10,4 @@ Start the server for manual tests:
 
 `npm start`
 
-Use the postman collection at the root of the repo for ready to use queries matching this problem
+Use the Postman collection at the root of the repo for ready to use queries matching this problem

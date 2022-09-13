@@ -7,7 +7,7 @@ lineNumbers: false
 
 <img class=logo src="/images/nearform.svg">
 
-# TOWASP Top Ten Security Vulnerabilities Workshop
+# OWASP Top Ten Security Vulnerabilities Workshop
 
 <img src="/assets/owasp.png" style="width: 30%;">
 
@@ -42,18 +42,6 @@ lineNumbers: false
 
 ---
 
-# Using the OWASP Top Ten
-
-<div class="dense">
-
-- On a new project, keeping the OWASP Top Ten in mind will help write resilient software from the start
-- On an existing project, identify weaknesses and areas for improvement
-- Find the issues that need to be resolved immediately and those that can wait
-
-</div>
-
----
-
 # Workshop Setup
 
 <div class="dense">
@@ -74,13 +62,16 @@ lineNumbers: false
 
 #### Requirements
 
+<br />
+
 - Node LTS
-- npm >= 7
 - docker
 - docker-compose
 - Postman (if you want to be able to test vulnerabilities)
 
 #### Setup
+
+<br />
 
 ```bash
 git clone https://github.com/nearform/owasp-top-ten-workshop
@@ -103,14 +94,15 @@ npm run db:migrate
 - Check out README.md in the projects for potential additional info
 
 </div>
-#### Example
+
+### Example
 
 ```bash
 cd src/a-01-access-control
 npm start
 ```
 
-The server for that step will run on localhost:3000
+The server for that step will run on http://localhost:3000
 
 ---
 
@@ -119,8 +111,8 @@ The server for that step will run on localhost:3000
 <div class="dense">
 
 - Some vulnerabilities involve sending specific requests to the server. We will be using the tool Postman to send those requests
-- The `postman` folder contains a collection that can be imported into postman to easily send those requests
-- The logged in user is `alice`
+- The `postman` folder contains a collection that can be imported into Postman to easily send those requests
+- The Postman collection is pre-logged in with user `alice`
 
 </div>
 
@@ -138,15 +130,6 @@ The server for that step will run on localhost:3000
 
 ---
 
-# A note before starting
-
-<div class="dense">
-
-- This is a condensed summary of the Top 10
-- The provided links contain more comprehensive info that can't be covered in this workshop
-
-</div>
-
 # A01: Broken Access Control
 
 <div class="dense">
@@ -154,7 +137,6 @@ The server for that step will run on localhost:3000
 - [AO1:2021 - Broken Access Control](https://owasp.org/Top10/A01_2021-Broken_Access_Control/)
 - User should only act based on specific permissions
 - Incorrect permissions -> unauthorised access of data
-- ... And more on the OWASP website (this will apply to all steps)
 </div>
 
 ---
@@ -184,12 +166,16 @@ The server for that step will run on localhost:3000
 
 ---
 
-# A01 Exercise: Editing query params to get sensitive info
+# A01 Exercise
 
 <div class="dense">
 
 - The `/profile` route returns sensitive user data
 - It takes a `username` query parameter to return the user's info
+
+```
+GET http://localhost:3000/profile?user=alice
+```
 
 ```json
 {
@@ -208,7 +194,7 @@ The server for that step will run on localhost:3000
 <div class="dense">
 
 - Run the server for step 1 (`cd src/a01-access-control`, `npm start`)
-- In Postman, run the query for A01: Access Control. Observe the data for Alice being returned (endpoint: `localhost:3000/profile?username=alice`)
+- In Postman, run the query for A01: Access Control. Observe the data for Alice being returned
 - Now change the `username` query parameter to `bob`. Result:
 
 ```json
@@ -231,7 +217,7 @@ The server for that step will run on localhost:3000
 
 - Run the automated tests for step 1 - `npm run verify`
 - The tests fail because the server shouldn't return Bob's data
-- Edit the `/profile` route in the exercise folder (`src/a01-access-control`) to return the user's profile without exposing other people's profiles
+- Edit the `/profile` route in the exercise folder to return the user's profile without exposing other people's profiles
 - 💡 The server uses [fastify-jwt](https://github.com/fastify/fastify-jwt) to handle authentication
 
 </div>
@@ -310,9 +296,7 @@ export default async function user(fastify) {
 
 ---
 
----
-
-# A02 Exercise: Fixing a weak hashing algorithm
+# A02 Exercise: a weak hashing algorithm
 
 <div class="dense">
 
@@ -324,10 +308,6 @@ export default async function user(fastify) {
   {
     "username": "bob",
     "password": "884a22eb30e5cfd71894d43ac553faa5"
-  },
-  {
-    "username": "newUser",
-    "password": "bdc87b9c894da5168059e00ebffb9077"
   },
   {
     "username": "alice",
@@ -358,9 +338,10 @@ export default async function user(fastify) {
 <div class="dense">
 
 - md5 encryption is vulnerable and shouldn't be used
-- In `src/a02-cryptographic-failure`, fix the encryption used to be a strong algorithm
+- In `src/a02-cryptographic-failure`, fix the encryption used to be a strong algorithm instead of md5
+- Using [bcrypt](https://www.npmjs.com/package/bcrypt) is a good idea for passwords
+- The application exposes a `/change-password` route used to change a user's password
 - Make sure the tests pass: `npm run verify`
-- 💡 For passwords, using bcrypt is a good idea
 
 </div>
 
@@ -369,8 +350,6 @@ export default async function user(fastify) {
 # A02 Exercise (4): Solution
 
 <div class="dense">
-
-- Using bcrypt instead of md5:
 
 ```js
 // utils/encryption.js
@@ -401,18 +380,6 @@ export async function comparePassword(password, hash) {
   })
 }
 ```
-
-</div>
-
----
-
-# A02 Exercise Notes
-
-<div class="dense">
-
-- The setup for this exercise is simplistic and isn't a recommendation of what to do in a real scenario
-- There are other concerns than the algorithm used, for example enforcing password length and complexity
-- Even a strong algorithm can be vulnerable if setup with a default or known salt
 
 </div>
 

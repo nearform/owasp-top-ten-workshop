@@ -3,16 +3,5 @@
   "private": true,
   "type": "module",
   "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "lint": "eslint --ext .ts,.js ./"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nearform/owasp-top-ten-workshop.git"
-  },
-  "bugs": {
-    "url": "https://github.com/nearform/owasp-top-ten-workshop/issues"
-  },
-  "homepage": "https://github.com/nearform/owasp-top-ten-workshop#readme"
+  "main": "index.js"
 }

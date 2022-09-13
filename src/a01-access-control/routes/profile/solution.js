@@ -1,7 +1,7 @@
 import errors from 'http-errors'
 import SQL from '@nearform/sql'
 
-export default async function user(fastify) {
+export default async function solution(fastify) {
   fastify.get(
     '/',
     {
