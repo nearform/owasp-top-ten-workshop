@@ -21,6 +21,7 @@
     "db:migrate": "postgrator",
     "db:down": "docker-compose down",
     "verify": "npm run verify --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
     "lint": "eslint .",
     "test": "npm run test --workspaces --if-present",
     "prepare": "husky install"

@@ -7,7 +7,8 @@ const EnvSchema = Type.Object({
   JWT_SECRET: Type.String(),
   LOG_LEVEL: Type.String(),
   PRETTY_PRINT: Type.Boolean(),
-  PRINT_ROUTES: Type.Boolean()
+  PRINT_ROUTES: Type.Boolean(),
+  USE_SOLUTION: Type.Boolean()
 })
 
 export const env = envSchema({

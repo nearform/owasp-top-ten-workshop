@@ -1,9 +1,11 @@
 import errors from 'http-errors'
 import SQL from '@nearform/sql'
+import solution from './solution.js'
+import { getSolutionToExport } from 'owasp-shared/export-solution.js'
 
-export default async function profile(fastify) {
+function profile(fastify) {
   fastify.get(
-    '/',
+    '/profile',
     {
       onRequest: [fastify.authenticate]
     },
@@ -25,3 +27,6 @@ export default async function profile(fastify) {
     }
   )
 }
+
+// Note: This helper just helps with internal unit testing
+export default getSolutionToExport(profile, solution)

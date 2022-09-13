@@ -3,7 +3,7 @@ import SQL from '@nearform/sql'
 
 export default async function solution(fastify) {
   fastify.get(
-    '/',
+    '/profile',
     {
       onRequest: [fastify.authenticate]
     },
