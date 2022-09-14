@@ -8,6 +8,18 @@ jobs:
   test:
     name: Lint and test
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:alpine
+        env:
+          POSTGRES_PASSWORD: owasp10
+        ports:
+          - 5434:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -15,6 +27,7 @@ jobs:
           node-version-file: .nvmrc
       - run: |
           npm ci
+          npm run db:migrate
           npm run lint
           npm test
   automerge:
