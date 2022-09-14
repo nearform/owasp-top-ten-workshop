@@ -41,7 +41,7 @@ test('A01: Access Control', async t => {
       t.same(await res.json(), {
         username: 'alice',
         id: 1,
-        birth_date: '1990-01-01T00:00:00.000Z'
+        age: 23
       })
     }
   )
