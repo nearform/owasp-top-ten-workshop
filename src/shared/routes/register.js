@@ -25,7 +25,7 @@ export default async function register(fastify) {
     const {
       rows: [user]
     } = await fastify.pg.query(
-      SQL`INSERT INTO users (username, password, birth_date, credit_card_number) VALUES (${username}, ${hashedPassword}, ${birthDate.toISOString()}, ${creditCardNumber}) RETURNING id, username`
+      SQL`INSERT INTO users (username, password, age, credit_card_number) VALUES (${username}, ${hashedPassword}, ${birthDate.toISOString()}, ${creditCardNumber}) RETURNING id, username`
     )
 
     if (!user) {

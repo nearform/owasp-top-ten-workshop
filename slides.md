@@ -181,7 +181,7 @@ GET http://localhost:3000/profile?user=alice
 {
   "id": 1,
   "username": "alice",
-  "birth_date": "1990-01-01T00:00:00.000Z"
+  "age": 23
 }
 ```
 
@@ -201,7 +201,7 @@ GET http://localhost:3000/profile?user=alice
 {
   "id": 2,
   "username": "bob",
-  "birth_date": "1990-01-02T00:00:00.000Z"
+  "age": 31
 }
 ```
 

@@ -17,7 +17,7 @@ function profile(fastify) {
       const {
         rows: [user]
       } = await fastify.pg.query(
-        SQL`SELECT id, username, birth_date FROM users WHERE username = ${username}`
+        SQL`SELECT id, username, age FROM users WHERE username = ${username}`
       )
 
       if (!user) {
