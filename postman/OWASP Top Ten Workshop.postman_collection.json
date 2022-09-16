@@ -166,7 +166,7 @@
 				"response": []
 			},
 			{
-				"name": "A03: Malicious query param",
+				"name": "A03: SQL Injection",
 				"request": {
 					"method": "GET",
 					"header": [],

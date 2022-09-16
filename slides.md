@@ -415,8 +415,8 @@ export async function comparePassword(password, hash) {
 
 - Run the server for step 3 (`cd src/a03-injection`, `npm start`)
 - In Postman, run the query for `A03: Get customer by name`. Observe the data for `name: "alice"` being returned
-- Try to run the query for `A03: Malicious query param`. Observe all the customers being returned
-- The query param value `' OR '1'='1` takes advantage of the unsafe string concatenation to create this query
+- Try to run the query for `A03: SQL Injection`. Observe all the customers being returned
+- The query param value `' OR '1'='1` takes advantage of the unsafe string concatenation to create this SQL query
   `SELECT * FROM customers WHERE name='' OR '1'='1'` which will return every record in the table
 
 </div>
