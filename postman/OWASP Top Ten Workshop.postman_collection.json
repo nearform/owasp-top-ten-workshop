@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "9583932f-fbf5-449d-a2a9-0dbba252a4bd",
+		"_postman_id": "56a179c8-b88c-4d31-8663-54b8dadc412b",
 		"name": "OWASP Top Ten Workshop",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "22090370"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -135,6 +134,30 @@
 					"port": "3000",
 					"path": [
 						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "A03: Injection",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/customer?name=alice",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"customer"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "alice"
+						}
 					]
 				}
 			},

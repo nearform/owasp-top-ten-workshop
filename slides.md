@@ -385,45 +385,99 @@ export async function comparePassword(password, hash) {
 
 ---
 
-# A03: Injection
+# A03: Injection 💉
 
 <div class="dense">
 
 - Injections are a form of attack where a malicious payload is able to effectively inject an arbitrary bit of query or code on the target server
-- Common targets: SQL, NoSQL, ORM, LDAP, JS eval
+- Injections can result in data loss or corruption, lack of accountability, or denial of access. Injections can sometimes lead to complete host takeover.
+- Common targets: **SQL, NoSQL, ORM, LDAP, JS eval**
 
 </div>
 
 ---
 
-# A03 Injection (2): Common vulnerabilities
+# A03 Injection 💉: Common vulnerabilities
 
 <div class="dense">
 
-- Lack of validation or sanitization of user input
-- Dynamic queries or non-parameterized calls without context-aware escaping are used directly in the interpreter
-- Hostile data is used within object-relational mapping (ORM) search parameters to extract additional, sensitive records
+- Lack of validation or **sanitization** of user input
+- Dynamic queries or non-parameterized calls without context-aware **escaping** are used directly in the interpreter
+- Hostile data is used within object-relational mapping (ORM) **search parameters** to extract additional, sensitive records
 
 </div>
 
 ---
 
-# A03 Injection (3): How to Prevent
+# A03 Injection 💉: Attack
 
 <div class="dense">
 
-- Prefer using a safe API that sanitizes input
-- Escape special characters using the specific escape syntax for that interpreter
+- Run the server for step 3 (`cd src/a03-injection`, `npm start`)
+- In Postman, run the query for `A03: Injection`. Observe the data for `name: "alice"` being returned
+- Try to inject a value in the query param `name` that retrieves all the customers
+
+</div>
+
+---
+
+# A03 Injection 💉: Solution
+
+<div class="dense">
+
+- The query param value `' OR '1'='1` takes advantage of the unsafe string concatenation to create this query
+  `SELECT * FROM customers WHERE name='' OR '1'='1'` which will return every record in the table
+
+```
+  http://localhost:3000/customer?name=' OR '1'='1
+
+```
+
+</div>
+
+---
+
+# A03 Injection 💉: Fixing it
+
+<div class="dense">
+
+- Prefer using a safe API that **sanitizes input**
+- **Escape special characters** using the specific escape syntax for that interpreter
 - Avoid user-supplied table names or column names as they cannot be escaped
 - Use LIMIT and other statements in queries to lower the impact of injections
+- **Automated testing** of all parameters, headers, URL, cookies, JSON, SOAP, and XML data inputs is strongly encouraged
 
 </div>
 
 ---
 
-# A03 Injection Attack
+# A03 Injection 💉: Fixing it (2)
 
-TODO: Server route passing unsanitised input to an eval or something which can be exploited to drop some js variables
+<div class="dense">
+
+- The `@nearform/sql` library escapes special characters contained in the user's input
+
+```js
+// import SQL from '@nearform/sql'
+export default async function customer(fastify) {
+  fastify.get(
+    '/customer',
+    {
+      onRequest: [fastify.authenticate]
+    },
+    async req => {
+      const { name } = req.query
+      const { rows: customers } = await fastify.pg.query(
+        SQL`SELECT * FROM customers WHERE name=${name}`
+      )
+      if (!customers.length) throw errors.NotFound()
+      return customers
+    }
+  )
+}
+```
+
+</div>
 
 ---
 
