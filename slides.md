@@ -414,24 +414,10 @@ export async function comparePassword(password, hash) {
 <div class="dense">
 
 - Run the server for step 3 (`cd src/a03-injection`, `npm start`)
-- In Postman, run the query for `A03: Injection`. Observe the data for `name: "alice"` being returned
-- Try to inject a value in the query param `name` that retrieves all the customers
-
-</div>
-
----
-
-# A03 Injection 💉: Solution
-
-<div class="dense">
-
+- In Postman, run the query for `A03: Get customer by name`. Observe the data for `name: "alice"` being returned
+- Try to run the query for `A03: Malicious query param`. Observe all the customers being returned
 - The query param value `' OR '1'='1` takes advantage of the unsafe string concatenation to create this query
   `SELECT * FROM customers WHERE name='' OR '1'='1'` which will return every record in the table
-
-```
-  http://localhost:3000/customer?name=' OR '1'='1
-
-```
 
 </div>
 
@@ -441,17 +427,16 @@ export async function comparePassword(password, hash) {
 
 <div class="dense">
 
-- Prefer using a safe API that **sanitizes input**
+- Prefer using a safe API that **sanitizes input** e.g `@nearform/sql`
 - **Escape special characters** using the specific escape syntax for that interpreter
 - Avoid user-supplied table names or column names as they cannot be escaped
-- Use LIMIT and other statements in queries to lower the impact of injections
 - **Automated testing** of all parameters, headers, URL, cookies, JSON, SOAP, and XML data inputs is strongly encouraged
 
 </div>
 
 ---
 
-# A03 Injection 💉: Fixing it (2)
+# A03 Injection 💉: Solution
 
 <div class="dense">
 

@@ -140,28 +140,55 @@
 			"response": []
 		},
 		{
-			"name": "A03: Injection",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:3000/customer?name=alice",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"customer"
-					],
-					"query": [
-						{
-							"key": "name",
-							"value": "alice"
-						}
-					]
-				}
+			"name" : "A03: Injection",
+			"item": [		{
+				"name": "A03: Get customer by name",
+				"request": {
+					"method": "GET",
+					"header": [],
+					"url": {
+						"raw": "localhost:3000/customer?name=alice",
+						"host": [
+							"localhost"
+						],
+						"port": "3000",
+						"path": [
+							"customer"
+						],
+						"query": [
+							{
+								"key": "name",
+								"value": "alice"
+							}
+						]
+					}
+				},
+				"response": []
 			},
-			"response": []
+			{
+				"name": "A03: Malicious query param",
+				"request": {
+					"method": "GET",
+					"header": [],
+					"url": {
+						"raw": "localhost:3000/customer?name=' OR '1'='1",
+						"host": [
+							"localhost"
+						],
+						"port": "3000",
+						"path": [
+							"customer"
+						],
+						"query": [
+							{
+								"key": "name",
+								"value": "' OR '1'='1"
+							}
+						]
+					}
+				},
+				"response": []
+			}]
 		}
 	],
 	"auth": {
