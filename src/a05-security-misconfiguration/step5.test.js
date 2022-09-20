@@ -18,7 +18,7 @@ test('A05: Security Misconfiguration', async t => {
       method: 'POST',
       body: {
         username: 'alice',
-        password: '482c811da5d5b4bc6d497ffa98491e38'
+        password: 'newpassword'
       }
     })
     const [cookie] = loginRes.cookies
@@ -49,7 +49,7 @@ test('A05: Security Misconfiguration', async t => {
       method: 'POST',
       body: {
         username: 'alice',
-        password: '482c811da5d5b4bc6d497ffa98491e38'
+        password: 'newpassword'
       }
     })
     const [cookie] = loginRes.cookies

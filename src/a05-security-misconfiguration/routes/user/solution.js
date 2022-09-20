@@ -1,6 +1,7 @@
 import SQL from '@nearform/sql'
 import { Type } from '@sinclair/typebox'
 import errors from 'http-errors'
+import { comparePassword } from '../../../a02-cryptographic-failure/utils/encryption.js'
 
 const schema = {
   body: Type.Object({
@@ -25,7 +26,9 @@ export function login(fastify) {
     if (!user) {
       throw errors.Unauthorized('No matching user found')
     }
-    if (password !== user.password) {
+
+    const passwordMatch = await comparePassword(password, user.password)
+    if (!passwordMatch) {
       throw errors.Unauthorized('Invalid Password')
     }
 

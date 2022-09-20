@@ -6,6 +6,7 @@ import { getSolutionToExport } from 'owasp-shared/export-solution.js'
 import errors from 'http-errors'
 import { Type } from '@sinclair/typebox'
 import SQL from '@nearform/sql'
+import { comparePassword } from '../../../a02-cryptographic-failure/utils/encryption.js'
 
 const schema = {
   body: Type.Object({
@@ -30,7 +31,8 @@ function login(fastify) {
     if (!user) {
       throw errors.Unauthorized('No matching user found')
     }
-    if (password !== user.password) {
+    const passwordMatch = await comparePassword(password, user.password)
+    if (!passwordMatch) {
       throw errors.Unauthorized('Invalid Password')
     }
 
