@@ -1,7 +1,7 @@
 import SQL from '@nearform/sql'
 import { Type } from '@sinclair/typebox'
 import errors from 'http-errors'
-import { comparePassword } from '../../../a02-cryptographic-failure/utils/encryption.js'
+import { comparePassword } from '../../../a02-cryptographic-failure/utils/solution.js'
 
 const schema = {
   body: Type.Object({

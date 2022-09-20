@@ -173,7 +173,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"username\": \"alice\",\n    \"password\": \"482c811da5d5b4bc6d497ffa98491e38\"\n}",
+              "raw": "{\n    \"username\": \"alice\",\n    \"password\": \"newpassword\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
