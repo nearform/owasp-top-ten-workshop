@@ -1,224 +1,236 @@
 {
-	"info": {
-		"_postman_id": "56a179c8-b88c-4d31-8663-54b8dadc412b",
-		"name": "OWASP Top Ten Workshop",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "A01",
-			"item": [
-				{
-					"name": "A01: Access Control",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:3000/profile?username=alice",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"profile"
-							],
-							"query": [
-								{
-									"key": "username",
-									"value": "alice"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "A02",
-			"item": [
-				{
-					"name": "A02: All data exploit",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:3000/all-data",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"all-data"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "A02: Change password",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"password\": \"newpassword\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:3000/change-password/alice",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"change-password",
-								"alice"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Login",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"username\": \"alice\",\n    \"password\": \"482c811da5d5b4bc6d497ffa98491e38\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:3000/login",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "A02: Register",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"username\": \"newUser\",\n    \"password\": \"password1234\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:3000/register",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"register"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name" : "A03: Injection",
-			"item": [		{
-				"name": "A03: Get customer by name",
-				"request": {
-					"method": "GET",
-					"header": [],
-					"url": {
-						"raw": "localhost:3000/customer?name=alice",
-						"host": [
-							"localhost"
-						],
-						"port": "3000",
-						"path": [
-							"customer"
-						],
-						"query": [
-							{
-								"key": "name",
-								"value": "alice"
-							}
-						]
-					}
-				},
-				"response": []
-			},
-			{
-				"name": "A03: SQL Injection",
-				"request": {
-					"method": "GET",
-					"header": [],
-					"url": {
-						"raw": "localhost:3000/customer?name=' OR '1'='1",
-						"host": [
-							"localhost"
-						],
-						"port": "3000",
-						"path": [
-							"customer"
-						],
-						"query": [
-							{
-								"key": "name",
-								"value": "' OR '1'='1"
-							}
-						]
-					}
-				},
-				"response": []
-			}]
-		}
-	],
-	"auth": {
-		"type": "bearer",
-		"bearer": [
-			{
-				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhbGljZSIsImlhdCI6MTY2MjYzNzc2MH0.15w1NA_Kol5146DJEdXbDuIMmbVsiBXSGgzsVrV5NTY",
-				"type": "string"
-			}
-		]
-	},
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		}
-	]
+  "info": {
+    "_postman_id": "56a179c8-b88c-4d31-8663-54b8dadc412b",
+    "name": "OWASP Top Ten Workshop",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "A01",
+      "item": [
+        {
+          "name": "A01: Access Control",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:3000/profile?username=alice",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["profile"],
+              "query": [
+                {
+                  "key": "username",
+                  "value": "alice"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "A02",
+      "item": [
+        {
+          "name": "A02: All data exploit",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:3000/all-data",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["all-data"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "A02: Change password",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"password\": \"newpassword\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:3000/change-password/alice",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["change-password", "alice"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"username\": \"alice\",\n    \"password\": \"482c811da5d5b4bc6d497ffa98491e38\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:3000/login",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "A02: Register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"username\": \"newUser\",\n    \"password\": \"password1234\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:3000/register",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["register"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "A03",
+      "item": [
+        {
+          "name": "A03: Get customer by name",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:3000/customer?name=alice",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["customer"],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "alice"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "A03: SQL Injection",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:3000/customer?name=' OR '1'='1",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["customer"],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "' OR '1'='1"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "A05",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"alice\",\n    \"password\": \"newpassword\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:3000/login",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:3000/profile",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["profile"],
+              "query": []
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhbGljZSIsImlhdCI6MTY2MjYzNzc2MH0.15w1NA_Kol5146DJEdXbDuIMmbVsiBXSGgzsVrV5NTY",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ]
 }

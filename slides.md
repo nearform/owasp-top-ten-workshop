@@ -505,6 +505,7 @@ export default async function customer(fastify) {
 
 <div class="dense">
 
+- Security misconfigurations are security controls that are inaccurately configured or left insecure, putting your systems and data at risk
 - Badly configured servers or services can lead to vulnerabilities
 - With increased usage of highly configurable software and cloud APIs, there are many opportunities for misconfiguration
 
@@ -516,7 +517,7 @@ export default async function customer(fastify) {
 
 <div class="dense">
 
-- Improperly configured permissions on cloud services
+- Improperly configured permissions or security settings
 - Unnecessary features enabled: open ports, services, accounts with elevated accesss...
 - Default credentials unchanged
 - Out of date or vulnerable server
@@ -530,11 +531,101 @@ export default async function customer(fastify) {
 
 <div class="dense">
 
-- Repeatable, automated and fast to deploy environments lower risk of creating insecure environments or deployments
+- Repeatable, automated and fast to deploy environments
 - Different credentials should be used in each environment
 - Frequently review security updates, patches and permissions
 - A segmented architecture increases security by separating components, tenants, containers or cloud security groups
-- Automated testing against the configuration of all environments
+- An automated process to verify the effectiveness of the configurations 
+
+</div>
+
+---
+
+# A05 Security Misconfiguration: Unsigned Cookies
+
+<div class="dense">
+
+- Run the server for step 5 (`cd src/a05-security-misconfiguration`, `npm start`)
+- In Postman, run the query for `A05: Login`. Observe a cookie with `userId=1` being returned
+- Try to run the query for `A05: Profile`. Observe the information about profile with `userId=1` being returned
+- Try to change the value of the cookie to `userId=2`. Observe information about `userId=2` being returned
+
+</div>
+
+---
+
+# A05 Security Misconfiguration: Fixing it
+
+<div class="dense">
+
+- Cookie must always be **[signed](https://github.com/fastify/fastify-cookie)** to ensure they are not getting tampered with on client-side by an attacker
+- It's important to use **httpOnly** cookies to prevent the cookie being accessed through client side script
+- Store the **signing secret** safely.
+- Don't store sentive information in cleartext
+
+</div>
+
+---
+
+# A05 Security Misconfiguration: Solution
+
+<div class="dense">
+
+```js
+export function login(fastify) {
+  fastify.post('/login', { schema }, async (req, rep) => {
+    const { username, password } = req.body
+    const {
+      rows: [user]
+    } = await fastify.pg.query(
+      SQL`SELECT id, username, password FROM users WHERE username = ${username}`
+    )
+    if (!user) {
+      throw errors.Unauthorized('No matching user found')
+    }
+    const passwordMatch = await comparePassword(password, user.password)
+    if (!passwordMatch) {
+      throw errors.Unauthorized('Invalid Password')
+    }
+    rep.setCookie('userId', JSON.stringify(user.id), {
+      signed: true, // signing the cookie
+      httpOnly: true // http only
+    })
+    return 'user logged in'
+  })
+}
+```
+
+</div>
+
+---
+
+# A05 Security Misconfiguration: Solution (2)
+
+<div class="dense">
+
+```js
+export function profile(fastify) {
+  fastify.get('/profile', async req => {
+    const { value: id, valid } = fastify.unsignCookie( //unsign the cookie and check validity
+      req?.cookies?.userId || ''
+    )
+
+    if (!valid) { // check if the cookie has been tampered
+      throw new errors.Unauthorized()
+    }
+    const {
+      rows: [user]
+    } = await fastify.pg.query(
+      SQL`SELECT id, username, age FROM users WHERE id = ${id}`
+    )
+    if (!user) {
+      throw new errors.NotFound()
+    }
+    return user
+  })
+}
+```
 
 </div>
 
