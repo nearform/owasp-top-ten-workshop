@@ -717,16 +717,13 @@ export default function (fastify) {
     },
     async req => {
       const { username } = req.query
-
       if (/^\//.test(username)) { // check username doesn't start with /
         throw errors.BadRequest()
       }
-
       const { body, statusCode } = await request({
         origin: 'http://example.com',
         pathname: username
       })
-
       if (statusCode !== 200) {
         throw errors.NotFound()
       }
