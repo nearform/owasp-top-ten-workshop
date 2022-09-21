@@ -1,5 +1,5 @@
 import { buildServer, env } from 'owasp-shared'
-import movieTheaterRoute from './routes/movieTheater/index.js'
+import ecommerceRoute from './routes/ecommerce/index.js'
 import rateLimit from '@fastify/rate-limit'
 
 export async function step4Server() {
@@ -11,6 +11,6 @@ export async function step4Server() {
 
   await fastify.register(rateLimit)
 
-  movieTheaterRoute(fastify)
+  ecommerceRoute(fastify)
   return fastify
 }

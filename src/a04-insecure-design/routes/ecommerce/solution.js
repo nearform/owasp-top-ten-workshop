@@ -1,6 +1,6 @@
 export default async function solution(fastify) {
   fastify.post(
-    '/book-seat',
+    '/buy-product',
     {
       config: {
         rateLimit: {
@@ -10,7 +10,7 @@ export default async function solution(fastify) {
       }
     },
     (req, reply) => {
-      reply.send({ isBooked: true })
+      reply.send({ success: true })
     }
   )
 }

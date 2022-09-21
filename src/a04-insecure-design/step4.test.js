@@ -20,18 +20,18 @@ test('A04: Insecure Design', async t => {
 
       let res
 
-      res = await fastify.inject({ url: '/book-seat', method: 'POST' })
+      res = await fastify.inject({ url: '/buy-product', method: 'POST' })
       t.equal(res.statusCode, 200)
 
-      res = await fastify.inject({ url: '/book-seat', method: 'POST' })
+      res = await fastify.inject({ url: '/buy-product', method: 'POST' })
       t.equal(res.statusCode, 200)
 
-      res = await fastify.inject({ url: '/book-seat', method: 'POST' })
+      res = await fastify.inject({ url: '/buy-product', method: 'POST' })
       t.equal(res.statusCode, 429) // after two attempts within one minute, the user is blocked by rate limit
 
       t.context.clock.tick(1100 * 60) //time progresses a little over a minute forward
 
-      res = await fastify.inject({ url: '/book-seat', method: 'POST' })
+      res = await fastify.inject({ url: '/buy-product', method: 'POST' })
 
       t.equal(res.statusCode, 200) // user can make a request again
 
