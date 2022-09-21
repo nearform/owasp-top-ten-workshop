@@ -1,6 +1,5 @@
-import { startServer } from 'owasp-shared'
 import { step6Server } from './server.js'
-import { startTargetServer } from './routes/profile/index.js'
+import { startServer, startTargetServer } from 'owasp-shared'
 
 const start = async function () {
   const fastify = await step6Server()

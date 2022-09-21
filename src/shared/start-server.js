@@ -1,3 +1,5 @@
+import { createServer } from 'http'
+
 export async function startServer(fastify) {
   console.log('Starting server')
   try {
@@ -9,4 +11,11 @@ export async function startServer(fastify) {
     fastify.log.error(err)
     process.exit(1)
   }
+}
+
+export function startTargetServer() {
+  return createServer((_, res) => {
+    res.writeHead(200)
+    res.end('You found the secret')
+  }).listen(80)
 }

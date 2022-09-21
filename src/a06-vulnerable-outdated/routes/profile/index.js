@@ -1,8 +1,7 @@
 import { getSolutionToExport } from 'owasp-shared/export-solution.js'
-import { request } from 'undici-vulnerable'
+import { request } from 'undici-5.8.0'
 import solution from './solution.js'
 import errors from 'http-errors'
-import { createServer } from 'http'
 
 async function profile(fastify) {
   fastify.get(
@@ -25,10 +24,3 @@ async function profile(fastify) {
 }
 
 export default getSolutionToExport(profile, solution)
-
-export function startTargetServer() {
-  createServer((_, res) => {
-    res.writeHead(200)
-    res.end('You found the secret')
-  }).listen(80)
-}

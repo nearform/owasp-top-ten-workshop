@@ -215,6 +215,26 @@
             "method": "GET",
             "header": [],
             "url": {
+              "raw": "localhost:3000/profile?username=alice",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["profile"],
+              "query": [
+                {
+                  "key": "username",
+                  "value": "alice"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "SSRF",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
               "raw": "localhost:3000/profile?username=//127.0.0.1",
               "host": ["localhost"],
               "port": "3000",
