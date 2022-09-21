@@ -8,7 +8,8 @@ const EnvSchema = Type.Object({
   LOG_LEVEL: Type.String(),
   PRETTY_PRINT: Type.Boolean(),
   PRINT_ROUTES: Type.Boolean(),
-  USE_SOLUTION: Type.Boolean()
+  USE_SOLUTION: Type.Boolean(),
+  COOKIES_SECRET: Type.String()
 })
 
 export const env = envSchema({

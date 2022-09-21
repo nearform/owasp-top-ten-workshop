@@ -38,6 +38,11 @@ export async function buildServer(config) {
     })
   }
 
+  fastify.register(import('@fastify/cookie'), {
+    secret: config.env.COOKIES_SECRET,
+    parseOptions: {}
+  })
+
   if (config.autoloadRoutes) {
     fastify.register(autoload, {
       dir: join(config.baseDir, 'routes'),
@@ -45,11 +50,13 @@ export async function buildServer(config) {
     })
   }
 
-  fastify.register(autoload, {
-    // Shared routes
-    dir: join(import.meta.url, 'routes'),
-    options: opts
-  })
+  if (!config.excludeSharedRoutes) {
+    fastify.register(autoload, {
+      // Shared routes
+      dir: join(import.meta.url, 'routes'),
+      options: opts
+    })
+  }
 
   fastify.log.info('Fastify is starting up!')
 
