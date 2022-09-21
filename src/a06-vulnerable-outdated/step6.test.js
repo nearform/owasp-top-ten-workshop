@@ -1,7 +1,7 @@
 import t from 'tap'
 import { step6Server } from './server.js'
 import { authHeaders } from 'owasp-shared'
-import { startTargetServer } from './routes/profile/helper.js'
+import { startTargetServer } from './routes/profile/index.js'
 
 const { test } = t
 

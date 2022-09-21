@@ -205,6 +205,31 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "A06",
+      "item": [
+        {
+          "name": "Profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:3000/profile?username=//127.0.0.1",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["profile"],
+              "query": [
+                {
+                  "key": "username",
+                  "value": "//127.0.0.1"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "auth": {
