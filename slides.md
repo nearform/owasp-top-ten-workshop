@@ -501,18 +501,18 @@ export default async function customer(fastify) {
 
 ---
 
-# A04 Exercise: a bot prevention mechanism
+# A04 Exercise
 
 <div class="dense">
 
-- The `/buy-product` endpoint is not designed to prevent a bot attack to buy products.
-- It means that an attack can be generated to buy too many products in a short period of time
+- The `/buy-product` endpoint does not have protection against bots run by scalpers
+- It means that someone can buy a lot of stock quickly and leave legitimate customers without any
 
 </div>
 
 ---
 
-# A04 Exercise: Simulating a "bot atack"
+# A04 Exercise: Simulating multiple purchases in a short time frame
 
 <div class="dense">
 
@@ -605,7 +605,7 @@ export default async function ecommerce(fastify) {
 - Different credentials should be used in each environment
 - Frequently review security updates, patches and permissions
 - A segmented architecture increases security by separating components, tenants, containers or cloud security groups
-- An automated process to verify the effectiveness of the configurations 
+- An automated process to verify the effectiveness of the configurations
 
 </div>
 
@@ -677,11 +677,13 @@ export function login(fastify) {
 ```js
 export function profile(fastify) {
   fastify.get('/profile', async req => {
-    const { value: id, valid } = fastify.unsignCookie( //unsign the cookie and check validity
+    const { value: id, valid } = fastify.unsignCookie(
+      //unsign the cookie and check validity
       req?.cookies?.userId || ''
     )
 
-    if (!valid) { // check if the cookie has been tampered
+    if (!valid) {
+      // check if the cookie has been tampered
       throw new errors.Unauthorized()
     }
     const {
