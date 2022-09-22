@@ -677,7 +677,7 @@ export function profile(fastify) {
 
 - Run the server for step 6 (`cd src/a06-vulnerable-outdated`, `npm start`)
 - In Postman, run the query for `A06: Profile`. Observe error `404` being returned
-- Try to run the query for `A06: SSRF`. Observe the response **You found the secret**
+- Try to run the query for `A06: SSRF`. Observe the response **"message": "connect ECONNREFUSED 127.0.0.1:80"**
 </div>
 
 ---
