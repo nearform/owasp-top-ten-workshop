@@ -1,0 +1,15 @@
+{
+  "name": "owasp-step-9",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "verify": "tap --no-cov",
+    "test": "cross-env USE_SOLUTION=true tap --no-cov",
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "undici-5.8.0": "npm:undici@5.8.0"
+  }
+}
