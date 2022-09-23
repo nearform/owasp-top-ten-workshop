@@ -8,7 +8,10 @@ export default function profile(fastify) {
       onRequest: [fastify.authenticate]
     },
     async req => {
-      console.log(req.headers['content-type'])
+      console.log({
+        username: req.user.username,
+        input: req.headers['content-type']
+      })
 
       const headerCharRegex = /[^\t\x20-\x7e\x80-\xff]/
 

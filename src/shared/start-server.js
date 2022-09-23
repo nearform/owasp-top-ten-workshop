@@ -21,7 +21,7 @@ export async function startTargetServer(spy) {
     })
 
     fastify.get('/secret', () => {
-      const message = { message: 'something suspicious is happening' }
+      const message = 'something suspicious is happening'
       console.log(message)
       spy()
       return { message }
