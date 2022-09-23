@@ -164,6 +164,26 @@
       ]
     },
     {
+      "name": "A04: Insecure Design",
+      "items": [
+        {
+          "name": "A04: Buy a product",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {},
+            "url": {
+              "raw": "localhost:3000/buy-product",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["buy-product"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "A05",
       "item": [
         {

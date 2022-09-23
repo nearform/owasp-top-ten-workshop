@@ -501,6 +501,76 @@ export default async function customer(fastify) {
 
 ---
 
+# A04 Exercise
+
+<div class="dense">
+
+- The `/buy-product` endpoint does not have protection against bots run by scalpers
+- It means that someone can buy a lot of stock quickly and leave legitimate customers without any
+
+</div>
+
+---
+
+# A04 Exercise: Simulating multiple purchases in a short time frame
+
+<div class="dense">
+
+- Run the server for step 4 (`cd src/a04-insecure-design`, `npm start`)
+- In Postman, run the query for `A04: Buy product`. Observe the data for `success: true` being returned
+- Run the query many times in a row in a short period of time
+- Notice that there is no protection against multiple sequential purchases
+</div>
+
+---
+
+# A04 Exercise: Fixing it
+
+<div class="dense">
+
+- Prefer using rate limiter for your routes
+- Using [`fastify-rate-limit`](https://github.com/fastify/fastify-rate-limit) is a good idea for setting a rate limit
+- Let's consider a scenario where a user can buy a maximum of two products per minute
+- Edit the `/buy-product` route in the exercise folder considering the scenario above
+- Make sure the tests pass: `npm run verify`
+
+</div>
+
+---
+
+# A04 Exercise: Solution
+
+<div class="dense">
+
+```js
+// register the rateLimit plugin in the server.js file
+await fastify.register(rateLimit)
+```
+
+```js
+// the rate limit is set to a maximum of two purchases per minute
+export default async function ecommerce(fastify) {
+  fastify.post(
+    '/buy-product',
+    {
+      config: {
+        rateLimit: {
+          max: 2,
+          timeWindow: '1 minute'
+        }
+      }
+    },
+    (req, reply) => {
+      reply.send({ success: true })
+    }
+  )
+}
+```
+
+</div>
+
+---
+
 # A05: Security Misconfiguration
 
 <div class="dense">
@@ -535,7 +605,7 @@ export default async function customer(fastify) {
 - Different credentials should be used in each environment
 - Frequently review security updates, patches and permissions
 - A segmented architecture increases security by separating components, tenants, containers or cloud security groups
-- An automated process to verify the effectiveness of the configurations 
+- An automated process to verify the effectiveness of the configurations
 
 </div>
 
@@ -607,11 +677,13 @@ export function login(fastify) {
 ```js
 export function profile(fastify) {
   fastify.get('/profile', async req => {
-    const { value: id, valid } = fastify.unsignCookie( //unsign the cookie and check validity
+    const { value: id, valid } = fastify.unsignCookie(
+      //unsign the cookie and check validity
       req?.cookies?.userId || ''
     )
 
-    if (!valid) { // check if the cookie has been tampered
+    if (!valid) {
+      // check if the cookie has been tampered
       throw new errors.Unauthorized()
     }
     const {
