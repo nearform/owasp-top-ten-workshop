@@ -732,8 +732,9 @@ export function profile(fastify) {
 
 <div class="dense">
 
-- Verification of the user's identity is crucial to security
-- Weak or vulnerable authentication systems can be attacked to gain access
+- Verification of the user's identity, authentication, and session management is crucial to security
+- Weak or vulnerable authentication systems can be exploited to gain access
+- Systems with broken authntication can lead to data breaches and passwords leak
 
 </div>
 
@@ -743,7 +744,7 @@ export function profile(fastify) {
 
 <div class="dense">
 
-- Application allows brute forcing of credentials
+- Application allows for credentials stuffing or brute forcing
 - Allows default, weak or known passwords
 - Exploitable credential recovery processes
 - Lack of effective multi-factor authentication
@@ -754,6 +755,30 @@ export function profile(fastify) {
 ---
 
 # A07 Identification and Authentication Failures: How to prevent
+
+<div class="dense">
+
+- Where possible, implement multi-factor authentication
+- Requirie strong passwords (length, complexity, and rotation policies)
+- Ensure registration and credential recovery use the same messages for all outcomes
+- Limit or increasingly delay failed login attempts
+- Use secure password data store practices (salting + hashing)
+
+</div>
+
+---
+
+# A07 Identification and Authentication Failures: Broken Password Storage
+
+<div class="dense">
+
+-
+
+</div>
+
+---
+
+# A07 Identification and Authentication Failures: Fixing it
 
 <div class="dense">
 
