@@ -1,0 +1,16 @@
+{
+  "name": "owasp-step-8",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "verify": "tap --no-cov",
+    "test": "cross-env USE_SOLUTION=true tap --no-cov",
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "node-serialize": "^0.0.4",
+    "owasp-shared": "1.0.0"
+  }
+}
