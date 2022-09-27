@@ -2,9 +2,9 @@ import serialize from 'node-serialize'
 
 const fakeCookie = {
   id: 1,
-  username: (function () {
+  username: function () {
     throw new Error('server error')
-  })()
+  }
 }
 
-console.log('Serialized: \n' + serialize.serialize(fakeCookie))
+console.log(serialize.serialize(fakeCookie))
