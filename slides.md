@@ -890,6 +890,88 @@ export default function (fastify) {
 
 ---
 
+# A09: Security Logging and Monitoring Failures: Common Vulnerabilities
+
+<div class="dense">
+
+- Auditable events, such as logins, failed logins, and high-value transactions, are not logged
+- Warnings and errors generate no, inadequate, or unclear log messages
+- Logs of applications and APIs are not monitored for suspicious activity
+- The application cannot detect, escalate, or alert for active attacks in real-time or near real-time
+
+</div>
+
+---
+
+# A09: Security Logging and Monitoring Failures: How to prevent
+
+<div class="dense">
+
+- Ensure all login, access control, and server-side input validation failures can be logged with sufficient user context to identify suspicious or malicious accounts
+- Ensure log data is encoded correctly to prevent injections or attacks on the logging or monitoring systems
+- Ensure high-value transactions have an audit trail with integrity controls to prevent tampering or deletion, such as append-only database tables or similar.
+
+</div>
+
+---
+
+# A09 Security Logging and Monitoring Failures: Suspicious activity 🤨
+
+<div class="dense">
+
+- Run the server for step 5 (`cd src/a05-security-misconfiguration`, `npm run verify`)
+- You can observe a log message `something suspicious is happening`
+- Note that the application is using a vulnerable version of the http client **[undici](https://github.com/nodejs/undici/security/advisories/GHSA-f772-66g8-q5h3)**
+
+</div>
+
+---
+
+# A09 Security Logging and Monitoring Failures: How to fix it
+
+<div class="dense">
+
+- Log user input to identify suspicious or malicious accounts
+- Validate user input
+
+</div>
+
+---
+
+# A09 Security Logging and Monitoring Failures: Solution
+
+<div class="dense">
+
+```js
+export default function profile(fastify) {
+  fastify.get(
+    '/profile',
+    {
+      onRequest: [fastify.authenticate]
+    },
+    async req => {
+      console.log({
+        username: req.user.username, // add context to logs to help identify the user
+        input: req.headers['content-type']
+      })
+      const headerCharRegex = /[^\t\x20-\x7e\x80-\xff]/ // validate user input
+      if (headerCharRegex.exec(req.headers['content-type']) !== null) {
+        throw errors.BadRequest()
+      }
+      const { body } = await request('http://localhost:3001', {
+        method: 'GET',
+        headers: {
+          'content-type': req.headers['content-type']
+        }
+      })
+      return body
+    }
+  )
+}
+```
+
+ </div>
+
 # A10: Server Side Request Forgery
 
 <div class="dense">
