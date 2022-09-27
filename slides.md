@@ -800,23 +800,23 @@ export function profile(fastify) {
 
 ---
 
-# A08 Software and Data Integrity Failures: Example Attack - Insecure Deserialization
+# A08 Exercise - Insecure Deserialization
 
 <div class="dense">
 
 - Run the server for step 8 (`cd src/a08-software-data-integrity-failures`, `npm start`)
-- In Postman,Try to run the query for `A08: Software and Data Integrity Failures`. Observe the requests `status code 500` being returned
-- This is happening because the `cookie` contains malicious code which is forcing throw an exception
+- In Postman, try to run the query for `A08: Get profile from cookie`. Observe the requests `status code 500` being returned
+- This is happening because the server is deserializing a cookie containing a malicious JavaScript code which is forcing the server to throw an exception
 </div>
 
 ---
 
-# A08 Software and Data Integrity Failures: Example Attack - Insecure Deserialization
+# A08 Exercise - Insecure Deserialization
 
 <div class="dense">
 
 - Untrusted data passed into unserialize() function in `node-serialize` module can be exploited to achieve arbitrary code execution by passing a serialized JavaScript Object with an Immediately invoked function expression (IIFE)
-- More details at [this article](https://opsecx.com/index.php/2017/02/08/exploiting-node-js-deserialization-bug-for-remote-code-execution/)
+- The step by step to serialize a JavaScript code and insert it in the cookie can be found [in this article](https://opsecx.com/index.php/2017/02/08/exploiting-node-js-deserialization-bug-for-remote-code-execution/)
 </div>
 
 ---

