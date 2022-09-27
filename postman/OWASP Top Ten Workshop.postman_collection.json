@@ -73,6 +73,52 @@
       ]
     },
     {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"username\": \"alice\",\n    \"password\": \"482c811da5d5b4bc6d497ffa98491e38\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:3000/login",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "A02: Register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"username\": \"newUser\",\n    \"password\": \"password1234\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:3000/register",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["register"]
+        }
+      },
+      "response": []
+    },
+    {
       "name": "A03",
       "item": [
         {
@@ -119,12 +165,13 @@
     },
     {
       "name": "A04: Insecure Design",
-      "item": [
+      "items": [
         {
           "name": "A04: Buy a product",
           "request": {
             "method": "POST",
             "header": [],
+            "body": {},
             "url": {
               "raw": "localhost:3000/buy-product",
               "host": ["localhost"],
@@ -171,7 +218,8 @@
               "raw": "localhost:3000/profile",
               "host": ["localhost"],
               "port": "3000",
-              "path": ["profile"]
+              "path": ["profile"],
+              "query": []
             }
           },
           "response": []
@@ -179,78 +227,49 @@
       ]
     },
     {
-      "name": "A07: Identification and Authentication",
+      "name": "A06",
       "item": [
         {
-          "name": "Register",
+          "name": "Profile",
           "request": {
-            "method": "POST",
+            "method": "GET",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"username\": \"bondJames\",\n    \"password\": \"IamY0u\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
-              "raw": "localhost:3000/register",
+              "raw": "localhost:3000/profile?username=alice",
               "host": ["localhost"],
               "port": "3000",
-              "path": ["register"]
+              "path": ["profile"],
+              "query": [
+                {
+                  "key": "username",
+                  "value": "alice"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "SSRF",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:3000/profile?username=//127.0.0.1",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["profile"],
+              "query": [
+                {
+                  "key": "username",
+                  "value": "//127.0.0.1"
+                }
+              ]
             }
           },
           "response": []
         }
       ]
-    },
-    {
-      "name": "Login",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"username\": \"alice\",\n    \"password\": \"482c811da5d5b4bc6d497ffa98491e38\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "localhost:3000/login",
-          "host": ["localhost"],
-          "port": "3000",
-          "path": ["login"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "A02: Register",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"username\": \"newUser\",\n    \"password\": \"password1234\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "localhost:3000/register",
-          "host": ["localhost"],
-          "port": "3000",
-          "path": ["register"]
-        }
-      },
-      "response": []
     }
   ],
   "auth": {

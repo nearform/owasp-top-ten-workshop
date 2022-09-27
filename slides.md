@@ -728,6 +728,86 @@ export function profile(fastify) {
 
 ---
 
+# A06 Vulnerable and Outdated Components: How to prevent
+
+<div class="dense">
+
+- Remove unused dependencies, unnecessary features, components, files, and documentation
+- Continuously inventory the versions of components and their dependencies
+- Monitor for libraries and components that are **unmaintained** or do not create security patches for older versions
+- Only obtain components from **official** sources over secure links
+
+</div>
+
+---
+
+# A06 Vulnerable and Outdated Components: The SSRF attack
+
+<div class="dense">
+
+- Run the server for step 6 (`cd src/a06-vulnerable-outdated`, `npm start`)
+- In Postman, run the query for `A06: Profile`. Observe error `404` being returned
+- Try to run the query for `A06: SSRF`. Observe the response **"message": "connect ECONNREFUSED 127.0.0.1:80"**
+</div>
+
+---
+
+# A06 Vulnerable and Outdated Components: The SSRF attack (2)
+
+<div class="dense">
+
+- Because of an outdated version of the HTTP client library **[undici](https://github.com/nodejs/undici)** we can exploit a known **[vulnerability](https://www.cvedetails.com/cve/CVE-2022-35949/)**
+- By passing the value `//127.0.0.1` in the username query param, we override the original hostname and we can make the server perform a GET to `127.0.0.1:80`
+</div>
+
+---
+
+# A06 Vulnerable and Outdated Components: Fixing it
+
+<div class="dense">
+
+- Validate user input before passing it to the `undici.request` call.
+- Update the library to a version in which this vulnerability was fixed
+
+</div>
+
+---
+
+# A06 Vulnerable and Outdated Components: The Solution
+
+<div class="dense">
+
+```js
+import { request } from 'undici' // updated undici version >= 5.8.1
+export default function (fastify) {
+  fastify.get(
+    '/profile',
+    {
+      onRequest: [fastify.authenticate]
+    },
+    async req => {
+      const { username } = req.query
+      if (/^\//.test(username)) { // check username doesn't start with /
+        throw errors.BadRequest()
+      }
+      const { body, statusCode } = await request({
+        origin: 'http://example.com',
+        pathname: username
+      })
+      if (statusCode !== 200) {
+        throw errors.NotFound()
+      }
+      return body
+    }
+  )
+}
+
+```
+
+</div>
+
+---
+
 # A07: Identification and Authentication Failures
 
 <div class="dense">
