@@ -787,7 +787,7 @@ export function profile(fastify) {
 - In the workshop - the database contains the list of leaked passwords in `databreachrecords`
 - Run the server for step 7 (`cd src/a07-authentication-failures`, `npm start`)
 - In Postman, run the query for `A07: Register`. Observe a token is succesfully returned
-- In the databse check the `databreachrecords` table for passowrd used in the Postman request body
+- In the database check the `databreachrecords` table for password used in the Postman request body
 
 </div>
 
