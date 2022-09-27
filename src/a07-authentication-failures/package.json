@@ -10,7 +10,6 @@
     "start": "nodemon index.js"
   },
   "dependencies": {
-    "@fastify/cookie": "^8.2.0",
     "owasp-shared": "1.0.0"
   }
 }
