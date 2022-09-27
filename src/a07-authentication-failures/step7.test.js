@@ -4,7 +4,7 @@ import { faker } from '@faker-js/faker'
 
 const { test } = t
 
-test('A07: Identification and Authentication Failures', async t => {
+test('A07: Identification and Authentication Failures:', async t => {
   let fastify
 
   t.beforeEach(async () => {
