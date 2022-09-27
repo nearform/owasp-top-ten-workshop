@@ -225,6 +225,57 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "A10",
+      "item": [
+        {
+          "name": "Upload Image",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"imgUrl\": \"https://i.imgflip.com/6upp1a.jpg\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:3000/user/image",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["user/image"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Malicious Image url",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"imgUrl\": \"http://localhost:3001/secret\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:3000/user/image",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["user/image"]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "auth": {
