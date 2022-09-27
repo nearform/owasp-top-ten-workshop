@@ -734,7 +734,7 @@ export function profile(fastify) {
 
 - Verification of the user's identity, authentication, and session management is crucial to security
 - Weak or vulnerable authentication systems can be exploited to gain access
-- Systems with broken authntication can lead to data breaches and passwords leak
+- Systems with broken authentication can lead to data breaches and passwords leak
 
 </div>
 
@@ -759,7 +759,7 @@ export function profile(fastify) {
 <div class="dense">
 
 - Where possible, implement multi-factor authentication
-- Requirie strong passwords (length, complexity, and rotation policies)
+- Require strong passwords (length, complexity, rotation policies, and don't allow leaked passwords use)
 - Ensure registration and credential recovery use the same messages for all outcomes
 - Limit or increasingly delay failed login attempts
 - Use secure password data store practices (salting + hashing)
@@ -768,11 +768,39 @@ export function profile(fastify) {
 
 ---
 
-# A07 Identification and Authentication Failures: Broken Password Storage
+# A07 Identification and Authentication Failures: Allowing leaked passwords (1)
 
 <div class="dense">
 
--
+- In 2017 the NIST **[recommended](https://pages.nist.gov/800-63-3/sp800-63b.html#sec4:~:text=when%20processing%20requests,a%20different%20value)** that websites should check all new passwords against available lists of data breaches.
+- This practice has been adopted by OWASP and became part of their **[recommendation](<https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/#:~:text=Align%20password%20length%2C%20complexity%2C%20and%20rotation%20policies%20with%20National%20Institute%20of%20Standards%20and%20Technology%20(NIST)%20800%2D63b%27s%20guidelines%20in%20section%205.1.1%20for%20Memorized%20Secrets%20or%20other%20modern%2C%20evidence%2Dbased%20password%20policies.>)**.
+- In the real scenario you should try to use something like **[Have I Been Pwned](https://haveibeenpwned.com/Passwords)**
+
+</div>
+
+---
+
+# A07 Identification and Authentication Failures: Allowing leaked passwords (2)
+
+<div class="dense">
+
+- In the workshop - the database contains the list of leaked passwords in `databreachrecords`
+- Run the server for step 7 (`cd src/a07-authentication-failures`, `npm start`)
+- In Postman, run the query for `A07: Register`. Observe a token is succesfully returned
+- In the databse check the `databreachrecords` table for passowrd used in the Postman request body
+
+</div>
+
+---
+
+# A07 Identification and Authentication Failures: Allowing leaked passwords (3)
+
+<div class="dense">
+
+- It should not allow to use passwords that are known to be leaked
+- Instead it should require the user to set a different password indicating what is the reason
+- Place your solution in the `routes/user/index.js`
+- Test it by running `npm run verify` (it will fail initially)
 
 </div>
 
@@ -782,7 +810,35 @@ export function profile(fastify) {
 
 <div class="dense">
 
--
+- Using data available in `databreachrecords` check if requested password is safe to use
+- Run `sql` query inside the `/register` endpoint to check if the password is there
+- Return a `400` error with `message` indicating the source of the leak: `'You are trying to use password that is known to be exposed in data breaches: ${source}. Use a different one. Read more here: https://haveibeenpwned.com/Passwords.'`
+
+</div>
+
+---
+
+# A07 Identification and Authentication Failures: Solution
+
+<div class="dense">
+
+- File containing full solution is in the `routes/user/solution.js`
+
+```js
+const {
+  rows: [breach]
+} = await fastify.pg.query(
+  SQL`SELECT * FROM databreachrecords WHERE password=${password}`
+)
+
+if (breach) {
+  res.send(
+    errors.BadRequest(
+      `You are trying to use password that is known to be exposed in data breaches: ${breach.source}. Use a different one. Read more here: https://haveibeenpwned.com/Passwords.`
+    )
+  )
+}
+```
 
 </div>
 
