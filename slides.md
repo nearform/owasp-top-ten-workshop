@@ -1097,7 +1097,7 @@ export default function profile(fastify) {
 
 <div class="dense">
 
-- Sanitized the url making sure it's valid
+- Sanitize the url making sure it's valid
 - Create a whitelist of allowed domains by adding them in the database column `allowedImageDomain`
 - Make sure the requested domain it's in the whitelist
 
