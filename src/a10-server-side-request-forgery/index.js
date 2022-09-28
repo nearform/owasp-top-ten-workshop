@@ -1,8 +1,8 @@
+import { step10Server } from './server.js'
 import { startServer, startTargetServer } from 'owasp-shared'
-import { step9Server } from './server.js'
 
 const start = async function () {
-  const fastify = await step9Server()
+  const fastify = await step10Server()
   startServer(fastify)
 }
 
