@@ -69,54 +69,54 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "A02: Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"newUser\",\n    \"password\": \"password1234\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:3000/register",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "A02: Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"alice\",\n    \"password\": \"482c811da5d5b4bc6d497ffa98491e38\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:3000/login",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["login"]
+            }
+          },
+          "response": []
         }
       ]
-    },
-    {
-      "name": "Login",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"username\": \"alice\",\n    \"password\": \"482c811da5d5b4bc6d497ffa98491e38\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "localhost:3000/login",
-          "host": ["localhost"],
-          "port": "3000",
-          "path": ["login"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "A02: Register",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"username\": \"newUser\",\n    \"password\": \"password1234\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "localhost:3000/register",
-          "host": ["localhost"],
-          "port": "3000",
-          "path": ["register"]
-        }
-      },
-      "response": []
     },
     {
       "name": "A03",
@@ -164,7 +164,7 @@
       ]
     },
     {
-      "name": "A04: Insecure Design",
+      "name": "A04",
       "items": [
         {
           "name": "A04: Buy a product",
@@ -187,7 +187,7 @@
       "name": "A05",
       "item": [
         {
-          "name": "Login",
+          "name": "A05: Login",
           "request": {
             "method": "POST",
             "header": [],
@@ -210,7 +210,7 @@
           "response": []
         },
         {
-          "name": "Profile",
+          "name": "A05: Profile",
           "request": {
             "method": "GET",
             "header": [],
@@ -227,39 +227,61 @@
       ]
     },
     {
-      "name": "A10",
+      "name": "A06",
       "item": [
         {
-          "name": "Upload Image",
+          "name": "A06: Profile",
           "request": {
-            "method": "POST",
+            "method": "GET",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"imgUrl\": \"https://i.imgflip.com/6upp1a.jpg\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
-              "raw": "localhost:3000/user/image",
+              "raw": "localhost:3000/profile?username=alice",
               "host": ["localhost"],
               "port": "3000",
-              "path": ["user/image"]
+              "path": ["profile"],
+              "query": [
+                {
+                  "key": "username",
+                  "value": "alice"
+                }
+              ]
             }
           },
           "response": []
         },
         {
-          "name": "Malicious Image url",
+          "name": "A06: SSRF",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:3000/profile?username=//127.0.0.1",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["profile"],
+              "query": [
+                {
+                  "key": "username",
+                  "value": "//127.0.0.1"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "A07",
+      "item": [
+        {
+          "name": "A07: Register",
           "request": {
             "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"imgUrl\": \"http://localhost:3001/secret\"\n}",
+              "raw": "{\n    \"username\": \"bondJames\",\n    \"password\": \"IamY0u\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -267,10 +289,61 @@
               }
             },
             "url": {
-              "raw": "localhost:3000/user/image",
+              "raw": "localhost:3000/register",
               "host": ["localhost"],
               "port": "3000",
-              "path": ["user/image"]
+              "path": ["register"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "A10",
+      "item": [
+        {
+          "name": "A10: Upload Image",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n \"imgUrl\": \"https://i.imgflip.com/6upp1a.jpg\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:3000//user/image",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["/user/image"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "A10: Malicious Image url",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n \"imgUrl\": \"http://localhost:3001/secret\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:3000//user/image",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["/user/image"]
             }
           },
           "response": []
