@@ -940,6 +940,7 @@ if (breach) {
 <div class="dense">
 
 - Libraries coming from untrusted sources, repos or CDNs
+- Deserialization of Untrusted Data, where objects or data are encoded or serialized into a structure that an attacker can see and modify is vulnerable to insecure deserialization
 - An insecure CI/CD pipeline
 - Updates downloaded without sufficient integrity verification
 
@@ -955,6 +956,55 @@ if (breach) {
 - Ensure npm dependencies are trusted. For higher risks, host a custom repository of packages with internally vetted dependencies
 - Use automated tools to verify that components don't contain known vulnerabilities
 - Ensure there are code reviews for changes to minimise the risk of malicious code being introduced
+
+</div>
+
+---
+
+# A08 Exercise - Insecure Deserialization
+
+<div class="dense">
+
+- Run the server for step 8 (`cd src/a08-software-data-integrity-failures`, `npm start`)
+- In Postman, try to run the query for `A08: Get profile from cookie`. Observe the requests `status code 500` being returned
+- This is happening because the server is deserializing a cookie containing a malicious JavaScript code which is forcing the server to throw an exception
+</div>
+
+---
+
+# A08 Exercise - Insecure Deserialization
+
+<div class="dense">
+
+- Untrusted data passed into unserialize() function in `node-serialize` module can be exploited to achieve arbitrary code execution by passing a serialized JavaScript Object with an Immediately invoked function expression (IIFE)
+- The step by step to serialize a JavaScript code and insert it in the cookie can be found [in this article](https://opsecx.com/index.php/2017/02/08/exploiting-node-js-deserialization-bug-for-remote-code-execution/)
+</div>
+
+---
+
+# A08 Software and Data Integrity Failures: Sulution
+
+<div class="dense">
+
+- JSON.parse is a safer way to deserialize data
+
+```js
+export default async function solution(fastify) {
+  fastify.get('/profile', req => {
+    const cookieAsStr = Buffer.from(req.cookies.profile, 'base64').toString(
+      'ascii'
+    )
+
+    const profile = JSON.parse(cookieAsStr)
+
+    if (profile.username) {
+      return 'Hello ' + profile.username
+    }
+
+    return 'Hello guest'
+  })
+}
+```
 
 </div>
 
