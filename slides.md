@@ -1084,7 +1084,7 @@ export default function profile(fastify) {
 
 <div class="dense">
 
-- Run the server for step 5 (`cd src/a10-server-side-request-forgery`, `npm start`)
+- Run the server for step 10 (`cd src/a10-server-side-request-forgery`, `npm start`)
 - In Postman, run the query for `A10: Upload Image`. Observe an image being returned
 - Try to run the query for `A10: Malicious Image url`. Observe `something suspicious is happening` being returned
 - The server is not sanitizing user input so it will send a request to whatever url provided in the payload
