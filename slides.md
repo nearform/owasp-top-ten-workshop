@@ -892,9 +892,86 @@ export default function profile(fastify) {
 
  </div>
 
+---
+
 # A10: Server Side Request Forgery
 
 <div class="dense">
+
+- SSRF flaws occur whenever a web application is fetching a remote resource without validating the user-supplied URL
+- It allows an attacker to coerce the application to send a crafted request to an unexpected destination, even when protected by a firewall, VPN, or another type of network access control list
+
+</div>
+
+---
+
+# A10: Server Side Request Forgery: How to prevent
+
+<div class="dense">
+
+- Sanitize and validate all client-supplied input data
+- Enforce the URL schema, port, and destination with a positive allow list
+- Do not send raw responses to clients
+- Disable HTTP redirections
+- Do not mitigate SSRF via the use of a deny list or regular expression
+
+</div>
+
+---
+
+# A10: Server Side Request Forgery: The Attack
+
+<div class="dense">
+
+- Run the server for step 5 (`cd src/a10-server-side-request-forgery`, `npm start`)
+- In Postman, run the query for `A10: Upload Image`. Observe an image being returned
+- Try to run the query for `A10: Malicious Image url`. Observe `something suspicious is happening` being returned
+- The server is not sanitizing user input so it will send a request to whatever url provided in the payload
+
+</div>
+
+---
+
+# A10: Server Side Request Forgery: How to fix
+
+<div class="dense">
+
+- Sanitized the url making sure it's valid
+- Create a whitelist of allowed domains by adding them in the database column `allowedImageDomain`
+- Make sure the requested domain it's in the whitelist
+
+</div>
+
+---
+
+# A10: Server Side Request Forgery: Solution
+
+<div class="dense">
+
+```js
+export default async function profilePicture(fastify) {
+  fastify.post(
+    '/user/image',
+    {
+      onRequest: [fastify.authenticate]
+    },
+    async req => {
+      const { imgUrl } = req.body
+      const url = validateUrl(imgUrl) // validate url using the URL object
+      const {
+        rows: [whitelisted]
+      } = await fastify.pg.query(
+        SQL`SELECT * FROM allowedImageDomain WHERE hostname = ${url.hostname}`
+      )
+      if (!whitelisted) {
+        throw errors.Forbidden()
+      }
+      const { data } = await axios.get(url.href)
+      return data
+    }
+  )
+}
+```
 
 </div>
 

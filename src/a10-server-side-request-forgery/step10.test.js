@@ -28,7 +28,7 @@ test('A10: Server side request forgery', async t => {
         imgUrl: 'http://localhost:3001/secret'
       }
     })
-    t.equal(res.statusCode, 400)
+    t.equal(res.statusCode, 403)
     t.equal(spy.callCount, 0)
   })
 

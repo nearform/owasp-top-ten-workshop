@@ -10,22 +10,25 @@ export default async function profilePicture(fastify) {
     },
     async req => {
       const { imgUrl } = req.body
-
-      try {
-        const url = new URL(imgUrl)
-        const {
-          rows: [whitelisted]
-        } = await fastify.pg.query(
-          SQL`SELECT * FROM allowedImageDomain WHERE hostname = ${url.hostname}`
-        )
-        if (!whitelisted) {
-          throw errors.BadRequest()
-        }
-        const { data } = await axios.get(url.href)
-        return data
-      } catch (error) {
-        throw errors.BadRequest()
+      const url = validateUrl(imgUrl)
+      const {
+        rows: [whitelisted]
+      } = await fastify.pg.query(
+        SQL`SELECT * FROM allowedImageDomain WHERE hostname = ${url.hostname}`
+      )
+      if (!whitelisted) {
+        throw errors.Forbidden()
       }
+      const { data } = await axios.get(url.href)
+      return data
     }
   )
+}
+
+function validateUrl(imgUrl) {
+  try {
+    return new URL(imgUrl)
+  } catch (error) {
+    throw error.BadRequest()
+  }
 }
