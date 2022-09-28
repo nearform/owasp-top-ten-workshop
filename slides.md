@@ -1099,7 +1099,7 @@ export default function profile(fastify) {
 
 - Sanitize the url making sure it's valid
 - Create a whitelist of allowed domains by adding them in the database column `allowedImageDomain`
-- Make sure the requested domain it's in the whitelist
+- Make sure the requested domain is in the whitelist
 
 </div>
 
