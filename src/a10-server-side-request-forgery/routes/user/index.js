@@ -11,9 +11,9 @@ function profilePicture(fastify) {
     },
     async req => {
       const imgUrl = req.body.imgUrl
-      const res = await axios.get(imgUrl)
-      if (res.statusCode !== 200) throw errors.BadRequest()
-      return res
+      const { data, status } = await axios.get(imgUrl)
+      if (status !== 200) throw errors.BadRequest()
+      return data
     }
   )
 }

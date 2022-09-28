@@ -7,4 +7,4 @@ const start = async function () {
 }
 
 start()
-startTargetServer()
+startTargetServer(() => {})

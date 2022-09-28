@@ -21,9 +21,9 @@ export async function startTargetServer(spy) {
     })
 
     fastify.get('/secret', () => {
+      spy()
       const message = 'something suspicious is happening'
       console.log(message)
-      spy()
       return { message }
     })
     await fastify.listen({ port: 3001 })

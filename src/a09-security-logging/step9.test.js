@@ -7,12 +7,10 @@ const { test } = t
 
 test('A09: Security Logging', async t => {
   let fastify
-  let targetServer
-  let spy
+  const spy = sinon.spy()
+  const targetServer = await startTargetServer(spy)
 
   t.beforeEach(async () => {
-    spy = sinon.spy()
-    targetServer = await startTargetServer(spy)
     fastify = await step9Server()
   })
 
