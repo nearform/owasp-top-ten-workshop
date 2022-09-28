@@ -728,12 +728,93 @@ export function profile(fastify) {
 
 ---
 
+# A06 Vulnerable and Outdated Components: How to prevent
+
+<div class="dense">
+
+- Remove unused dependencies, unnecessary features, components, files, and documentation
+- Continuously inventory the versions of components and their dependencies
+- Monitor for libraries and components that are **unmaintained** or do not create security patches for older versions
+- Only obtain components from **official** sources over secure links
+
+</div>
+
+---
+
+# A06 Vulnerable and Outdated Components: The SSRF attack
+
+<div class="dense">
+
+- Run the server for step 6 (`cd src/a06-vulnerable-outdated`, `npm start`)
+- In Postman, run the query for `A06: Profile`. Observe error `404` being returned
+- Try to run the query for `A06: SSRF`. Observe the response **"message": "connect ECONNREFUSED 127.0.0.1:80"**
+</div>
+
+---
+
+# A06 Vulnerable and Outdated Components: The SSRF attack (2)
+
+<div class="dense">
+
+- Because of an outdated version of the HTTP client library **[undici](https://github.com/nodejs/undici)** we can exploit a known **[vulnerability](https://www.cvedetails.com/cve/CVE-2022-35949/)**
+- By passing the value `//127.0.0.1` in the username query param, we override the original hostname and we can make the server perform a GET to `127.0.0.1:80`
+</div>
+
+---
+
+# A06 Vulnerable and Outdated Components: Fixing it
+
+<div class="dense">
+
+- Validate user input before passing it to the `undici.request` call.
+- Update the library to a version in which this vulnerability was fixed
+
+</div>
+
+---
+
+# A06 Vulnerable and Outdated Components: The Solution
+
+<div class="dense">
+
+```js
+import { request } from 'undici' // updated undici version >= 5.8.1
+export default function (fastify) {
+  fastify.get(
+    '/profile',
+    {
+      onRequest: [fastify.authenticate]
+    },
+    async req => {
+      const { username } = req.query
+      if (/^\//.test(username)) { // check username doesn't start with /
+        throw errors.BadRequest()
+      }
+      const { body, statusCode } = await request({
+        origin: 'http://example.com',
+        pathname: username
+      })
+      if (statusCode !== 200) {
+        throw errors.NotFound()
+      }
+      return body
+    }
+  )
+}
+
+```
+
+</div>
+
+---
+
 # A07: Identification and Authentication Failures
 
 <div class="dense">
 
-- Verification of the user's identity is crucial to security
-- Weak or vulnerable authentication systems can be attacked to gain access
+- Verification of the user's identity, authentication, and session management is crucial to security
+- Weak or vulnerable authentication systems can be exploited to gain access
+- Systems with broken authentication can lead to data breaches and passwords leak
 
 </div>
 
@@ -743,7 +824,7 @@ export function profile(fastify) {
 
 <div class="dense">
 
-- Application allows brute forcing of credentials
+- Application allows for credentials stuffing or brute forcing
 - Allows default, weak or known passwords
 - Exploitable credential recovery processes
 - Lack of effective multi-factor authentication
@@ -757,7 +838,87 @@ export function profile(fastify) {
 
 <div class="dense">
 
--
+- Where possible, implement multi-factor authentication
+- Require strong passwords (length, complexity, rotation policies, and don't allow leaked passwords use)
+- Ensure registration and credential recovery use the same messages for all outcomes
+- Limit or increasingly delay failed login attempts
+- Use secure password data store practices (salting + hashing)
+
+</div>
+
+---
+
+# A07 Identification and Authentication Failures: Allowing leaked passwords (1)
+
+<div class="dense">
+
+- In 2017 the NIST **[recommended](https://pages.nist.gov/800-63-3/sp800-63b.html#sec4:~:text=when%20processing%20requests,a%20different%20value)** that websites should check all new passwords against available lists of data breaches.
+- This practice has been adopted by OWASP and became part of their **[recommendation](<https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/#:~:text=Align%20password%20length%2C%20complexity%2C%20and%20rotation%20policies%20with%20National%20Institute%20of%20Standards%20and%20Technology%20(NIST)%20800%2D63b%27s%20guidelines%20in%20section%205.1.1%20for%20Memorized%20Secrets%20or%20other%20modern%2C%20evidence%2Dbased%20password%20policies.>)**.
+- In the real scenario you should try to use something like **[Have I Been Pwned](https://haveibeenpwned.com/Passwords)**
+
+</div>
+
+---
+
+# A07 Identification and Authentication Failures: Allowing leaked passwords (2)
+
+<div class="dense">
+
+- In the workshop - the database contains the list of leaked passwords in `databreachrecords`
+- Run the server for step 7 (`cd src/a07-authentication-failures`, `npm start`)
+- In Postman, run the query for `A07: Register`. Observe a token is succesfully returned
+- In the database check the `databreachrecords` table for password used in the Postman request body
+
+</div>
+
+---
+
+# A07 Identification and Authentication Failures: Allowing leaked passwords (3)
+
+<div class="dense">
+
+- It should not allow to use passwords that are known to be leaked
+- Instead it should require the user to set a different password indicating what is the reason
+- Place your solution in the `routes/user/index.js`
+- Test it by running `npm run verify` (it will fail initially)
+
+</div>
+
+---
+
+# A07 Identification and Authentication Failures: Fixing it
+
+<div class="dense">
+
+- Using data available in `databreachrecords` check if requested password is safe to use
+- Run `sql` query inside the `/register` endpoint to check if the password is there
+- Return a `400` error with `message` indicating the source of the leak: `'You are trying to use password that is known to be exposed in data breaches: ${source}. Use a different one. Read more here: https://haveibeenpwned.com/Passwords.'`
+
+</div>
+
+---
+
+# A07 Identification and Authentication Failures: Solution
+
+<div class="dense">
+
+- File containing full solution is in the `routes/user/solution.js`
+
+```js
+const {
+  rows: [breach]
+} = await fastify.pg.query(
+  SQL`SELECT * FROM databreachrecords WHERE password=${password}`
+)
+
+if (breach) {
+  res.send(
+    errors.BadRequest(
+      `You are trying to use password that is known to be exposed in data breaches: ${breach.source}. Use a different one. Read more here: https://haveibeenpwned.com/Passwords.`
+    )
+  )
+}
+```
 
 </div>
 
@@ -860,9 +1021,168 @@ export default async function solution(fastify) {
 
 ---
 
+# A09: Security Logging and Monitoring Failures: Common Vulnerabilities
+
+<div class="dense">
+
+- Auditable events, such as logins, failed logins, and high-value transactions, are not logged
+- Warnings and errors generate no, inadequate, or unclear log messages
+- Logs of applications and APIs are not monitored for suspicious activity
+- The application cannot detect, escalate, or alert for active attacks in real-time or near real-time
+
+</div>
+
+---
+
+# A09: Security Logging and Monitoring Failures: How to prevent
+
+<div class="dense">
+
+- Ensure all login, access control, and server-side input validation failures can be logged with sufficient user context to identify suspicious or malicious accounts
+- Ensure log data is encoded correctly to prevent injections or attacks on the logging or monitoring systems
+- Ensure high-value transactions have an audit trail with integrity controls to prevent tampering or deletion, such as append-only database tables or similar.
+
+</div>
+
+---
+
+# A09 Security Logging and Monitoring Failures: Suspicious activity 🤨
+
+<div class="dense">
+
+- Run the server for step 5 (`cd src/a05-security-misconfiguration`, `npm run verify`)
+- You can observe a log message `something suspicious is happening`
+- Note that the application is using a vulnerable version of the http client **[undici](https://github.com/nodejs/undici/security/advisories/GHSA-f772-66g8-q5h3)**
+
+</div>
+
+---
+
+# A09 Security Logging and Monitoring Failures: How to fix it
+
+<div class="dense">
+
+- Log user input to identify suspicious or malicious accounts
+- Validate user input
+
+</div>
+
+---
+
+# A09 Security Logging and Monitoring Failures: Solution
+
+<div class="dense">
+
+```js
+export default function profile(fastify) {
+  fastify.get(
+    '/profile',
+    {
+      onRequest: [fastify.authenticate]
+    },
+    async req => {
+      console.log({
+        username: req.user.username, // add context to logs to help identify the user
+        input: req.headers['content-type']
+      })
+      const headerCharRegex = /[^\t\x20-\x7e\x80-\xff]/ // validate user input
+      if (headerCharRegex.exec(req.headers['content-type']) !== null) {
+        throw errors.BadRequest()
+      }
+      const { body } = await request('http://localhost:3001', {
+        method: 'GET',
+        headers: {
+          'content-type': req.headers['content-type']
+        }
+      })
+      return body
+    }
+  )
+}
+```
+
+ </div>
+
+---
+
 # A10: Server Side Request Forgery
 
 <div class="dense">
+
+- SSRF flaws occur whenever a web application is fetching a remote resource without validating the user-supplied URL
+- It allows an attacker to coerce the application to send a crafted request to an unexpected destination, even when protected by a firewall, VPN, or another type of network access control list
+
+</div>
+
+---
+
+# A10: Server Side Request Forgery: How to prevent
+
+<div class="dense">
+
+- Sanitize and validate all client-supplied input data
+- Enforce the URL schema, port, and destination with a positive allow list
+- Do not send raw responses to clients
+- Disable HTTP redirections
+- Do not mitigate SSRF via the use of a deny list or regular expression
+
+</div>
+
+---
+
+# A10: Server Side Request Forgery: The Attack
+
+<div class="dense">
+
+- Run the server for step 10 (`cd src/a10-server-side-request-forgery`, `npm start`)
+- In Postman, run the query for `A10: Upload Image`. Observe an image being returned
+- Try to run the query for `A10: Malicious Image url`. Observe `something suspicious is happening` being returned
+- The server is not sanitizing user input so it will send a request to whatever url provided in the payload
+
+</div>
+
+---
+
+# A10: Server Side Request Forgery: How to fix
+
+<div class="dense">
+
+- Sanitize the url making sure it's valid
+- Create a whitelist of allowed domains by adding them in the database column `allowedImageDomain`
+- Make sure the requested domain is in the whitelist
+
+</div>
+
+---
+
+# A10: Server Side Request Forgery: Solution
+
+<div class="dense">
+
+```js
+export default async function profilePicture(fastify) {
+  fastify.post(
+    '/user/image',
+    {
+      onRequest: [fastify.authenticate]
+    },
+    async req => {
+      const { imgUrl } = req.body
+      const url = validateUrl(imgUrl) // validate url using the URL object
+      const {
+        rows: [whitelisted]
+      } = await fastify.pg.query(
+        SQL`SELECT * FROM allowedImageDomain WHERE hostname = ${url.hostname}`
+      )
+      if (!whitelisted) {
+        throw errors.Forbidden()
+      }
+      const { data } = await axios.get(url.href)
+      return data
+    }
+  )
+}
+```
 
 </div>
 
