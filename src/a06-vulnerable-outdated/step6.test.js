@@ -22,6 +22,6 @@ test('A06: Vulnerable and outdated components', async t => {
         username: '//127.0.0.1'
       }
     })
-    t.equal(res.statusCode, 400)
+    t.equal(res.statusCode, 404)
   })
 })

