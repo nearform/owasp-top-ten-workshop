@@ -1,8 +1,9 @@
 {
   "info": {
-    "_postman_id": "56a179c8-b88c-4d31-8663-54b8dadc412b",
+    "_postman_id": "7354980f-b6fd-4039-a7ec-f8c288913a29",
     "name": "OWASP Top Ten Workshop",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "18638174"
   },
   "item": [
     {
@@ -62,10 +63,10 @@
               }
             },
             "url": {
-              "raw": "localhost:3000/change-password/alice",
+              "raw": "localhost:3000/change-password",
               "host": ["localhost"],
               "port": "3000",
-              "path": ["change-password", "alice"]
+              "path": ["change-password"]
             }
           },
           "response": []
@@ -165,13 +166,12 @@
     },
     {
       "name": "A04",
-      "items": [
+      "item": [
         {
           "name": "A04: Buy a product",
           "request": {
             "method": "POST",
             "header": [],
-            "body": {},
             "url": {
               "raw": "localhost:3000/buy-product",
               "host": ["localhost"],
@@ -218,8 +218,7 @@
               "raw": "localhost:3000/profile",
               "host": ["localhost"],
               "port": "3000",
-              "path": ["profile"],
-              "query": []
+              "path": ["profile"]
             }
           },
           "response": []
@@ -301,26 +300,28 @@
     },
     {
       "name": "A08",
-      "items": [
+      "item": [
         {
           "name": "A08: Get profile from cookie",
           "request": {
             "method": "GET",
             "header": [
-							{
-								"key": "Cookie",
-								"value": "profile=eyJpZCI6MSwidXNlcm5hbWUiOiJfJCRORF9GVU5DJCRfZnVuY3Rpb24gKCkge1xuICAgIHRocm93IG5ldyBFcnJvcignc2VydmVyIGVycm9yJylcbiAgfSgpIn0=",
-								"type": "text"
-							}
-						],
-            "body": {},
+              {
+                "key": "Cookie",
+                "value": "profile=eyJpZCI6MSwidXNlcm5hbWUiOiJfJCRORF9GVU5DJCRfZnVuY3Rpb24gKCkge1xuICAgIHRocm93IG5ldyBFcnJvcignc2VydmVyIGVycm9yJylcbiAgfSgpIn0=",
+                "type": "text"
+              }
+            ],
             "url": {
               "raw": "localhost:3000/profile",
               "host": ["localhost"],
               "port": "3000",
               "path": ["profile"]
             }
-          }
+          },
+          "response": []
+        }
+      ]
     },
     {
       "name": "A10",
@@ -340,10 +341,10 @@
               }
             },
             "url": {
-              "raw": "localhost:3000//user/image",
+              "raw": "localhost:3000/user/image",
               "host": ["localhost"],
               "port": "3000",
-              "path": ["/user/image"]
+              "path": ["user", "image"]
             }
           },
           "response": []
@@ -363,10 +364,10 @@
               }
             },
             "url": {
-              "raw": "localhost:3000//user/image",
+              "raw": "localhost:3000/user/image",
               "host": ["localhost"],
               "port": "3000",
-              "path": ["/user/image"]
+              "path": ["user", "image"]
             }
           },
           "response": []
