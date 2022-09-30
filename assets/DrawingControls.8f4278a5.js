@@ -1,0 +1,1 @@
+import"./DrawingControls.vue_vue_type_script_setup_true_lang.f4cecafa.js";import{_ as t}from"./DrawingControls.vue_vue_type_script_setup_true_lang.f4cecafa.js";import"./index.56fb9124.js";export{t as default};
