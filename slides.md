@@ -141,7 +141,7 @@ The server for that step will run on http://localhost:3000
 
 ---
 
-# A01 Broken Access Control: Common vulnerabilities
+# A01 Common vulnerabilities
 
 <div class="dense">
 
@@ -154,7 +154,7 @@ The server for that step will run on http://localhost:3000
 
 ---
 
-# A01 Broken Access Control: How to Prevent
+# A01 How to Prevent
 
 <div class="dense">
 
@@ -166,7 +166,7 @@ The server for that step will run on http://localhost:3000
 
 ---
 
-# A01 Broken Access Control: Exercise
+# A01 Exercise
 
 <div class="dense">
 
@@ -189,7 +189,7 @@ GET http://localhost:3000/profile?username=alice
 
 ---
 
-# A01 Broken Access Control: The problem
+# A01 The problem
 
 <div class="dense">
 
@@ -211,7 +211,7 @@ GET http://localhost:3000/profile?username=alice
 
 ---
 
-# A01 Broken Access Control: Fixing it
+# A01 Fixing it 🪄
 
 <div class="dense">
 
@@ -224,7 +224,7 @@ GET http://localhost:3000/profile?username=alice
 
 ---
 
-# A01 Broken Access Control: Solution
+# A01 Solution 💡
 
 <div class="dense">
 
@@ -237,18 +237,14 @@ export default async function user(fastify) {
     '/',
     {
       onRequest: [fastify.authenticate]
-    },
-    async req => {
+    },async req => {
       if (!req.user) {
         throw new errors.Unauthorized()
       }
-      // We get the username from the logged in user, not from the query
-      const username = req.user.username // 💡 <-- The fix is here!
-      // if the query username does not match with the user's one, return a 403 Forbidden error
+      const username = req.user.username // 💡 We get the username from the logged in user, not from the query!
       if (username !== req.query.username) {
-        throw new errors.Forbidden()
+        throw new errors.Forbidden() // if does not match with the user's one, return a 403 Forbidden error
       }
-      // (Skipping the rest of the function...)
       return user
     }
   )
@@ -264,7 +260,7 @@ export default async function user(fastify) {
 <div class="dense">
 
 - [A02: Cryptographic Failures](https://owasp.org/Top10/A02_2021-Cryptographic_Failures/)
-- Weak or inexistent cryptography of sensitive data
+- Weak or inexistent **cryptography** of sensitive data
 - Passwords, credit card numbers, health records, personal information, business secrets...
 - Anything protected by privacy laws or other regulations
 
@@ -272,33 +268,33 @@ export default async function user(fastify) {
 
 ---
 
-# A02 Cryptographic Failures: Common vulnerabilities
+# A02 Common vulnerabilities
 
 <div class="dense">
 
-- Weak or outdated cryptographic algorithms like md5
+- Weak or outdated cryptographic algorithms like **md5 ⚠️**
 - Weak secret keys, default ones, keys from online tutorials, keys checked in source control...
-- Lack of traffic encryption (HTTPS)
+- Lack of traffic encryption (**HTTPS**)
 - Insufficient entropy in seed generation
 
 </div>
 
 ---
 
-# A02 Cryptographic Failures: How to Prevent
+# A02 How to Prevent
 
 <div class="dense">
 
-- Check sensitive data is well encrypted. Avoid storing sensitive data unnecessarily
+- Check sensitive data is well **encrypted**. Avoid storing sensitive data unnecessarily
 - Use up to date and strong standard algorithms
-- Proper key/secrets management (no checking private keys in git)
+- Proper key/secrets management (**private keys in git ⚠️**)
 - Disable caching for responses that contain sensitive data
 
 </div>
 
 ---
 
-# A02 Cryptographic Failures: a weak hashing algorithm
+# A02 A weak hashing algorithm
 
 <div class="dense">
 
@@ -322,7 +318,7 @@ export default async function user(fastify) {
 
 ---
 
-# A02 Cryptographic Failures: The problem
+# A02 The problem
 
 <div class="dense">
 
@@ -335,7 +331,7 @@ export default async function user(fastify) {
 
 ---
 
-# A02 Cryptographic Failures: Fixing it
+# A02 Fixing it 🪄
 
 <div class="dense">
 
@@ -348,7 +344,7 @@ export default async function user(fastify) {
 
 ---
 
-# A02 Cryptographic Failures: Solution
+# A02 Solution 💡
 
 <div class="dense">
 
@@ -367,7 +363,7 @@ export async function encryptPassword(password) {
 
 ---
 
-# A02 Cryptographic Failures: Solution (2)
+# A02 Solution 💡 (2)
 
 <div class="dense">
 
@@ -395,7 +391,7 @@ export async function comparePassword(password, hash) {
 
 ---
 
-# A03 Injection 💉: Common vulnerabilities
+# A03 Common vulnerabilities
 
 <div class="dense">
 
@@ -407,7 +403,7 @@ export async function comparePassword(password, hash) {
 
 ---
 
-# A03 Injection 💉: Attack
+# A03 Attack
 
 <div class="dense">
 
@@ -421,7 +417,7 @@ export async function comparePassword(password, hash) {
 
 ---
 
-# A03 Injection 💉: Fixing it
+# A03 Fixing it 🪄
 
 <div class="dense">
 
@@ -434,7 +430,7 @@ export async function comparePassword(password, hash) {
 
 ---
 
-# A03 Injection 💉: Solution
+# A03 Solution 💡
 
 <div class="dense">
 
@@ -477,19 +473,19 @@ export default async function customer(fastify) {
 
 ---
 
-# A04 Insecure Design: Examples
+# A04 Examples
 
 <div class="dense">
 
-- A forgotten password flow with "security questions" is insecure by design because more than one person can know the answer
-- An ecommerce website sells high-end video cards that scalpers buy with bots to resell (bad PR with customers). Most websites wouldn't need to design against bots, but due to the nature of the product being sold this one does
-- A cinema chain allows booking up to fifteen attendees before requiring a deposit. An attacker could make hundreds of small booking requests at once to block all seats, causing massive revenue loss
+- A forgotten password flow with **_"security questions"_** is insecure by design because more than one person can know the answer
+- An ecommerce website sells high-end video cards that scalpers buy with bots to resell (bad PR with customers)
+- A cinema chain allows booking up to fifteen attendees before requiring a deposit. An attacker could make **hundreds of small booking requests** at once to block all seats, causing massive revenue loss
 
 </div>
 
 ---
 
-# A04 Insecure Design: How to prevent
+# A04 How to prevent
 
 <div class="dense">
 
@@ -502,7 +498,7 @@ export default async function customer(fastify) {
 
 ---
 
-# A04 Insecure Design: Exercise
+# A04 Exercise
 
 <div class="dense">
 
@@ -513,7 +509,7 @@ export default async function customer(fastify) {
 
 ---
 
-# A04 Insecure Design: Simulating multiple purchases in a short time frame
+# A04 Scalping
 
 <div class="dense">
 
@@ -525,7 +521,7 @@ export default async function customer(fastify) {
 
 ---
 
-# A04 Insecure Design: Fixing it
+# A04 Fixing it 🪄
 
 <div class="dense">
 
@@ -538,7 +534,7 @@ export default async function customer(fastify) {
 
 ---
 
-# A04 Insecure Design: Solution
+# A04 Solution 💡
 
 <div class="dense">
 
@@ -583,7 +579,7 @@ export default async function ecommerce(fastify) {
 
 ---
 
-# A05 Security Misconfiguration: Common Vulnerabilities
+# A05 Common Vulnerabilities
 
 <div class="dense">
 
@@ -597,7 +593,7 @@ export default async function ecommerce(fastify) {
 
 ---
 
-# A05 Security Misconfiguration: How to prevent
+# A05 How to prevent
 
 <div class="dense">
 
@@ -611,7 +607,7 @@ export default async function ecommerce(fastify) {
 
 ---
 
-# A05 Security Misconfiguration: Unsigned Cookies
+# A05 Unsigned Cookies 🍪
 
 <div class="dense">
 
@@ -624,7 +620,7 @@ export default async function ecommerce(fastify) {
 
 ---
 
-# A05 Security Misconfiguration: Fixing it
+# A05 Fixing it 🪄
 
 <div class="dense">
 
@@ -637,7 +633,7 @@ export default async function ecommerce(fastify) {
 
 ---
 
-# A05 Security Misconfiguration: Solution
+# A05 Solution 💡
 
 <div class="dense">
 
@@ -670,7 +666,7 @@ export function login(fastify) {
 
 ---
 
-# A05 Security Misconfiguration: Solution (2)
+# A05 Solution 💡 (2)
 
 <div class="dense">
 
@@ -715,7 +711,7 @@ export function profile(fastify) {
 
 ---
 
-# A06 Vulnerable and Outdated Components: Common Vulnerabilities
+# A06 Common Vulnerabilities
 
 <div class="dense">
 
@@ -728,7 +724,7 @@ export function profile(fastify) {
 
 ---
 
-# A06 Vulnerable and Outdated Components: How to prevent
+# A06 How to prevent
 
 <div class="dense">
 
@@ -741,7 +737,7 @@ export function profile(fastify) {
 
 ---
 
-# A06 Vulnerable and Outdated Components: The attack
+# A06 The attack 🥷
 
 <div class="dense">
 
@@ -752,7 +748,7 @@ export function profile(fastify) {
 
 ---
 
-# A06 Vulnerable and Outdated Components: The attack (2)
+# A06 The attack (2)
 
 <div class="dense">
 
@@ -762,7 +758,7 @@ export function profile(fastify) {
 
 ---
 
-# A06 Vulnerable and Outdated Components: Fixing it
+# A06 Fixing it 🪄
 
 <div class="dense">
 
@@ -772,7 +768,7 @@ export function profile(fastify) {
 
 ---
 
-# A06 Vulnerable and Outdated Components: The Solution
+# A06 The Solution 💡
 
 <div class="dense">
 
@@ -819,7 +815,7 @@ export default function (fastify) {
 
 ---
 
-# A07 Identification and Authentication Failures: Common Vulnerabilities
+# A07 Common Vulnerabilities
 
 <div class="dense">
 
@@ -833,7 +829,7 @@ export default function (fastify) {
 
 ---
 
-# A07 Identification and Authentication Failures: How to prevent
+# A07 How to prevent
 
 <div class="dense">
 
@@ -847,7 +843,7 @@ export default function (fastify) {
 
 ---
 
-# A07 Identification and Authentication Failures: Allowing leaked passwords (1)
+# A07 Allowing leaked passwords 💧
 
 <div class="dense">
 
@@ -859,7 +855,7 @@ export default function (fastify) {
 
 ---
 
-# A07 Identification and Authentication Failures: Allowing leaked passwords (2)
+# A07 Allowing leaked passwords 💧 (2)
 
 <div class="dense">
 
@@ -872,7 +868,7 @@ export default function (fastify) {
 
 ---
 
-# A07 Identification and Authentication Failures: Allowing leaked passwords (3)
+# A07 Allowing leaked passwords 💧 (3)
 
 <div class="dense">
 
@@ -885,7 +881,7 @@ export default function (fastify) {
 
 ---
 
-# A07 Identification and Authentication Failures: Fixing it
+# A07 Fixing it 🪄
 
 <div class="dense">
 
@@ -897,7 +893,7 @@ export default function (fastify) {
 
 ---
 
-# A07 Identification and Authentication Failures: Solution
+# A07 Solution 💡
 
 <div class="dense">
 
@@ -932,7 +928,7 @@ if (breach) {
 
 ---
 
-# A08 Software and Data Integrity Failures: Common Vulnerabilities
+# A08 Common Vulnerabilities
 
 <div class="dense">
 
@@ -945,7 +941,7 @@ if (breach) {
 
 ---
 
-# A08 Software and Data Integrity Failures: How to prevent
+# A08 How to prevent
 
 <div class="dense">
 
@@ -958,7 +954,7 @@ if (breach) {
 
 ---
 
-# A08 Software and Data Integrity Failures: Insecure Deserialization
+# A08 Insecure Deserialization
 
 <div class="dense">
 
@@ -970,7 +966,7 @@ if (breach) {
 
 ---
 
-# A08 Software and Data Integrity Failures: Insecure Deserialization
+# A08 Fixing it 🪄
 
 <div class="dense">
 
@@ -982,7 +978,7 @@ if (breach) {
 
 ---
 
-# A08 Software and Data Integrity Failures: Solution
+# A08 Solution 💡
 
 <div class="dense">
 
@@ -1019,7 +1015,7 @@ export default async function solution(fastify) {
 
 ---
 
-# A09 Security Logging and Monitoring Failures: Common Vulnerabilities
+# A09 Common Vulnerabilities
 
 <div class="dense">
 
@@ -1032,7 +1028,7 @@ export default async function solution(fastify) {
 
 ---
 
-# A09 Security Logging and Monitoring Failures: How to prevent
+# A09 How to prevent
 
 <div class="dense">
 
@@ -1044,7 +1040,7 @@ export default async function solution(fastify) {
 
 ---
 
-# A09 Security Logging and Monitoring Failures: Suspicious activity 🤨
+# A09 Suspicious activity 🤨
 
 <div class="dense">
 
@@ -1056,7 +1052,7 @@ export default async function solution(fastify) {
 
 ---
 
-# A09 Security Logging and Monitoring Failures: How to fix it
+# A09 Fixing it 🪄
 
 <div class="dense">
 
@@ -1067,34 +1063,33 @@ export default async function solution(fastify) {
 
 ---
 
-# A09 Security Logging and Monitoring Failures: Solution
+# A09 Solution 💡
 
 <div class="dense">
 
 ```js
 // profile route handler
-  
-  async req => {
-      console.log({
-        username: req.user.username, // add context to logs to help identify the user
-        input: req.headers['content-type']
-      })
-      const headerCharRegex = /[^\t\x20-\x7e\x80-\xff]/ // validate user input
-      if (headerCharRegex.exec(req.headers['content-type']) !== null) {
-        throw errors.BadRequest()
-      }
-      const { body } = await request('http://localhost:3001', {
-        method: 'GET',
-        headers: {
-          'content-type': req.headers['content-type']
-        }
-      })
-      return body
+
+async req => {
+  console.log({
+    username: req.user.username, // add context to logs to help identify the user
+    input: req.headers['content-type']
+  })
+  const headerCharRegex = /[^\t\x20-\x7e\x80-\xff]/ // validate user input
+  if (headerCharRegex.exec(req.headers['content-type']) !== null) {
+    throw errors.BadRequest()
+  }
+  const { body } = await request('http://localhost:3001', {
+    method: 'GET',
+    headers: {
+      'content-type': req.headers['content-type']
     }
+  })
+  return body
+}
 ```
 
  </div>
-
 
 ---
 
@@ -1109,7 +1104,7 @@ export default async function solution(fastify) {
 
 ---
 
-# A10 Server Side Request Forgery: How to prevent
+# A10 How to prevent
 
 <div class="dense">
 
@@ -1117,13 +1112,13 @@ export default async function solution(fastify) {
 - Enforce the URL schema, port, and destination with a positive allow list
 - Do not send raw responses to clients
 - Disable HTTP redirections
-- ⚠️ Do not mitigate SSRF via the use of a deny list or regular expression
+- ❗ Do not mitigate SSRF via the use of a deny list or regular expression
 
 </div>
 
 ---
 
-# A10 Server Side Request Forgery: The Attack
+# A10 The Attack 🥷
 
 <div class="dense">
 
@@ -1136,7 +1131,7 @@ export default async function solution(fastify) {
 
 ---
 
-# A10 Server Side Request Forgery: How to fix
+# A10 Fixing it 🪄
 
 <div class="dense">
 
@@ -1148,7 +1143,7 @@ export default async function solution(fastify) {
 
 ---
 
-# A10 Server Side Request Forgery: Solution
+# A10 Solution 💡
 
 <div class="dense">
 
