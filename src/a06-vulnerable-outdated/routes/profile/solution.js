@@ -9,11 +9,6 @@ export default function (fastify) {
     },
     async req => {
       const { username } = req.query
-
-      if (/^\//.test(username)) {
-        throw errors.BadRequest()
-      }
-
       const { body, statusCode } = await request({
         origin: 'http://example.com',
         pathname: username
