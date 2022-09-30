@@ -259,7 +259,7 @@ export default async function user(fastify) {
 <div class="dense">
 
 - [A02: Cryptographic Failures](https://owasp.org/Top10/A02_2021-Cryptographic_Failures/)
-- Weak or inexistent of cryptography of sensitive data
+- Weak or inexistent cryptography of sensitive data
 - Passwords, credit card numbers, health records, personal information, business secrets...
 - Anything protected by privacy laws or other regulations
 
@@ -349,19 +349,12 @@ export default async function user(fastify) {
 
 ```js
 // utils/encryption.js
+import { hash, compare } from 'bcrypt'
+
 const saltRounds = 10
+
 export async function encryptPassword(password) {
-  return new Promise((resolve, reject) => {
-    bcrypt.genSalt(saltRounds, (err, salt) => {
-      bcrypt.hash(password, salt, (err, hash) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(hash)
-        }
-      })
-    })
-  })
+  return await hash(password, saltRounds)
 }
 ```
 
@@ -376,15 +369,7 @@ export async function encryptPassword(password) {
 ```js
 // utils/encryption.js
 export async function comparePassword(password, hash) {
-  return new Promise((resolve, reject) => {
-    bcrypt.compare(password, hash, (err, result) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(result)
-      }
-    })
-  })
+  return await compare(password, hash)
 }
 ```
 
@@ -481,7 +466,7 @@ export default async function customer(fastify) {
 - [A04: Insecure Design](https://owasp.org/Top10/A04_2021-Insecure_Design/)
 - Fundamental **design flaws** of the software can cause security issues
 - Those issues cannot be fixed by a better more secure code implementation
-- Failure to determine the level of security design required during design
+- Failure to determine the level of security required during design
 
 </div>
 
@@ -491,8 +476,8 @@ export default async function customer(fastify) {
 
 <div class="dense">
 
-- A **forgotten password flow** with "security questions" is insecure by design because more than one person can know the answer
-- An ecommerce website sells high-end video cards that scalpers buy with bots to resell, causing bad PR with customers
+- A forgotten password flow with "security questions" is insecure by design because more than one person can know the answer
+- An ecommerce website sells high-end video cards that scalpers buy with bots to resell (bad PR with customers). Most websites wouldn't need to design against bots, but due to the nature of the product being sold this one does
 - A cinema chain allows booking up to fifteen attendees before requiring a deposit. An attacker could make hundreds of small booking requests at once to block all seats, causing massive revenue loss
 
 </div>
@@ -796,6 +781,10 @@ export default function (fastify) {
     },
     async req => {
       const { username } = req.query
+      if (/^\//.test(username)) {
+        // check username doesn't start with /
+        throw errors.BadRequest()
+      }
       const { body, statusCode } = await request({
         origin: 'http://example.com',
         pathname: username
@@ -1078,30 +1067,29 @@ export default async function solution(fastify) {
 <div class="dense">
 
 ```js
-fastify.get(
-  '/profile',
-  {
-    onRequest: [fastify.authenticate]
-  }, async req => {
-    console.log({
-      username: req.user.username, // add context to logs to help identify the user
-      input: req.headers['content-type']
-    })
-    if (/[^\t\x20-\x7e\x80-\xff]/.exec(req.headers['content-type']) !== null) { // validate user input
-      throw errors.BadRequest()
-    }
-    const { body } = await request('http://localhost:3001', {
-      method: 'GET',
-      headers: {
-        'content-type': req.headers['content-type']
+// profile route handler
+  
+  async req => {
+      console.log({
+        username: req.user.username, // add context to logs to help identify the user
+        input: req.headers['content-type']
+      })
+      const headerCharRegex = /[^\t\x20-\x7e\x80-\xff]/ // validate user input
+      if (headerCharRegex.exec(req.headers['content-type']) !== null) {
+        throw errors.BadRequest()
       }
-    })
-    return body
-  }
-)
+      const { body } = await request('http://localhost:3001', {
+        method: 'GET',
+        headers: {
+          'content-type': req.headers['content-type']
+        }
+      })
+      return body
+    }
 ```
 
  </div>
+
 
 ---
 
