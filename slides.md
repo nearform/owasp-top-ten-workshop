@@ -49,10 +49,11 @@ lineNumbers: false
 - This workshop will explain each of the 10 vulnerabilities
 - There is a Fastify node.js server demonstrating the security issues
 - At each step you are asked to fix the vulnerability in the server
-- You will find the solution to each step in the `src/a{n}-{name}` folder
+- You will find the solution to each step somewhere in the `src/a{n}-{name}` folder in the `solution.js` file (the actual path may vary)
 - The 💡 icon indicates hints
 
 </div>
+
 
 ---
 
@@ -112,9 +113,10 @@ The server for that step will run on http://localhost:3000
 
 - Some vulnerabilities involve sending specific requests to the server. We will be using the tool Postman to send those requests
 - The `postman` folder contains a collection that can be imported into Postman to easily send those requests
-- The Postman collection is pre-logged in with user `alice`
+- The Postman collection is pre-logged in with user `alice`. The `Bearer token` is set that represents `alice`.
 
 </div>
+
 
 ---
 
@@ -611,9 +613,10 @@ export default async function ecommerce(fastify) {
 - Run the server for step 5 (`cd src/a05-security-misconfiguration`, `npm start`)
 - In Postman, run the query for `A05: Login`. Observe a cookie with `userId=1` being returned
 - Try to run the query for `A05: Profile`. Observe the information about profile with `userId=1` being returned
-- Try to change the value of the cookie to `userId=2`. Observe information about `userId=2` being returned
+- Try to [change the value of the cookie](https://learning.postman.com/docs/sending-requests/cookies/) to `userId=2`. Observe information about `userId=2` being returned
 
 </div>
+
 
 ---
 
