@@ -37,12 +37,7 @@ test('A01: Access Control', async t => {
         }
       })
 
-      t.equal(res.statusCode, 200)
-      t.same(res.json(), {
-        username: 'alice',
-        id: 1,
-        age: 23
-      })
+      t.equal(res.statusCode, 403)
     }
   )
 })

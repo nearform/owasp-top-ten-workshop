@@ -13,6 +13,10 @@ export default async function solution(fastify) {
       }
       // We get the username from the logged in user, not from the query
       const username = req.user.username
+      // if the query username does not match with the user's one, return a 403 Forbidden error
+      if (username !== req.query.username) {
+        throw new errors.Forbidden()
+      }
       const {
         rows: [user]
       } = await fastify.pg.query(

@@ -242,7 +242,12 @@ export default async function user(fastify) {
       if (!req.user) {
         throw new errors.Unauthorized()
       }
-      const username = req.user.username // 💡 We get the username from the logged in user, not from the query
+      // We get the username from the logged in user, not from the query
+      const username = req.user.username // 💡 <-- The fix is here!
+      // if the query username does not match with the user's one, return a 403 Forbidden error
+      if (username !== req.query.username) {
+        throw new errors.Forbidden()
+      }
       // (Skipping the rest of the function...)
       return user
     }
