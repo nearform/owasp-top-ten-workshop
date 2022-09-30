@@ -249,7 +249,7 @@
           "response": []
         },
         {
-          "name": "A06: SSRF",
+          "name": "A06: Exploit vulnerability",
           "request": {
             "method": "GET",
             "header": [],
