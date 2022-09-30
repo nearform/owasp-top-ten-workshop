@@ -49,10 +49,11 @@ lineNumbers: false
 - This workshop will explain each of the 10 vulnerabilities
 - There is a Fastify node.js server demonstrating the security issues
 - At each step you are asked to fix the vulnerability in the server
-- You will find the solution to each step in the `src/a{n}-{name}` folder
+- You will find the solution to each step in the file `solution.js` inside `src/a{n}-{name}` folder (the actual path may vary)
 - The 💡 icon indicates hints
 
 </div>
+
 
 ---
 
@@ -112,9 +113,10 @@ The server for that step will run on http://localhost:3000
 
 - Some vulnerabilities involve sending specific requests to the server. We will be using the tool Postman to send those requests
 - The `postman` folder contains a collection that can be imported into Postman to easily send those requests
-- The Postman collection is pre-logged in with user `alice`
+- The Postman collection is pre-logged in with user `alice`. The `Bearer token` is set that represents `alice`.
 
 </div>
+
 
 ---
 
@@ -217,7 +219,7 @@ GET http://localhost:3000/profile?username=alice
 
 - Run the automated tests for step 1 - `npm run verify`
 - The tests fail because the server shouldn't return Bob's data
-- Edit the `/profile` route in the exercise folder to return the user's profile without exposing other people's profiles
+- Edit the `/profile` route in the exercise folder to return only the `logged-in` user's profile without exposing other people's profiles
 - 💡 The server uses [fastify-jwt](https://github.com/fastify/fastify-jwt) to handle authentication
 
 </div>
@@ -229,29 +231,23 @@ GET http://localhost:3000/profile?username=alice
 <div class="dense">
 
 - The issue comes from the usage of a user-supplied `query` parameter to choose which profile's info to check
-- The server should instead fetch the logged-in user's info
+- The server should instead fetch the only the `logged-in` user's info and reply with `403` in other cases
 
 ```js
-export default async function user(fastify) {
-  fastify.get(
-    '/',
-    {
-      onRequest: [fastify.authenticate]
-    },async req => {
-      if (!req.user) {
-        throw new errors.Unauthorized()
-      }
-      const username = req.user.username // 💡 We get the username from the logged in user, not from the query!
-      if (username !== req.query.username) {
-        throw new errors.Forbidden() // if does not match with the user's one, return a 403 Forbidden error
-      }
-      return user
-    }
-  )
+async req => {
+  if (!req.user) {
+    throw new errors.Unauthorized()
+  }
+  const username = req.user.username // 💡 We get the username from the logged in user, not from the query!
+  if (username !== req.query.username) {
+    throw new errors.Forbidden() // if does not match with the user's one, return a 403 Forbidden error
+  }
+  return user
 }
 ```
 
 </div>
+
 
 ---
 
@@ -614,9 +610,10 @@ export default async function ecommerce(fastify) {
 - Run the server for step 5 (`cd src/a05-security-misconfiguration`, `npm start`)
 - In Postman, run the query for `A05: Login`. Observe a cookie with `userId=1` being returned
 - Try to run the query for `A05: Profile`. Observe the information about profile with `userId=1` being returned
-- Try to change the value of the cookie to `userId=2`. Observe information about `userId=2` being returned
+- Try to [change the value of the cookie](https://learning.postman.com/docs/sending-requests/cookies/) to `userId=2`. Observe information about `userId=2` being returned
 
 </div>
+
 
 ---
 
