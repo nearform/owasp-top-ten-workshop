@@ -49,7 +49,7 @@ lineNumbers: false
 - This workshop will explain each of the 10 vulnerabilities
 - There is a Fastify node.js server demonstrating the security issues
 - At each step you are asked to fix the vulnerability in the server
-- You will find the solution to each step somewhere in the `src/a{n}-{name}` folder in the `solution.js` file (the actual path may vary)
+- You will find the solution to each step in the file `solution.js` inside `src/a{n}-{name}` folder (the actual path may vary)
 - The 💡 icon indicates hints
 
 </div>
