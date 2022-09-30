@@ -217,7 +217,7 @@ GET http://localhost:3000/profile?username=alice
 
 - Run the automated tests for step 1 - `npm run verify`
 - The tests fail because the server shouldn't return Bob's data
-- Edit the `/profile` route in the exercise folder to return the user's profile without exposing other people's profiles
+- Edit the `/profile` route in the exercise folder to return only the `logged-in` user's profile without exposing other people's profiles
 - 💡 The server uses [fastify-jwt](https://github.com/fastify/fastify-jwt) to handle authentication
 
 </div>
@@ -229,33 +229,26 @@ GET http://localhost:3000/profile?username=alice
 <div class="dense">
 
 - The issue comes from the usage of a user-supplied `query` parameter to choose which profile's info to check
-- The server should instead fetch the logged-in user's info
+- The server should instead fetch the only the `logged-in` user's info and reply with `403` in other cases
 
 ```js
-export default async function user(fastify) {
-  fastify.get(
-    '/',
-    {
-      onRequest: [fastify.authenticate]
-    },
-    async req => {
-      if (!req.user) {
-        throw new errors.Unauthorized()
-      }
-      // We get the username from the logged in user, not from the query
-      const username = req.user.username // 💡 <-- The fix is here!
-      // if the query username does not match with the user's one, return a 403 Forbidden error
-      if (username !== req.query.username) {
-        throw new errors.Forbidden()
-      }
-      // (Skipping the rest of the function...)
-      return user
-    }
-  )
+async req => {
+  if (!req.user) {
+    throw new errors.Unauthorized()
+  }
+  // We get the username from the logged in user, not from the query
+  const username = req.user.username // 💡 <-- The fix is here!
+  // if the query username does not match with the user's one, return a 403 Forbidden error
+  if (username !== req.query.username) {
+    throw new errors.Forbidden()
+  }
+  // (Skipping the rest of the function...)
+  return user
 }
 ```
 
 </div>
+
 
 ---
 
@@ -1073,28 +1066,27 @@ export default async function solution(fastify) {
 
 ```js
 // profile route handler
-  
-  async req => {
-      console.log({
-        username: req.user.username, // add context to logs to help identify the user
-        input: req.headers['content-type']
-      })
-      const headerCharRegex = /[^\t\x20-\x7e\x80-\xff]/ // validate user input
-      if (headerCharRegex.exec(req.headers['content-type']) !== null) {
-        throw errors.BadRequest()
-      }
-      const { body } = await request('http://localhost:3001', {
-        method: 'GET',
-        headers: {
-          'content-type': req.headers['content-type']
-        }
-      })
-      return body
+
+async req => {
+  console.log({
+    username: req.user.username, // add context to logs to help identify the user
+    input: req.headers['content-type']
+  })
+  const headerCharRegex = /[^\t\x20-\x7e\x80-\xff]/ // validate user input
+  if (headerCharRegex.exec(req.headers['content-type']) !== null) {
+    throw errors.BadRequest()
+  }
+  const { body } = await request('http://localhost:3001', {
+    method: 'GET',
+    headers: {
+      'content-type': req.headers['content-type']
     }
+  })
+  return body
+}
 ```
 
  </div>
-
 
 ---
 
