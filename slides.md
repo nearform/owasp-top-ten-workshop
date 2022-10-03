@@ -99,7 +99,7 @@ npm run db:migrate
 ### Example
 
 ```bash
-cd src/a-01-access-control
+cd src/a01-access-control
 npm start
 ```
 
