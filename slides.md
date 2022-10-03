@@ -54,7 +54,6 @@ lineNumbers: false
 
 </div>
 
-
 ---
 
 # Getting setup
@@ -116,7 +115,6 @@ The server for that step will run on http://localhost:3000
 - The Postman collection is pre-logged in with user `alice`. The `Bearer token` is set that represents `alice`.
 
 </div>
-
 
 ---
 
@@ -247,7 +245,6 @@ async req => {
 ```
 
 </div>
-
 
 ---
 
@@ -614,7 +611,6 @@ export default async function ecommerce(fastify) {
 
 </div>
 
-
 ---
 
 # A05 Fixing it 🪄
@@ -951,13 +947,35 @@ if (breach) {
 
 ---
 
-# A08 Insecure Deserialization
+# A08 Exercise: Insecure Deserialization
 
 <div class="dense">
 
 - Run the server for step 8 (`cd src/a08-software-data-integrity-failures`, `npm start`)
-- In Postman, try to run the query for `A08: Get profile from cookie`. Observe the requests `status code 500` being returned
-- This is happening because the server is deserializing a cookie containing a malicious JavaScript code which is forcing the server to throw an exception
+- In Postman, try to run the query for `A08: Get profile from cookie`. There is a cookie attached to the request `/profile`, which contains the user's profile encoded in base64. Observe the request `status code 500` being returned
+- This is happening because the server is deserializing a `cookie containing a malicious JavaScript` code which is forcing the server to throw an exception
+
+</div>
+
+---
+
+# A08 Exercise: Insecure Deserialization
+
+<div class="dense">
+
+- When decoding the cookie attached to the `/profile` request, this is what the output looks like:
+
+```javascript
+// base64 to ASCII
+{
+  id: 1,
+  username:
+    "_$$ND_FUNC$$_function () {\n    throw new Error('server error')\n  }()"
+}
+```
+
+- Note that there is an `IIFE` at the end of the username key, and this causes the function to run on the server as it is doing an insecure deserialization
+- The full step by step to serialize a JavaScript code and inject it as a cookie can be found [in this article](https://opsecx.com/index.php/2017/02/08/exploiting-node-js-deserialization-bug-for-remote-code-execution/)
 
 </div>
 
@@ -967,8 +985,9 @@ if (breach) {
 
 <div class="dense">
 
+- Run the automated tests for step 8 - `npm run verify`
+- The tests fail because the server shouldn't trust a library that provides a way to deserialize strings into executable JavaScript code
 - Untrusted data passed into `unserialize()` function in `node-serialize` module can be exploited to achieve arbitrary code execution by passing a serialized JavaScript Object with an Immediately invoked function expression (IIFE)
-- The step by step to serialize a JavaScript code and insert it in the cookie can be found [in this article](https://opsecx.com/index.php/2017/02/08/exploiting-node-js-deserialization-bug-for-remote-code-execution/)
 - 💡 `JSON.parse` is a safer way to deserialize data
 
 </div>
