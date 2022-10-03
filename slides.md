@@ -952,7 +952,7 @@ if (breach) {
 <div class="dense">
 
 - Run the server for step 8 (`cd src/a08-software-data-integrity-failures`, `npm start`)
-- In Postman, try to run the query for `A08: Get profile from cookie`. There is a cookie attached to the request `/profile`, which contains the user's profile encoded in base64. Observe the request `status code 500` being returned
+- In Postman, try to run the query for `A08: Get profile from cookie`. There is a cookie attached to the request `/profile` containing the user's profile encoded as base64. Observe the request `status code 500` being returned
 - This is happening because the server is deserializing a `cookie containing a malicious JavaScript` code which is forcing the server to throw an exception
 
 </div>
