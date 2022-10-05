@@ -10,7 +10,7 @@
     "start": "nodemon index.js"
   },
   "dependencies": {
-    "axios": "^0.27.2",
+    "axios": "^1.0.0",
     "owasp-shared": "1.0.0"
   }
 }
