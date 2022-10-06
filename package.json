@@ -44,7 +44,7 @@
     "http-errors": "^2.0.0",
     "md5": "^2.3.0",
     "pg": "^8.8.0",
-    "pino-pretty": "^9.1.0",
+    "pino-pretty": "^9.1.1",
     "slidev-theme-nearform": "^1.4.2",
     "undici": "^5.11.0"
   },
