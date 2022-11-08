@@ -62,7 +62,7 @@
     "nodemon": "^2.0.20",
     "postgrator-cli": "^6.0.0",
     "prettier": "^2.7.1",
-    "sinon": "^14.0.1",
+    "sinon": "^14.0.2",
     "tap": "^16.3.0"
   },
   "lint-staged": {
