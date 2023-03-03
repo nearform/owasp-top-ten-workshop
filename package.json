@@ -59,7 +59,7 @@
     "eslint-plugin-sql": "^2.3.2",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.2",
-    "nodemon": "^2.0.20",
+    "nodemon": "^2.0.21",
     "postgrator-cli": "^6.0.1",
     "prettier": "^2.8.4",
     "sinon": "^15.0.1",
