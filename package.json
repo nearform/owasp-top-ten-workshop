@@ -45,7 +45,7 @@
     "md5": "^2.3.0",
     "pg": "^8.10.0",
     "pino-pretty": "^10.0.0",
-    "slidev-theme-nearform": "^1.5.2",
+    "slidev-theme-nearform": "^1.5.3",
     "undici": "^5.21.0"
   },
   "devDependencies": {
