@@ -18,10 +18,14 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
     steps:
-      - uses: nearform/optic-release-automation-action@v4
+      - uses: nearform-actions/optic-release-automation-action@v4
         with:
           github-token: ${{ secrets.github_token }}
           semver: ${{ github.event.inputs.semver }}
           commit-message: 'chore: release {version}'
           build-command: npm ci
+
