@@ -26,7 +26,7 @@ test('A02: Cryptographic Failure', async t => {
     t.equal(res.statusCode, 200)
   })
 
-  t.test(`Password isn't encrypted with weak md5`, async t => {
+  t.test(`Password isn't hashed with weak md5`, async t => {
     const res = await fastify.inject({
       url: '/all-data',
       method: 'GET',

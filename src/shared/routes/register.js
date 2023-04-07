@@ -2,7 +2,7 @@ import errors from 'http-errors'
 import { Type } from '@sinclair/typebox'
 import SQL from '@nearform/sql'
 import { faker } from '@faker-js/faker'
-import { encryptPassword } from '../../a02-cryptographic-failure/utils/encryption.js'
+import { hashPassword } from '../../a02-cryptographic-failure/utils/crypto.js'
 
 const schema = {
   body: Type.Object({
@@ -20,7 +20,7 @@ export default async function register(fastify) {
   fastify.post('/register', { schema }, async req => {
     const { username, password } = req.body
     const birthDate = faker.date.past()
-    const hashedPassword = await encryptPassword(password)
+    const hashedPassword = await hashPassword(password)
     const creditCardNumber = faker.finance.creditCardNumber()
     const {
       rows: [user]
