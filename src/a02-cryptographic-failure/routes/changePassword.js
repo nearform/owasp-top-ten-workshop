@@ -1,7 +1,7 @@
 import errors from 'http-errors'
 import { Type } from '@sinclair/typebox'
 import SQL from '@nearform/sql'
-import { encryptPassword } from '../utils/encryption.js'
+import { hashPassword } from '../utils/crypto.js'
 
 const schema = {
   body: Type.Object({
@@ -19,7 +19,7 @@ export default async function changePassword(fastify) {
     async req => {
       const { username } = req.user
       const { password } = req.body
-      const hashedPassword = await encryptPassword(password)
+      const hashedPassword = await hashPassword(password)
       const {
         rows: [user]
       } = await fastify.pg.query(

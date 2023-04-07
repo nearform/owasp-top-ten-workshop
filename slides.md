@@ -291,7 +291,7 @@ async req => {
 
 <div class="dense">
 
-- The `/all-data` endpoint returns all users and their passwords (encrypted in md5). Imagine this as a data breach
+- The `/all-data` endpoint returns all users and their passwords (hashed using md5). Imagine this as a data breach
 - Result of the `all-data` endpoint
 
 ```json
@@ -315,8 +315,8 @@ async req => {
 
 <div class="dense">
 
-- Using the `/all-data` route, find Alice's encrypted password
-- With this encrypted password hash, try to find the original unencrypted password Alice created
+- Using the `/all-data` route, find Alice's hashed password
+- With this password hash, try to find the original password Alice created
 - the Postman collection contains requests for doing the queries
 - 💡 There are websites to decrypt md5
 
@@ -328,8 +328,8 @@ async req => {
 
 <div class="dense">
 
-- md5 encryption is vulnerable and shouldn't be used
-- In `src/a02-cryptographic-failure`, fix the encryption used to be a strong algorithm instead of md5
+- md5 hash is vulnerable and shouldn't be used
+- In `src/a02-cryptographic-failure`, fix the hashing algorithm used to be a strong algorithm instead of md5
 - Using [bcrypt](https://www.npmjs.com/package/bcrypt) is a good idea for passwords
 - The application exposes a `/change-password` route used to change a user's password
 
@@ -342,12 +342,12 @@ async req => {
 <div class="dense">
 
 ```js
-// utils/encryption.js
+// utils/crypto.js
 import { hash, compare } from 'bcrypt'
 
 const saltRounds = 10
 
-export async function encryptPassword(password) {
+export async function hashPassword(password) {
   return await hash(password, saltRounds)
 }
 ```
@@ -361,7 +361,7 @@ export async function encryptPassword(password) {
 <div class="dense">
 
 ```js
-// utils/encryption.js
+// utils/crypto.js
 export async function comparePassword(password, hash) {
   return await compare(password, hash)
 }

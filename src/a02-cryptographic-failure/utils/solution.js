@@ -2,7 +2,7 @@ import { hash, compare } from 'bcrypt'
 
 const saltRounds = 10
 
-export async function encryptPassword(password) {
+export async function hashPassword(password) {
   return await hash(password, saltRounds)
 }
 
