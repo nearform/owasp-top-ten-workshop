@@ -15,7 +15,8 @@ jobs:
     permissions:
       issues: write
     steps:
-      - uses: nearform/github-action-notify-release@v1
+      - uses: nearform-actions/github-action-notify-release@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+
 
