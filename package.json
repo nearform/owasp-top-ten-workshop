@@ -31,7 +31,7 @@
     "@fastify/jwt": "^7.2.0",
     "@fastify/postgres": "^5.2.0",
     "@fastify/type-provider-typebox": "^3.2.0",
-    "@nearform/sql": "^1.10.4",
+    "@nearform/sql": "^1.10.5",
     "@sinclair/typebox": "^0.28.20",
     "@slidev/cli": "^0.42.5",
     "@vueuse/shared": "^10.2.1",
