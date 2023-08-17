@@ -2,9 +2,7 @@
   "name": "owasp-top-ten-workshop",
   "private": true,
   "type": "module",
-  "workspaces": [
-    "src/*"
-  ],
+  "workspaces": ["src/*"],
   "version": "1.0.0",
   "license": "CC-BY-SA-4.0",
   "author": "Liana Pigeot <liana.pigeot@nearform.com>",
@@ -55,7 +53,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^8.47.0",
     "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-sql": "^2.4.4",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
