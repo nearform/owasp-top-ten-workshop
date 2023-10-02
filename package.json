@@ -54,7 +54,7 @@
     "eslint": "^8.50.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
-    "eslint-plugin-sql": "^2.4.4",
+    "eslint-plugin-sql": "^2.5.0",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
     "nodemon": "^3.0.1",
