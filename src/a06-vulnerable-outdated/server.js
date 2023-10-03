@@ -1,4 +1,4 @@
-import { buildServer, env } from 'owasp-shared'
+import { buildServer, env, cors } from 'owasp-shared'
 import profileRoute from './routes/profile/index.js'
 
 export async function step6Server() {
@@ -7,6 +7,10 @@ export async function step6Server() {
     env,
     fastifyOptions: {},
     excludeSharedRoutes: true
+  })
+  fastify.register(cors, {
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
   })
 
   profileRoute(fastify)

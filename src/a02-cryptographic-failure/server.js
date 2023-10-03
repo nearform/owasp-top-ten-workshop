@@ -1,5 +1,4 @@
-import { buildServer } from 'owasp-shared'
-import { env } from 'owasp-shared'
+import { buildServer, cors, env } from 'owasp-shared'
 
 export async function step2Server() {
   const fastify = await buildServer({
@@ -7,6 +6,10 @@ export async function step2Server() {
     env,
     fastifyOptions: {},
     autoloadRoutes: true
+  })
+  fastify.register(cors, {
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
   })
   return fastify
 }

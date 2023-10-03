@@ -1,4 +1,4 @@
-import { buildServer, env } from 'owasp-shared'
+import { buildServer, env, cors } from 'owasp-shared'
 import profilePicture from './routes/user/index.js'
 export async function step10Server() {
   const fastify = await buildServer({
@@ -6,6 +6,10 @@ export async function step10Server() {
     env,
     fastifyOptions: {},
     excludeSharedRoutes: true
+  })
+  fastify.register(cors, {
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
   })
   profilePicture(fastify)
   return fastify

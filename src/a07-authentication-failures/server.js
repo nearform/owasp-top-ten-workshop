@@ -1,4 +1,4 @@
-import { buildServer, env } from 'owasp-shared'
+import { buildServer, env, cors } from 'owasp-shared'
 import { registerRoute } from './routes/user/index.js'
 
 export async function step7Server() {
@@ -7,6 +7,10 @@ export async function step7Server() {
     env,
     fastifyOptions: {},
     excludeSharedRoutes: true
+  })
+  fastify.register(cors, {
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
   })
   registerRoute(fastify)
   return fastify

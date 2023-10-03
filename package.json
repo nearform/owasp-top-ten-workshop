@@ -2,7 +2,9 @@
   "name": "owasp-top-ten-workshop",
   "private": true,
   "type": "module",
-  "workspaces": ["src/*"],
+  "workspaces": [
+    "src/*"
+  ],
   "version": "1.0.0",
   "license": "CC-BY-SA-4.0",
   "author": "Liana Pigeot <liana.pigeot@nearform.com>",
@@ -26,6 +28,7 @@
   "dependencies": {
     "@faker-js/faker": "^8.0.2",
     "@fastify/autoload": "^5.7.1",
+    "@fastify/cors": "^8.4.0",
     "@fastify/jwt": "^7.2.1",
     "@fastify/postgres": "^5.2.0",
     "@fastify/type-provider-typebox": "^3.5.0",
