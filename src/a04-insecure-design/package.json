@@ -10,6 +10,7 @@
   "main": "index.js",
   "scripts": {
     "start": "npm start --workspace=a04-backend & npm start --workspace=a04-frontend",
-    "test": "npm run test --workspace=a04-backend"
+    "test": "npm run test --workspace=a04-backend",
+    "verify": "npm run verify --workspace=a04-backend"
   }
 }
