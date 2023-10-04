@@ -14,7 +14,7 @@ const headers = {
   'Content-Type': 'application/json'
 }
 
-function Section({ title, defaultURL, method, defaultBody }) {
+function Section({ title, defaultURL }) {
   const [url, setURL] = useState(defaultURL)
   const [status, setStatus] = useState(null)
   const [data, setData] = useState()
@@ -38,11 +38,11 @@ function Section({ title, defaultURL, method, defaultBody }) {
   }
 
   return (
-    <>
+    <div className="main-container">
       <h2>{title}</h2>
       <div className="main-section">
         <div className="request-details">
-          <h3>url</h3>
+          <h3>GET</h3>
           <input
             className="url-input"
             value={defaultURL}
@@ -54,11 +54,22 @@ function Section({ title, defaultURL, method, defaultBody }) {
         </div>
 
         <div className="response-section">
-          <h2 className="status">Response: {status}</h2>
+          <h3 className="status">
+            Response:{' '}
+            {status && (
+              <p
+                className={
+                  status.includes('failed') ? 'failed-status' : 'success-status'
+                }
+              >
+                {status}
+              </p>
+            )}
+          </h3>
           <code>{JSON.stringify(data)}</code>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

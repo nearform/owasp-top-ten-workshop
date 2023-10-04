@@ -40,23 +40,39 @@ export default function App() {
   return (
     <div className="App">
       <h1>AO4: Insecure design</h1>
-      <h2>Buy a product</h2>
-      <div className="main-section">
-        <div className="request-details">
-          <h3>url</h3>
-          <input
-            className="url-input"
-            value={BUY_PRODUCT_URL}
-            onChange={handleURLChange}
-          ></input>
-          <button className="url-input-button" onClick={handleSubmit}>
-            send
-          </button>
-        </div>
 
-        <div className="response-section">
-          <h2 className="success">Response: {status}</h2>
-          <code>{JSON.stringify(data)}</code>
+      <div className="main-container">
+        <h2>Buy a product</h2>
+        <div className="main-section">
+          <div className="request-details">
+            <h3>POST</h3>
+            <input
+              className="url-input"
+              value={BUY_PRODUCT_URL}
+              onChange={handleURLChange}
+            ></input>
+            <button className="url-input-button" onClick={handleSubmit}>
+              send
+            </button>
+          </div>
+
+          <div className="response-section">
+            <h3 className="status">
+              Response:{' '}
+              {status && (
+                <p
+                  className={
+                    status.includes('failed')
+                      ? 'failed-status'
+                      : 'success-status'
+                  }
+                >
+                  {status}
+                </p>
+              )}
+            </h3>
+            <code>{JSON.stringify(data)}</code>
+          </div>
         </div>
       </div>
     </div>

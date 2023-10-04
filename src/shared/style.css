@@ -1,9 +1,28 @@
 .main-section {
   display: flex;
-  align-items: center;
-
-  border-bottom: solid 2px rgb(42, 143, 194);
+  align-items: start;
   padding-bottom: 20px;
+  flex-direction: column;
+  border-bottom: solid 2px rgb(42, 143, 194);
+  width: fit-content;
+  margin: 0 auto; /* This centers the element horizontally */
+}
+
+.status p {
+  display: inline;
+}
+
+.failed-status {
+  color: rgb(194, 10, 10);
+}
+
+.success-status {
+  color: rgb(15, 187, 18);
+}
+
+.main-container > h2 {
+  text-align: center;
+  text-decoration: underline;
 }
 
 .response-section code {
@@ -13,16 +32,11 @@
   border: solid 0.5px;
   background-color: rgb(220, 212, 212);
   padding: 20px;
-  width: 800px;
-
+  width: 560px;
   word-wrap: break-word;
   word-break: break-word;
   overflow: scroll;
   max-height: 200px;
-}
-
-.response-section {
-  margin-left: 200px;
 }
 
 .body-section {
@@ -46,6 +60,8 @@
 }
 
 h1 {
+  padding: 1 auto; /* This centers the element horizontally */
+  text-align: center;
   text-decoration: underline;
   font-family: monospace;
 }

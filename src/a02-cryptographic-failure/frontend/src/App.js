@@ -54,11 +54,11 @@ function Section({ title, defaultURL, method, defaultBody }) {
   }
 
   return (
-    <>
+    <div className="main-container">
       <h2>{title}</h2>
       <div className="main-section">
         <div className="request-details">
-          <h3>url</h3>
+          <h3>{method}</h3>
           <input
             className="url-input"
             value={defaultURL}
@@ -83,16 +83,23 @@ function Section({ title, defaultURL, method, defaultBody }) {
         </div>
 
         <div className="response-section">
-          <h2 className="status">Response Status: {status}</h2>
-          {!defaultBody && (
-            <>
-              <label>Response body: </label>
-              <code>{JSON.stringify(data)}</code>{' '}
-            </>
-          )}
+          <h3 className="status">
+            Response:{' '}
+            {status && (
+              <p
+                className={
+                  status.includes('failed') ? 'failed-status' : 'success-status'
+                }
+              >
+                {status}
+              </p>
+            )}
+          </h3>
+
+          <code>{JSON.stringify(data)}</code>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
@@ -114,16 +121,16 @@ export default function App() {
         defaultBody={CHANGE_PASSWORD_BODY}
       />
       <Section
-        defaultURL={LOGIN_URL}
-        title="Login"
-        method="POST"
-        defaultBody={LOGIN_BODY}
-      />
-      <Section
         defaultURL={REGISTER_URL}
         title="Register"
         method="POST"
         defaultBody={REGISTER_BODY}
+      />
+      <Section
+        defaultURL={LOGIN_URL}
+        title="Login"
+        method="POST"
+        defaultBody={LOGIN_BODY}
       />
     </div>
   )

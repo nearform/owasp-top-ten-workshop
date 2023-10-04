@@ -51,11 +51,11 @@ function Section({ title, defaultURL, method, defaultBody, headers }) {
   }
 
   return (
-    <>
+    <div className="main-container">
       <h2>{title}</h2>
       <div className="main-section">
         <div className="request-details">
-          <h3>url</h3>
+          <h3>{method}</h3>
           <input
             className="url-input"
             value={defaultURL}
@@ -80,11 +80,22 @@ function Section({ title, defaultURL, method, defaultBody, headers }) {
         </div>
 
         <div className="response-section">
-          <h2 className="status">Response: {status}</h2>
+          <h3 className="status">
+            Response:{' '}
+            {status && (
+              <p
+                className={
+                  status.includes('failed') ? 'failed-status' : 'success-status'
+                }
+              >
+                {status}
+              </p>
+            )}
+          </h3>
           <code>{JSON.stringify(data)}</code>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

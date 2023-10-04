@@ -40,22 +40,37 @@ export default function App() {
   return (
     <div className="App">
       <h2>Get profile from cookie</h2>
-      <div className="main-section">
-        <div className="request-details">
-          <h3>url</h3>
-          <input
-            className="url-input"
-            value={PROFILE_URL}
-            onChange={handleURLChange}
-          ></input>
-          <button className="url-input-button" onClick={handleSubmit}>
-            send
-          </button>
-        </div>
+      <div className="main-container">
+        <div className="main-section">
+          <div className="request-details">
+            <h3>GET</h3>
+            <input
+              className="url-input"
+              value={PROFILE_URL}
+              onChange={handleURLChange}
+            ></input>
+            <button className="url-input-button" onClick={handleSubmit}>
+              send
+            </button>
+          </div>
 
-        <div className="response-section">
-          <h2 className="success">Response: {status}</h2>
-          <code>{JSON.stringify(data)}</code>
+          <div className="response-section">
+            <h3 className="status">
+              Response:{' '}
+              {status && (
+                <p
+                  className={
+                    status.includes('failed')
+                      ? 'failed-status'
+                      : 'success-status'
+                  }
+                >
+                  {status}
+                </p>
+              )}
+            </h3>
+            <code>{JSON.stringify(data)}</code>
+          </div>
         </div>
       </div>
     </div>

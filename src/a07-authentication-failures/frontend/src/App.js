@@ -47,34 +47,49 @@ export default function App() {
   return (
     <>
       <h1>AO7: Authenticaiton failure</h1>
-      <h2>Register</h2>
-      <div className="main-section">
-        <div className="request-details">
-          <h3>url</h3>
-          <input
-            className="url-input"
-            value={REGISTER_URL}
-            onChange={handleURLChange}
-          ></input>
-          <button className="url-input-button" onClick={handleSubmit}>
-            send
-          </button>
+      <div className="main-container">
+        <h2>Register</h2>
+        <div className="main-section">
+          <div className="request-details">
+            <h3>POST</h3>
+            <input
+              className="url-input"
+              value={REGISTER_URL}
+              onChange={handleURLChange}
+            ></input>
+            <button className="url-input-button" onClick={handleSubmit}>
+              send
+            </button>
 
-          <div className="body-section">
-            <h3>body:</h3>
-            <CodeMirror
-              value={JSON.stringify(defaultBody)}
-              onChange={value => {
-                setBody(value)
-              }}
-              height="200px"
-            />
+            <div className="body-section">
+              <h3>body:</h3>
+              <CodeMirror
+                value={JSON.stringify(defaultBody)}
+                onChange={value => {
+                  setBody(value)
+                }}
+                height="200px"
+              />
+            </div>
           </div>
-        </div>
 
-        <div className="response-section">
-          <h2 className="success">Response: {status}</h2>
-          <code>{JSON.stringify(data)}</code>
+          <div className="response-section">
+            <h3 className="status">
+              Response:{' '}
+              {status && (
+                <p
+                  className={
+                    status.includes('failed')
+                      ? 'failed-status'
+                      : 'success-status'
+                  }
+                >
+                  {status}
+                </p>
+              )}
+            </h3>
+            <code>{JSON.stringify(data)}</code>
+          </div>
         </div>
       </div>
     </>
