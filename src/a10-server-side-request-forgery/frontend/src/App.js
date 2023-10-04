@@ -1,25 +1,106 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import CodeMirror from '@uiw/react-codemirror'
+import 'owasp-shared/style.css'
+import { loggedInToken as BEARER_TOKEN } from 'owasp-shared/test-utils'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+//urls
+const UPLOAD_IMAGE_URL = 'http://localhost:3000/user/image'
+const MALICIOUS_IMAGE_URL = 'http://localhost:3000/user/image'
+
+//default body values
+const UPLOAD_IMAGE_BODY = {
+  imgUrl: 'https://i.imgflip.com/6upp1a.jpg'
+}
+const MALICIOUS_IMAGE_BODY = {
+  imgUrl: 'http://localhost:3001/secret'
+}
+const headers = {
+  Authorization: `Bearer ${BEARER_TOKEN}`,
+  Accept: '*/*',
+  'Accept-Encoding': 'gzip, deflate, br',
+  Connection: 'keep-alive',
+  'Content-Type': 'application/json'
 }
 
-export default App;
+function Section({ title, defaultURL, defaultBody }) {
+  const [url, setURL] = useState(defaultURL)
+  const [body, setBody] = useState(JSON.stringify(defaultBody))
+  const [status, setStatus] = useState(null)
+  const [data, setData] = useState()
+  const handleURLChange = event => {
+    setURL(event.target.value)
+  }
+  const handleSubmit = async () => {
+    const options = {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(defaultBody)
+    }
+    try {
+      const response = await fetch(url, options)
+      console.log(response)
+      const data = await response.text()
+      response.ok
+        ? setStatus(`success, ${response.status}`)
+        : setStatus(`failed, ${response.status}`)
+      setData(data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  return (
+    <>
+      <h2>{title}</h2>
+      <div className="main-section">
+        <div className="request-details">
+          <h3>url</h3>
+          <input
+            className="url-input"
+            value={defaultURL}
+            onChange={handleURLChange}
+          ></input>
+          <button className="url-input-button" onClick={handleSubmit}>
+            send
+          </button>
+
+          <div className="body-section">
+            <h3>body</h3>
+            <CodeMirror
+              value={body}
+              onChange={value => {
+                setBody(value)
+              }}
+              height="200px"
+            />
+          </div>
+        </div>
+
+        <div className="response-section">
+          <h2 className="status">Response Status: {status}</h2>
+
+          <label>Response body: </label>
+          <code>{JSON.stringify(data)}</code>
+        </div>
+      </div>
+    </>
+  )
+}
+
+export default function App() {
+  return (
+    <div className="App">
+      <h1>A10: Server-side-request-forgery</h1>
+      <Section
+        defaultURL={UPLOAD_IMAGE_URL}
+        title="Upload image"
+        defaultBody={UPLOAD_IMAGE_BODY}
+      />
+      <Section
+        defaultURL={MALICIOUS_IMAGE_URL}
+        title="Malicious image"
+        defaultBody={MALICIOUS_IMAGE_BODY}
+      />
+    </div>
+  )
+}

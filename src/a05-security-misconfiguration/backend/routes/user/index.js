@@ -6,7 +6,8 @@ import { getSolutionToExport } from 'owasp-shared/export-solution.js'
 import errors from 'http-errors'
 import { Type } from '@sinclair/typebox'
 import SQL from '@nearform/sql'
-import { comparePassword } from '../../../a02-cryptographic-failure/utils/solution.js'
+
+import { comparePassword } from '../../../../a02-cryptographic-failure/backend/utils/solution.js'
 
 const schema = {
   body: Type.Object({

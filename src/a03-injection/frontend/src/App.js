@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-
-const BEARER_TOKEN =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhbGljZSIsImlhdCI6MTY2MjYzNzc2MH0.15w1NA_Kol5146DJEdXbDuIMmbVsiBXSGgzsVrV5NTY'
+import 'owasp-shared/style.css'
+import { loggedInToken as BEARER_TOKEN } from 'owasp-shared/test-utils'
 
 //urls
 const GET_CUSTOMER_URL = 'http://localhost:3000/customer?name=alice'
@@ -25,41 +24,41 @@ function Section({ title, defaultURL, method, defaultBody }) {
   const handleSubmit = async () => {
     const options = { headers }
 
-    console.log(options)
-
     try {
       const response = await fetch(url, options)
-      if (!response.ok) {
-        setStatus(`failed, ${response.status}`)
-        throw new Error(response.status)
-      }
-      const data = await response.json()
 
+      const data = await response.json()
+      response.ok
+        ? setStatus(`success, ${response.status}`)
+        : setStatus(`failed, ${response.status}`)
       setData(data)
-      setStatus(`success, ${response.status}`)
     } catch (error) {
       console.error(error)
     }
   }
 
   return (
-    <div className="main-section">
+    <>
       <h2>{title}</h2>
-      <label> URL:</label>
-      <input
-        className="url-input"
-        value={defaultURL}
-        onChange={handleURLChange}
-      ></input>
-      <button className="url-input-button" onClick={handleSubmit}>
-        send
-      </button>
+      <div className="main-section">
+        <div className="request-details">
+          <h3>url</h3>
+          <input
+            className="url-input"
+            value={defaultURL}
+            onChange={handleURLChange}
+          ></input>
+          <button className="url-input-button" onClick={handleSubmit}>
+            send
+          </button>
+        </div>
 
-      <div className="response-section">
-        <h2 className="success">Response: {status}</h2>
-        <code>{JSON.stringify(data)}</code>
+        <div className="response-section">
+          <h2 className="status">Response: {status}</h2>
+          <code>{JSON.stringify(data)}</code>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

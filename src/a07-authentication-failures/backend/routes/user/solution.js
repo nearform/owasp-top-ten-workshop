@@ -2,7 +2,7 @@ import { Type } from '@sinclair/typebox'
 import errors from 'http-errors'
 import SQL from '@nearform/sql'
 import { faker } from '@faker-js/faker'
-import { hashPassword } from '../../../a02-cryptographic-failure/utils/crypto.js'
+import { hashPassword } from '../../../../a02-cryptographic-failure/backend/utils/crypto.js'
 
 const schema = {
   body: Type.Object({

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-
-const BEARER_TOKEN =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhbGljZSIsImlhdCI6MTY2MjYzNzc2MH0.15w1NA_Kol5146DJEdXbDuIMmbVsiBXSGgzsVrV5NTY'
+import 'owasp-shared/style.css'
+import { loggedInToken as BEARER_TOKEN } from 'owasp-shared/test-utils'
 
 //urls
 const EXPLOIT_VULNERABILITY_URL =
@@ -40,23 +39,27 @@ function Section({ title, defaultURL }) {
   }
 
   return (
-    <div className="main-section">
+    <>
       <h2>{title}</h2>
-      <label> URL:</label>
-      <input
-        className="url-input"
-        value={defaultURL}
-        onChange={handleURLChange}
-      ></input>
-      <button className="url-input-button" onClick={handleSubmit}>
-        send
-      </button>
+      <div className="main-section">
+        <div className="request-details">
+          <label> URL:</label>
+          <input
+            className="url-input"
+            value={defaultURL}
+            onChange={handleURLChange}
+          ></input>
+          <button className="url-input-button" onClick={handleSubmit}>
+            send
+          </button>
+        </div>
 
-      <div className="response-section">
-        <h2 className="success">Response: {status}</h2>
-        <code>{JSON.stringify(data)}</code>
+        <div className="response-section">
+          <h2 className="success">Response: {status}</h2>
+          <code>{JSON.stringify(data)}</code>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

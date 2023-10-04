@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-
-const BEARER_TOKEN =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhbGljZSIsImlhdCI6MTY2MjYzNzc2MH0.15w1NA_Kol5146DJEdXbDuIMmbVsiBXSGgzsVrV5NTY'
+import 'owasp-shared/style.css'
+import { loggedInToken as BEARER_TOKEN } from 'owasp-shared/test-utils'
 
 //urls
 const BUY_PRODUCT_URL = 'http://localhost:3000/buy-product'
@@ -24,19 +23,16 @@ export default function App() {
   const handleSubmit = async () => {
     try {
       const response = await fetch(url, {
-        mode: 'cors',
         method: 'POST',
         headers
       })
-      console.log(response)
-      if (!response.ok) {
-        setStatus(`failed, ${response.status}`)
-        throw new Error(response.status)
-      }
+
       const data = await response.json()
+      response.ok
+        ? setStatus(`success, ${response.status}`)
+        : setStatus(`failed, ${response.status}`)
 
       setData(data)
-      setStatus(`success, ${response.status}`)
     } catch (error) {
       console.error(error)
     }
@@ -44,18 +40,19 @@ export default function App() {
   return (
     <div className="App">
       <h1>AO4: Insecure design</h1>
-
+      <h2>Buy a product</h2>
       <div className="main-section">
-        <h2>Buy a product</h2>
-        <label> URL:</label>
-        <input
-          className="url-input"
-          value={BUY_PRODUCT_URL}
-          onChange={handleURLChange}
-        ></input>
-        <button className="url-input-button" onClick={handleSubmit}>
-          send
-        </button>
+        <div className="request-details">
+          <h3>url</h3>
+          <input
+            className="url-input"
+            value={BUY_PRODUCT_URL}
+            onChange={handleURLChange}
+          ></input>
+          <button className="url-input-button" onClick={handleSubmit}>
+            send
+          </button>
+        </div>
 
         <div className="response-section">
           <h2 className="success">Response: {status}</h2>
