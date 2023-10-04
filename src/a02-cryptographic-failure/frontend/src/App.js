@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import CodeMirror from '@uiw/react-codemirror'
 
-const BEARER_TOKEN =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhbGljZSIsImlhdCI6MTY2MjYzNzc2MH0.15w1NA_Kol5146DJEdXbDuIMmbVsiBXSGgzsVrV5NTY'
+import 'owasp-shared/style.css'
+import { loggedInToken as BEARER_TOKEN } from 'owasp-shared/test-utils'
 
 //urls
 const ALL_DATA_URL = 'http://localhost:3000/all-data'
@@ -41,52 +41,58 @@ function Section({ title, defaultURL, method, defaultBody }) {
       ? { method: method, headers, body: JSON.stringify(defaultBody) }
       : { headers }
     try {
-      console.log(options)
       const response = await fetch(url, options)
-      if (!response.ok) {
-        setStatus(`failed, ${response.status}`)
-        throw new Error(response.status)
-      }
-      const data = await response.json()
 
+      const data = await response.json()
+      response.ok
+        ? setStatus(`success, ${response.status}`)
+        : setStatus(`failed, ${response.status}`)
       setData(data)
-      setStatus(`success, ${response.status}`)
     } catch (error) {
       console.error(error)
     }
   }
 
   return (
-    <div className="main-section">
+    <>
       <h2>{title}</h2>
-      <label> URL:</label>
-      <input
-        className="url-input"
-        value={defaultURL}
-        onChange={handleURLChange}
-      ></input>
-      <button className="url-input-button" onClick={handleSubmit}>
-        send
-      </button>
+      <div className="main-section">
+        <div className="request-details">
+          <h3>url</h3>
+          <input
+            className="url-input"
+            value={defaultURL}
+            onChange={handleURLChange}
+          ></input>
+          <button className="url-input-button" onClick={handleSubmit}>
+            send
+          </button>
 
-      {method === 'POST' && (
-        <div className="body-section">
-          <h3>body:</h3>
-          <CodeMirror
-            value={body}
-            onChange={value => {
-              setBody(value)
-            }}
-            height="100px"
-          />
+          {method === 'POST' && (
+            <div className="body-section">
+              <h3>body</h3>
+              <CodeMirror
+                value={body}
+                onChange={value => {
+                  setBody(value)
+                }}
+                height="200px"
+              />
+            </div>
+          )}
         </div>
-      )}
 
-      <div className="response-section">
-        <h2 className="success">Response: {status}</h2>
-        {!defaultBody && <code>{JSON.stringify(data)}</code>}
+        <div className="response-section">
+          <h2 className="status">Response Status: {status}</h2>
+          {!defaultBody && (
+            <>
+              <label>Response body: </label>
+              <code>{JSON.stringify(data)}</code>{' '}
+            </>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
