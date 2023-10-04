@@ -1,9 +1,16 @@
 import React, { useState } from 'react'
+import CodeMirror from '@uiw/react-codemirror'
+
+const BEARER_TOKEN =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhbGljZSIsImlhdCI6MTY2MjYzNzc2MH0.15w1NA_Kol5146DJEdXbDuIMmbVsiBXSGgzsVrV5NTY'
+
+//urls
 const ALL_DATA_URL = 'http://localhost:3000/all-data'
 const CHANGE_PASSWORD_URL = 'http://localhost:3000/change-password'
 const REGISTER_URL = 'http://localhost:3000/register'
 const LOGIN_URL = 'http://localhost:3000/login'
 
+//default body values
 const CHANGE_PASSWORD_BODY = { password: 'newpassword' }
 const REGISTER_BODY = {
   username: 'newUser',
@@ -13,61 +20,71 @@ const LOGIN_BODY = {
   username: 'alice',
   password: '482c811da5d5b4bc6d497ffa98491e38'
 }
-
-const BEARER_TOKEN =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhbGljZSIsImlhdCI6MTY2MjYzNzc2MH0.15w1NA_Kol5146DJEdXbDuIMmbVsiBXSGgzsVrV5NTY'
-
 const headers = {
   Authorization: `Bearer ${BEARER_TOKEN}`,
   Accept: '*/*',
   'Accept-Encoding': 'gzip, deflate, br',
-  Connection: 'keep-alive'
+  Connection: 'keep-alive',
+  'Content-Type': 'application/json'
 }
 
-function Section({ title, defaultURL, method, body }) {
+function Section({ title, defaultURL, method, defaultBody }) {
   const [url, setURL] = useState(defaultURL)
+  const [body, setBody] = useState(JSON.stringify(defaultBody))
+  const [status, setStatus] = useState(null)
   const [data, setData] = useState()
   const handleURLChange = event => {
     setURL(event.target.value)
   }
   const handleSubmit = async () => {
-    const options = body ? { method: method, headers, body: body } : { headers }
+    const options = defaultBody
+      ? { method: method, headers, body: JSON.stringify(defaultBody) }
+      : { headers }
     try {
+      console.log(options)
       const response = await fetch(url, options)
       if (!response.ok) {
-        throw new Error(
-          `Network response was not successful code: ${response.status}`
-        )
+        setStatus(`failed, ${response.status}`)
+        throw new Error(response.status)
       }
       const data = await response.json()
 
       setData(data)
+      setStatus(`success, ${response.status}`)
     } catch (error) {
       console.error(error)
     }
   }
-  console.log(defaultURL)
+
   return (
-    <div class="main-section">
+    <div className="main-section">
       <h2>{title}</h2>
       <label> URL:</label>
       <input
-        class="url-input"
+        className="url-input"
         value={defaultURL}
         onChange={handleURLChange}
       ></input>
-      <button class="url-input-button" onClick={handleSubmit}>
+      <button className="url-input-button" onClick={handleSubmit}>
         send
       </button>
+
       {method === 'POST' && (
-        <div class="body-section">
+        <div className="body-section">
           <h3>body:</h3>
-          <code>{JSON.stringify(body)}</code>
+          <CodeMirror
+            value={body}
+            onChange={value => {
+              setBody(value)
+            }}
+            height="100px"
+          />
         </div>
       )}
-      <div class="response-section">
-        <h2>Response</h2>
-        <code>{JSON.stringify(data)}</code>
+
+      <div className="response-section">
+        <h2 className="success">Response: {status}</h2>
+        {!defaultBody && <code>{JSON.stringify(data)}</code>}
       </div>
     </div>
   )
@@ -82,25 +99,25 @@ export default function App() {
         defaultURL={ALL_DATA_URL}
         title="All data exploit"
         method="GET"
-        body={null}
+        defaultBody={null}
       />
       <Section
         defaultURL={CHANGE_PASSWORD_URL}
         title="Change Password"
         method="POST"
-        body={CHANGE_PASSWORD_BODY}
+        defaultBody={CHANGE_PASSWORD_BODY}
       />
       <Section
         defaultURL={LOGIN_URL}
-        title="Change Password"
+        title="Login"
         method="POST"
-        body={LOGIN_BODY}
+        defaultBody={LOGIN_BODY}
       />
       <Section
         defaultURL={REGISTER_URL}
-        title="Change Password"
+        title="Register"
         method="POST"
-        body={REGISTER_BODY}
+        defaultBody={REGISTER_BODY}
       />
     </div>
   )
