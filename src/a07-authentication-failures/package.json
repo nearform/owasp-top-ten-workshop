@@ -9,6 +9,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm start --workspace=a07-backend & npm start --workspace=a07-frontend"
+    "start": "npm start --workspace=a07-backend & npm start --workspace=a07-frontend",
+    "test": "npm run test --workspace=a07-backend"
   }
 }
