@@ -5,12 +5,16 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "verify": "tap --no-cov",
-    "test": "cross-env USE_SOLUTION=true tap --no-cov",
+    "verify": "tap",
+    "test": "cross-env USE_SOLUTION=true tap",
     "start": "nodemon index.js"
   },
   "dependencies": {
-    "@fastify/cookie": "^9.0.4",
+    "@fastify/cookie": "^9.1.0",
     "owasp-shared": "1.0.0"
+  },
+  "tap": {
+    "disable-coverage": true,
+    "allow-empty-coverage": true
   }
 }
