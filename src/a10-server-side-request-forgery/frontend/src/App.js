@@ -38,7 +38,6 @@ function Section({ title, defaultURL, defaultBody }) {
     }
     try {
       const response = await fetch(url, options)
-      console.log(response)
       const data = await response.text()
       response.ok
         ? setStatus(`success, ${response.status}`)
