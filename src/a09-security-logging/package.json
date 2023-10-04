@@ -1,19 +1,13 @@
 {
-  "name": "owasp-step-9",
+  "name": "a09-security-logging",
   "private": true,
-  "type": "module",
+  "workspaces": [
+    "a09-backend"
+  ],
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "verify": "tap",
-    "test": "cross-env USE_SOLUTION=true tap",
-    "start": "nodemon index.js"
-  },
-  "dependencies": {
-    "undici-5.8.0": "npm:undici@5.8.0"
-  },
-  "tap": {
-    "disable-coverage": true,
-    "allow-empty-coverage": true
+    "start": "npm start --workspace=a09-backend"
   }
 }

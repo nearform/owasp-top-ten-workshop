@@ -1,20 +1,14 @@
 {
-  "name": "owasp-step-6",
+  "name": "a06-vulnerable-outdated",
   "private": true,
-  "type": "module",
+  "workspaces": [
+    "a06-backend",
+    "a06-frontend"
+  ],
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "verify": "tap",
-    "test": "cross-env USE_SOLUTION=true tap",
-    "start": "nodemon index.js"
-  },
-  "dependencies": {
-    "owasp-shared": "1.0.0",
-    "undici-5.8.0": "npm:undici@5.8.0"
-  },
-  "tap": {
-    "disable-coverage": true,
-    "allow-empty-coverage": true
+    "start": "npm start --workspace=a06-backend & npm start --workspace=a06-frontend"
   }
 }

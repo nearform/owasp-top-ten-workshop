@@ -1,20 +1,14 @@
 {
-  "name": "owasp-step-8",
+  "name": "a08-software-data-integrity-failures",
   "private": true,
-  "type": "module",
+  "workspaces": [
+    "a08-backend",
+    "a08-frontend"
+  ],
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "verify": "tap",
-    "test": "cross-env USE_SOLUTION=true tap",
-    "start": "nodemon index.js"
-  },
-  "dependencies": {
-    "node-serialize": "^0.0.4",
-    "owasp-shared": "1.0.0"
-  },
-  "tap": {
-    "disable-coverage": true,
-    "allow-empty-coverage": true
+    "start": "npm start --workspace=a08-backend & npm start --workspace=a08-frontend"
   }
 }
