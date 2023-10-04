@@ -9,7 +9,6 @@
   "main": "index.js",
   "scripts": {
     "start": "npm start --workspace=a09-backend",
-    "test": "npm run test --workspace=a09-backend",
     "verify": "npm run verify --workspace=a09-backend"
   }
 }
