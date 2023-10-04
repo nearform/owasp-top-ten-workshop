@@ -77,7 +77,7 @@ function Section({ title, defaultURL }) {
 export default function App() {
   return (
     <div className="App">
-      <h1>AO6: Vulnerable and outdate components</h1>
+      <h1>AO6: Vulnerable and outdated components</h1>
 
       <Section defaultURL={PROFILE_URL} title="Profile" />
       <Section
