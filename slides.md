@@ -67,7 +67,7 @@ lineNumbers: false
 - Node LTS
 - docker
 - docker-compose
-- Postman (if you want to be able to test vulnerabilities)
+- Web Browser(p) (if you want to be able to test vulnerabilities)
 
 #### Setup
 
@@ -318,7 +318,7 @@ async req => {
 
 - Using the `/all-data` route, find Alice's hashed password
 - With this password hash, try to find the original password Alice created
-- the Postman collection contains requests for doing the queries
+- The frontend contains requests for doing the queries
 - 💡 There are websites to decrypt md5
 
 </div>
@@ -856,7 +856,7 @@ export default function (fastify) {
 - In the workshop - the database contains the list of leaked passwords in `databreachrecords`
 - Run the server for step 7 (`cd src/a07-authentication-failures`, `npm start`)
 - From the browser at `http://localhost:3006`, run the query for `A07: Register`. Observe a token is succesfully returned
-- In the database check the `databreachrecords` table for password used in the Postman request body
+- In the database check the `databreachrecords` table for password used in the request body
 
 </div>
 
