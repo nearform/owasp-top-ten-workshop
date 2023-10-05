@@ -49,7 +49,7 @@ lineNumbers: false
 - This workshop will explain each of the 10 vulnerabilities
 - There is a Fastify node.js server demonstrating the security issues
 - At each step you are asked to fix the vulnerability in the server
-- You will find the solution to each step in the file `solution.js` inside `src/a{n}-{name}` folder (the actual path may vary)
+- You will find the solution to each step in the file `solution.js` inside `src/a{n}-{name}/backend` folder (the actual path may vary)
 - The 💡 icon indicates hints
 
 </div>
@@ -89,7 +89,7 @@ npm run db:migrate
 <div class="dense">
 
 - `cd src/a{x}-step-name`
-- `npm start` will run the server ready to respond to requests
+- `npm start` will run the server ready to respond to requests, and run the frontend to send requests to the server.
 - `npm run verify` will run automated tests that fail by default until this step's issue is solved
 - Check out README.md in the projects for potential additional info
 
@@ -103,6 +103,7 @@ npm start
 ```
 
 The server for that step will run on http://localhost:3000
+The frontend will run on http://localhost:3006
 
 ---
 
@@ -110,9 +111,9 @@ The server for that step will run on http://localhost:3000
 
 <div class="dense">
 
-- Some vulnerabilities involve sending specific requests to the server. We will be using the tool Postman to send those requests
-- The `postman` folder contains a collection that can be imported into Postman to easily send those requests
-- The Postman collection is pre-logged in with user `alice`. The `Bearer token` is set that represents `alice`.
+- Some vulnerabilities involve sending specific requests to the server. We will be using the running frontend from the browser to send those requests
+- Open `http://localhost:3006` in the browser to view a the collection of requests to send to the server, and test those requests.
+- The frontend is pre-logged in with user `alice`. The `Bearer token` is set that represents `alice`.
 
 </div>
 
@@ -194,7 +195,7 @@ GET http://localhost:3000/profile?username=alice
 <div class="dense">
 
 - Run the server for step 1 (`cd src/a01-access-control`, `npm start`)
-- In Postman, run the query for A01: Access Control. Observe the data for Alice being returned
+- from the browser at `http://localhost:3006`, run the query for A01: Access Control. Observe the data for Alice being returned
 - Now change the `username` query parameter to `bob`. Result:
 
 ```json
@@ -329,7 +330,7 @@ async req => {
 <div class="dense">
 
 - md5 hash is vulnerable and shouldn't be used
-- In `src/a02-cryptographic-failure`, fix the hashing algorithm used to be a strong algorithm instead of md5
+- In `src/a02-cryptographic-failure/backend`, fix the hashing algorithm used to be a strong algorithm instead of md5
 - Using [bcrypt](https://www.npmjs.com/package/bcrypt) is a good idea for passwords
 - The application exposes a `/change-password` route used to change a user's password
 
@@ -401,7 +402,7 @@ export async function comparePassword(password, hash) {
 <div class="dense">
 
 - Run the server for step 3 (`cd src/a03-injection`, `npm start`)
-- In Postman, run the query for `A03: Get customer by name`. Observe the data for `name: "alice"` being returned
+- From the browser at `http://localhost:3006`, run the query for `A03: Get customer by name`. Observe the data for `name: "alice"` being returned
 - Try to run the query for `A03: SQL Injection`. Observe all the customers being returned
 - The query param value `' OR '1'='1` takes advantage of the unsafe string concatenation to create this SQL query
   `SELECT * FROM customers WHERE name='' OR '1'='1'` which will return every record in the table
@@ -507,7 +508,7 @@ export default async function customer(fastify) {
 <div class="dense">
 
 - Run the server for step 4 (`cd src/a04-insecure-design`, `npm start`)
-- In Postman, run the query for `A04: Buy product`. Observe the data for `success: true` being returned
+- From the browser at `http://localhost:3006`, run the query for `A04: Buy product`. Observe the data for `success: true` being returned
 - Run the query many times in a row in a short period of time
 - Notice that there is no protection against multiple sequential purchases
 </div>
@@ -605,7 +606,7 @@ export default async function ecommerce(fastify) {
 <div class="dense">
 
 - Run the server for step 5 (`cd src/a05-security-misconfiguration`, `npm start`)
-- In Postman, run the query for `A05: Login`. Observe a cookie with `userId=1` being returned
+- From the browser at `http://localhost:3006`, run the query for `A05: Login`. Observe a cookie with `userId=1` being returned
 - Try to run the query for `A05: Profile`. Observe the information about profile with `userId=1` being returned
 - Try to [change the value of the cookie](https://learning.postman.com/docs/sending-requests/cookies/) to `userId=2`. Observe information about `userId=2` being returned
 
@@ -735,7 +736,7 @@ export function profile(fastify) {
 <div class="dense">
 
 - Run the server for step 6 (`cd src/a06-vulnerable-outdated`, `npm start`)
-- In Postman, run the query for `A06: Profile`. Observe error `404` being returned
+- From the browser at `http://localhost:3006/`, run the query for `A06: Profile`. Observe error `404` being returned
 - Try to run the query for `A06: Exploit vulnerability`. Observe the error message response
 </div>
 
@@ -854,7 +855,7 @@ export default function (fastify) {
 
 - In the workshop - the database contains the list of leaked passwords in `databreachrecords`
 - Run the server for step 7 (`cd src/a07-authentication-failures`, `npm start`)
-- In Postman, run the query for `A07: Register`. Observe a token is succesfully returned
+- From the browser at `http://localhost:3006`, run the query for `A07: Register`. Observe a token is succesfully returned
 - In the database check the `databreachrecords` table for password used in the Postman request body
 
 </div>
@@ -952,7 +953,7 @@ if (breach) {
 <div class="dense">
 
 - Run the server for step 8 (`cd src/a08-software-data-integrity-failures`, `npm start`)
-- In Postman, try to run the query for `A08: Get profile from cookie`. There is a cookie attached to the request `/profile` containing the user's profile encoded as base64. Observe the request `status code 500` being returned
+- From the browser at `http://localhost:3006`, try to run the query for `A08: Get profile from cookie`. There is a cookie attached to the request `/profile` containing the user's profile encoded as base64. Observe the request `status code 500` being returned
 - This is happening because the server is deserializing a `cookie containing a malicious JavaScript` code which is forcing the server to throw an exception
 
 </div>
@@ -1139,7 +1140,7 @@ async req => {
 <div class="dense">
 
 - Run the server for step 10 (`cd src/a10-server-side-request-forgery`, `npm start`)
-- In Postman, run the query for `A10: Upload Image`. Observe an image being returned
+- From the browser at `http://localhost:3006`, run the query for `A10: Upload Image`. Observe an image being returned
 - Try to run the query for `A10: Malicious Image url`. Observe `something suspicious is happening` being returned
 - The server is not sanitizing user input so it will send a request to whatever url provided in the payload
 
