@@ -607,8 +607,8 @@ export default async function ecommerce(fastify) {
 
 - Run the server for step 5 (`cd src/a05-security-misconfiguration`, `npm start`)
 - From the browser at `http://localhost:3006`, run the query for `A05: Login`. Observe a cookie with `userId=1` being returned
-- Try to run the query for `A05: Profile`. Observe the information about profile with `userId=1` being returned
-- Try to [change the value of the cookie](https://learning.postman.com/docs/sending-requests/cookies/) to `userId=2`. Observe information about `userId=2` being returned
+- Try to run the query for `A05: Profile`. In the browser devtools, observe the information about profile with `userId=1` being returned.
+- Try to [change the value of the cookie](https://developer.chrome.com/docs/devtools/application/cookies/) to `userId=2`. Observe information about `userId=2` being returned.
 
 </div>
 
