@@ -24,7 +24,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@faker-js/faker": "^8.2.0",
+    "@faker-js/faker": "^8.3.1",
     "@fastify/autoload": "^5.8.0",
     "@fastify/jwt": "^7.2.4",
     "@fastify/postgres": "^5.2.0",
