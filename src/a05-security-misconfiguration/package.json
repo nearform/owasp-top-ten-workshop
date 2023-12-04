@@ -10,7 +10,7 @@
     "start": "nodemon index.js"
   },
   "dependencies": {
-    "@fastify/cookie": "^9.1.0",
+    "@fastify/cookie": "^9.2.0",
     "owasp-shared": "1.0.0"
   },
   "tap": {
