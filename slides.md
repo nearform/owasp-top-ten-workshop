@@ -9,7 +9,7 @@ lineNumbers: false
 
 # OWASP Top Ten Security Vulnerabilities Workshop
 
-<img src="/assets/owasp.png" style="width: 30%;">
+<img class="bg-white" src="/assets/owasp.png" style="width: 30%;">
 
 <div class="copyright">
 
