@@ -2,7 +2,9 @@
   "name": "owasp-top-ten-workshop",
   "private": true,
   "type": "module",
-  "workspaces": ["src/*"],
+  "workspaces": [
+    "src/*"
+  ],
   "version": "1.0.0",
   "license": "CC-BY-SA-4.0",
   "author": "Liana Pigeot <liana.pigeot@nearform.com>",
@@ -21,7 +23,7 @@
     "verify": "npm run verify --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "lint": "eslint .",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
