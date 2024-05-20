@@ -63,7 +63,7 @@
     "postgrator-cli": "^8.0.0",
     "prettier": "^3.2.5",
     "sinon": "^17.0.2",
-    "tap": "^18.7.2"
+    "tap": "^18.8.0"
   },
   "lint-staged": {
     "*.{js,jsx}": "eslint --cache --fix"
