@@ -43,7 +43,7 @@
     "fastify-print-routes": "^3.2.0",
     "http-errors": "^2.0.0",
     "md5": "^2.3.0",
-    "pg": "^8.12.0",
+    "pg": "^8.13.0",
     "pino-pretty": "^11.2.2",
     "slidev-theme-nearform": "^2.0.0",
     "undici": "^6.19.8"
