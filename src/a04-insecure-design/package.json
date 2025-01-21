@@ -5,16 +5,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "verify": "tap",
-    "test": "cross-env USE_SOLUTION=true tap",
+    "verify": "node --test",
+    "test": "cross-env USE_SOLUTION=true node --test",
     "start": "nodemon index.js"
   },
   "dependencies": {
     "@fastify/rate-limit": "^9.1.0",
     "owasp-shared": "1.0.0"
-  },
-  "tap": {
-    "disable-coverage": true,
-    "allow-empty-coverage": true
   }
 }

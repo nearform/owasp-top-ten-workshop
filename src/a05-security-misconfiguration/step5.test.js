@@ -1,7 +1,6 @@
-import t from 'tap'
+import { test } from 'node:test'
+import assert from 'node:assert/strict'
 import { step5Server } from './server.js'
-
-const { test } = t
 
 test('A05: Security Misconfiguration', async t => {
   let fastify
@@ -10,9 +9,9 @@ test('A05: Security Misconfiguration', async t => {
     fastify = await step5Server()
   })
 
-  t.teardown(() => fastify.close())
+  t.after(() => fastify.close())
 
-  t.test(`cookie is signed`, async t => {
+  await t.test(`cookie is signed`, async () => {
     const loginRes = await fastify.inject({
       url: '/login',
       method: 'POST',
@@ -22,12 +21,12 @@ test('A05: Security Misconfiguration', async t => {
       }
     })
     const [cookie] = loginRes.cookies
-    t.equal(cookie.name, 'userId')
-    t.not(cookie.value, '1')
-    t.equal(loginRes.statusCode, 200)
+    assert.equal(cookie.name, 'userId')
+    assert.notEqual(cookie.value, '1')
+    assert.equal(loginRes.statusCode, 200)
   })
 
-  t.test(`cookie cannot be altered`, async t => {
+  await t.test(`cookie cannot be altered`, async () => {
     const res = await fastify.inject({
       url: '/profile',
       method: 'GET',
@@ -35,15 +34,15 @@ test('A05: Security Misconfiguration', async t => {
         userId: '2'
       }
     })
-    t.notSame(res.json(), {
+    assert.notDeepEqual(res.json(), {
       username: 'bob',
       id: 2,
       age: 31
     })
-    t.equal(res.statusCode, 401)
+    assert.equal(res.statusCode, 401)
   })
 
-  t.test(`cookie authentication flow`, async t => {
+  await t.test(`cookie authentication flow`, async () => {
     const loginRes = await fastify.inject({
       url: '/login',
       method: 'POST',
@@ -61,6 +60,6 @@ test('A05: Security Misconfiguration', async t => {
       }
     })
 
-    t.equal(res.statusCode, 200)
+    assert.equal(res.statusCode, 200)
   })
 })

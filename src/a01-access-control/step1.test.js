@@ -1,8 +1,7 @@
-import t from 'tap'
+import { test } from 'node:test'
+import assert from 'node:assert/strict'
 import { authHeaders } from 'owasp-shared'
 import { step1Server } from './server.js'
-
-const { test } = t
 
 test('A01: Access Control', async t => {
   let fastify
@@ -11,9 +10,9 @@ test('A01: Access Control', async t => {
     fastify = await step1Server()
   })
 
-  t.teardown(() => fastify.close())
+  t.after(() => fastify.close())
 
-  t.test(`doesn't return anything if not logged in`, async t => {
+  await t.test(`doesn't return anything if not logged in`, async () => {
     const res = await fastify.inject({
       url: '/profile',
       method: 'GET',
@@ -22,12 +21,12 @@ test('A01: Access Control', async t => {
       }
     })
 
-    t.equal(res.statusCode, 401)
+    assert.equal(res.statusCode, 401)
   })
 
-  t.test(
+  await t.test(
     `doesn't return another user's info when changing get parameters`,
-    async t => {
+    async () => {
       const res = await fastify.inject({
         url: '/profile',
         method: 'GET',
@@ -37,7 +36,7 @@ test('A01: Access Control', async t => {
         }
       })
 
-      t.equal(res.statusCode, 403)
+      assert.equal(res.statusCode, 403)
     }
   )
 })

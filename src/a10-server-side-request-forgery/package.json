@@ -5,16 +5,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "verify": "tap",
-    "test": "cross-env USE_SOLUTION=true tap",
+    "verify": "node --test",
+    "test": "cross-env USE_SOLUTION=true node --test",
     "start": "nodemon index.js"
   },
   "dependencies": {
     "axios": "^1.7.7",
     "owasp-shared": "1.0.0"
-  },
-  "tap": {
-    "disable-coverage": true,
-    "allow-empty-coverage": true
   }
 }

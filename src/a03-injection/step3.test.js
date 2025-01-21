@@ -1,8 +1,7 @@
-import t from 'tap'
+import { test } from 'node:test'
+import assert from 'node:assert/strict'
 import { step3Server } from './server.js'
 import { authHeaders } from 'owasp-shared'
-
-const { test } = t
 
 test('A03: Injection', async t => {
   let fastify
@@ -11,9 +10,9 @@ test('A03: Injection', async t => {
     fastify = await step3Server()
   })
 
-  t.teardown(() => fastify.close())
+  t.after(() => fastify.close())
 
-  t.test(`retrieves user correctly`, async t => {
+  await t.test(`retrieves user correctly`, async () => {
     const res = await fastify.inject({
       url: '/customer',
       method: 'GET',
@@ -22,10 +21,11 @@ test('A03: Injection', async t => {
         name: 'alice'
       }
     })
-    t.equal(res.statusCode, 200)
+
+    assert.equal(res.statusCode, 200)
   })
 
-  t.test(`doesn't allow sql injection`, async t => {
+  await t.test(`doesn't allow sql injection`, async () => {
     const res = await fastify.inject({
       url: '/customer',
       method: 'GET',
@@ -34,6 +34,7 @@ test('A03: Injection', async t => {
         name: `' OR '1'='1`
       }
     })
-    t.equal(res.statusCode, 404)
+
+    assert.equal(res.statusCode, 404)
   })
 })
