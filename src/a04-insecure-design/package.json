@@ -10,7 +10,7 @@
     "start": "nodemon index.js"
   },
   "dependencies": {
-    "@fastify/rate-limit": "^9.1.0",
+    "@fastify/rate-limit": "^10.2.2",
     "owasp-shared": "1.0.0"
   }
 }
