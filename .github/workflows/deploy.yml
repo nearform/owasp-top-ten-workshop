@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version-file: .nvmrc
       - run: npm ci
       - run: npm run build -- --base /owasp-top-ten-workshop/
       - uses: peaceiris/actions-gh-pages@v4

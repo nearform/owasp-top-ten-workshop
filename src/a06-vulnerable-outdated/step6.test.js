@@ -1,8 +1,7 @@
-import t from 'tap'
+import { test } from 'node:test'
+import assert from 'node:assert/strict'
 import { step6Server } from './server.js'
 import { authHeaders } from 'owasp-shared'
-
-const { test } = t
 
 test('A06: Vulnerable and outdated components', async t => {
   let fastify
@@ -11,9 +10,9 @@ test('A06: Vulnerable and outdated components', async t => {
     fastify = await step6Server()
   })
 
-  t.teardown(() => fastify.close())
+  t.after(() => fastify.close())
 
-  t.test(`SSRF should be not exploitable`, async t => {
+  await t.test(`SSRF should be not exploitable`, async () => {
     const res = await fastify.inject({
       url: '/profile',
       method: 'GET',
@@ -22,6 +21,7 @@ test('A06: Vulnerable and outdated components', async t => {
         username: '//127.0.0.1'
       }
     })
-    t.equal(res.statusCode, 404)
+
+    assert.equal(res.statusCode, 404)
   })
 })

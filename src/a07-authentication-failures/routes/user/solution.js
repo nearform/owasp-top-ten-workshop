@@ -22,7 +22,7 @@ const schema = {
 export function register(fastify) {
   fastify.post('/register', { schema }, async (req, res) => {
     const { username, password } = req.body
-    const age = faker.datatype.number({ min: 12, max: 85 })
+    const age = faker.number.int({ min: 12, max: 85 })
     const hashedPassword = await hashPassword(password)
     const creditCardNumber = faker.finance.creditCardNumber('#'.repeat(16))
 

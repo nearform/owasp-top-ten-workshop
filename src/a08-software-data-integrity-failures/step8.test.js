@@ -1,7 +1,6 @@
-import t from 'tap'
+import { test } from 'node:test'
+import assert from 'node:assert/strict'
 import { step8Server } from './server.js'
-
-const { test } = t
 
 test('A08: Software and Data Integrity Failures', async t => {
   let fastify
@@ -10,9 +9,9 @@ test('A08: Software and Data Integrity Failures', async t => {
     fastify = await step8Server()
   })
 
-  t.teardown(() => fastify.close())
+  t.after(() => fastify.close())
 
-  t.test(`Should parse request cookie properly`, async t => {
+  await t.test(`Should parse request cookie properly`, async () => {
     const cookieWithMaliciousCode =
       'profile=eyJpZCI6MSwidXNlcm5hbWUiOiJfJCRORF9GVU5DJCRfZnVuY3Rpb24gKCkge1xuICAgIHRocm93IG5ldyBFcnJvcignc2VydmVyIGVycm9yJylcbiAgfSgpIn0='
 
@@ -24,6 +23,6 @@ test('A08: Software and Data Integrity Failures', async t => {
       }
     })
 
-    t.equal(res.statusCode, 200)
+    assert.equal(res.statusCode, 200)
   })
 })
