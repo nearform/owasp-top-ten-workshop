@@ -10,7 +10,7 @@ test('A06: Vulnerable and outdated components', async t => {
     fastify = await step6Server()
   })
 
-  t.after(() => fastify.close())
+  t.afterEach(() => fastify.close())
 
   await t.test(`SSRF should be not exploitable`, async () => {
     const res = await fastify.inject({

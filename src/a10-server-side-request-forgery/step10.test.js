@@ -5,15 +5,22 @@ import { authHeaders, startTargetServer } from 'owasp-shared'
 
 test('A10: Server side request forgery', async t => {
   let fastify
+  let targetServer
   const spy = t.mock.fn()
-  const targetServer = await startTargetServer(spy)
+
+  t.before(async () => {
+    targetServer = await startTargetServer(spy)
+  })
 
   t.beforeEach(async () => {
     fastify = await step10Server()
   })
 
-  t.after(() => {
+  t.afterEach(() => {
     fastify.close()
+  })
+
+  t.after(() => {
     targetServer.close()
   })
 

@@ -10,7 +10,7 @@ test('A03: Injection', async t => {
     fastify = await step3Server()
   })
 
-  t.after(() => fastify.close())
+  t.afterEach(() => fastify.close())
 
   await t.test(`retrieves user correctly`, async () => {
     const res = await fastify.inject({

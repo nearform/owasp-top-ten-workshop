@@ -10,7 +10,7 @@ test('A02: Cryptographic Failure', async t => {
     fastify = await step2Server()
   })
 
-  t.after(() => fastify.close())
+  t.afterEach(() => fastify.close())
 
   await t.test(`can change Alice's password`, async () => {
     const res = await fastify.inject({

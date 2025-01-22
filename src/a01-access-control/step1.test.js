@@ -10,7 +10,7 @@ test('A01: Access Control', async t => {
     fastify = await step1Server()
   })
 
-  t.after(() => fastify.close())
+  t.afterEach(() => fastify.close())
 
   await t.test(`doesn't return anything if not logged in`, async () => {
     const res = await fastify.inject({

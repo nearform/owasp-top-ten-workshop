@@ -5,15 +5,22 @@ import { step9Server } from './server.js'
 
 test('A09: Security Logging', async t => {
   let fastify
+  let targetServer
   const spy = t.mock.fn()
-  const targetServer = await startTargetServer(spy)
+
+  t.before(async () => {
+    targetServer = await startTargetServer(spy)
+  })
 
   t.beforeEach(async () => {
     fastify = await step9Server()
   })
 
-  t.after(() => {
+  t.afterEach(() => {
     fastify.close()
+  })
+
+  t.after(() => {
     targetServer.close()
   })
 

@@ -9,7 +9,7 @@ test('A08: Software and Data Integrity Failures', async t => {
     fastify = await step8Server()
   })
 
-  t.after(() => fastify.close())
+  t.afterEach(() => fastify.close())
 
   await t.test(`Should parse request cookie properly`, async () => {
     const cookieWithMaliciousCode =

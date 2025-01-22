@@ -9,7 +9,7 @@ test('A04: Insecure Design', async t => {
     fastify = await step4Server()
   })
 
-  t.after(() => fastify.close())
+  t.afterEach(() => fastify.close())
 
   await t.test(
     `doesn't allow too many requests in a row within the rate limit`,
