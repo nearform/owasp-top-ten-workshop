@@ -9,7 +9,7 @@ test('A05: Security Misconfiguration', async t => {
     fastify = await step5Server()
   })
 
-  t.after(() => fastify.close())
+  t.afterEach(() => fastify.close())
 
   await t.test(`cookie is signed`, async () => {
     const loginRes = await fastify.inject({

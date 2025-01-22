@@ -17,6 +17,6 @@ async function authenticate(fastify, options) {
 authenticate[Symbol.for('skip-override')] = true
 
 export default fp(authenticate, {
-  fastify: '4.x',
+  fastify: '5.x',
   name: 'authenticate'
 })

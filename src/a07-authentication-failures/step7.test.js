@@ -10,14 +10,14 @@ test('A07: Identification and Authentication Failures:', async t => {
     fastify = await step7Server()
   })
 
-  t.after(() => fastify.close())
+  t.afterEach(() => fastify.close())
 
   await t.test(`non leaked password`, async () => {
     const registerRes = await fastify.inject({
       url: '/register',
       method: 'POST',
       body: {
-        username: faker.internet.userName(),
+        username: faker.internet.username(),
         password: 'N3v_3R-L3akEd'
       }
     })
@@ -31,7 +31,7 @@ test('A07: Identification and Authentication Failures:', async t => {
       url: '/register',
       method: 'POST',
       body: {
-        username: faker.internet.userName(),
+        username: faker.internet.username(),
         password: 'L3Ak_3d-Lik3_N0-t0M0rr0W'
       }
     })
