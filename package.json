@@ -46,7 +46,7 @@
     "pg": "^8.13.0",
     "pino-pretty": "^11.2.2",
     "slidev-theme-nearform": "^2.0.0",
-    "undici": "^6.21.1"
+    "undici": "^7.3.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.4.1",
