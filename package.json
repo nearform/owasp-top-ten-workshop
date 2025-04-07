@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@faker-js/faker": "^9.6.0",
-    "@fastify/autoload": "^6.2.0",
+    "@fastify/autoload": "^6.3.0",
     "@fastify/jwt": "^9.1.0",
     "@fastify/postgres": "^6.0.2",
     "@fastify/type-provider-typebox": "^5.1.0",
