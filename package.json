@@ -54,7 +54,7 @@
     "@tsconfig/node16": "^16.1.4",
     "cross-env": "^7.0.3",
     "eslint": "^8.57.0",
-    "eslint-config-prettier": "^10.1.5",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.1",
     "eslint-plugin-sql": "^3.2.2",
     "husky": "^9.1.6",
