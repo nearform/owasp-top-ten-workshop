@@ -30,7 +30,7 @@
     "@fastify/autoload": "^6.3.1",
     "@fastify/jwt": "^9.1.0",
     "@fastify/postgres": "^6.0.2",
-    "@fastify/type-provider-typebox": "^5.1.0",
+    "@fastify/type-provider-typebox": "^5.2.0",
     "@nearform/sql": "^1.10.5",
     "@sinclair/typebox": "^0.34.40",
     "@slidev/cli": "^52.0.0",
