@@ -58,7 +58,7 @@
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-sql": "^3.2.2",
     "husky": "^9.1.6",
-    "lint-staged": "^16.1.2",
+    "lint-staged": "^16.1.6",
     "nodemon": "^3.1.10",
     "postgrator-cli": "^9.0.1",
     "prettier": "^3.5.3"
