@@ -32,7 +32,7 @@
     "@fastify/postgres": "^6.0.2",
     "@fastify/type-provider-typebox": "^5.2.0",
     "@nearform/sql": "^1.10.7",
-    "@sinclair/typebox": "^0.34.40",
+    "@sinclair/typebox": "^0.34.41",
     "@slidev/cli": "^52.1.0",
     "@vueuse/shared": "^13.9.0",
     "bcrypt": "^6.0.0",
