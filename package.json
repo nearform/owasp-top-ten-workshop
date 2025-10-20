@@ -51,7 +51,7 @@
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^20.0.0",
-    "@tsconfig/node16": "^16.1.4",
+    "@tsconfig/node16": "^16.1.6",
     "cross-env": "^10.0.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^10.1.8",
