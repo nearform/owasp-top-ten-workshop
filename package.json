@@ -33,7 +33,7 @@
     "@fastify/type-provider-typebox": "^6.0.0",
     "@nearform/sql": "^1.10.7",
     "@sinclair/typebox": "^0.34.40",
-    "@slidev/cli": "^52.1.0",
+    "@slidev/cli": "^52.6.0",
     "@vueuse/shared": "^13.9.0",
     "bcrypt": "^6.0.0",
     "desm": "^1.3.1",
