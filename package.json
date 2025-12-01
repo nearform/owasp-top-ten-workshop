@@ -40,7 +40,7 @@
     "env-schema": "^7.0.0",
     "fastify": "^5.6.2",
     "fastify-plugin": "^5.1.0",
-    "fastify-print-routes": "^4.1.0",
+    "fastify-print-routes": "^5.0.1",
     "http-errors": "^2.0.1",
     "md5": "^2.3.0",
     "pg": "^8.16.3",
