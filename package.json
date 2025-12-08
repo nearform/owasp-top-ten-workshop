@@ -61,7 +61,7 @@
     "lint-staged": "^16.2.7",
     "nodemon": "^3.1.11",
     "postgrator-cli": "^9.1.0",
-    "prettier": "^3.7.3"
+    "prettier": "^3.7.4"
   },
   "lint-staged": {
     "*.{js,jsx}": "eslint --cache --fix"
