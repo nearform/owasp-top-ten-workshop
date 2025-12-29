@@ -49,7 +49,7 @@
     "undici": "^7.16.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.1.0",
+    "@commitlint/cli": "^20.2.0",
     "@commitlint/config-conventional": "^20.2.0",
     "@tsconfig/node16": "^16.1.8",
     "cross-env": "^10.1.0",
