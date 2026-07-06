@@ -16,6 +16,6 @@ jobs:
       issues: write
       contents: read
     steps:
-      - uses: nearform-actions/github-action-notify-release@v1
+      - uses: nearform-actions/github-action-notify-release@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
