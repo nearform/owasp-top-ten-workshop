@@ -6,7 +6,17 @@ import prettierRecommended from 'eslint-plugin-prettier/recommended'
 // this package is "type": "module".
 export default [
   {
-    ignores: ['**/node_modules/**', 'dist/**', '.slidev/**']
+    // Ported from the deleted .eslintignore: flat config replaces it entirely,
+    // eslint >= 9 no longer reads that file.
+    ignores: [
+      '**/node_modules/**',
+      'coverage/**',
+      'dist/**',
+      'public/**',
+      'migrations/**',
+      'theme/**',
+      '.slidev/**'
+    ]
   },
   js.configs.recommended,
   prettierRecommended,
