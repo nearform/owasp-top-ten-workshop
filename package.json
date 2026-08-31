@@ -60,7 +60,7 @@
     "eslint-plugin-sql": "^3.2.2",
     "globals": "^17.9.0",
     "husky": "^9.1.6",
-    "lint-staged": "^17.3.0",
+    "lint-staged": "^17.4.1",
     "nodemon": "^3.1.11",
     "postgrator-cli": "^10.0.0",
     "prettier": "^3.7.4"
