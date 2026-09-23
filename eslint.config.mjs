@@ -10,11 +10,11 @@ export default [
     // eslint >= 9 no longer reads that file.
     ignores: [
       '**/node_modules/**',
-      'coverage/**',
-      'dist/**',
-      'public/**',
-      'migrations/**',
-      'theme/**',
+      '**/coverage/**',
+      '**/dist/**',
+      '**/public/**',
+      '**/migrations/**',
+      '**/theme/**',
       '.slidev/**'
     ]
   },
