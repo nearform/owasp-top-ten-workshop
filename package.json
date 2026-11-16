@@ -52,7 +52,7 @@
     "@commitlint/cli": "^21.2.4",
     "@commitlint/config-conventional": "^21.2.3",
     "@eslint/js": "^10.0.1",
-    "@tsconfig/node16": "^16.1.8",
+    "@tsconfig/node16": "^16.1.10",
     "cross-env": "^10.1.0",
     "eslint": "^10.14.0",
     "eslint-config-prettier": "^10.1.8",
